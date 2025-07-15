@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volume Management &mdash; Storage Systems and Data Management Guide 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Storage Devices" href="storage-devices.html" />
+    <link rel="prev" title="Network Storage" href="network-storage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Storage Systems and Data Management Guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Storage Fundamentals:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-overview.html">Storage Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk-management.html">Disk Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file-systems.html">File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-organization.html">Data Organization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Storage Concepts:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="raid-systems.html">RAID Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-storage.html">Network Storage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Volume Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction-to-volume-management">Introduction to Volume Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-concepts">Key Concepts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lvm-logical-volume-manager">LVM (Logical Volume Manager)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-and-setup">Installation and Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-physical-volumes">Creating Physical Volumes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-volume-groups">Creating Volume Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-logical-volumes">Creating Logical Volumes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formatting-and-mounting-lvm-volumes">Formatting and Mounting LVM Volumes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resizing-lvm-volumes">Resizing LVM Volumes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lvm-snapshots">LVM Snapshots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-lvm-features">Advanced LVM Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#zfs-volume-management">ZFS Volume Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-on-ubuntu-22-04">Installation on Ubuntu 22.04</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-zfs-pools">Creating ZFS Pools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-zfs-datasets">Creating ZFS Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zfs-snapshots-and-clones">ZFS Snapshots and Clones</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#btrfs-volume-management">Btrfs Volume Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-btrfs-volumes">Creating Btrfs Volumes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#btrfs-subvolumes">Btrfs Subvolumes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#btrfs-snapshots">Btrfs Snapshots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#volume-management-scripts">Volume Management Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lvm-monitoring-script">LVM Monitoring Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automated-backup-script">Automated Backup Script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#common-tasks-and-q-a">Common Tasks and Q&amp;A</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="storage-devices.html">Storage Devices</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Practical Implementation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu-setup.html">Ubuntu 22.04 Setup and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-examples.html">Coding Examples and Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Best Practices and Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#common-command-abbreviations">Common Command Abbreviations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#storage-unit-definitions">Storage Unit Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#raid-levels-reference">RAID Levels Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#network-storage-protocols">Network Storage Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#file-system-features">File System Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads and Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Storage Systems and Data Management Guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Volume Management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/volume-management.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="volume-management">
+<h1>Volume Management<a class="headerlink" href="#volume-management" title="Link to this heading"></a></h1>
+<p>Volume management provides an abstraction layer between physical storage devices and file systems, enabling dynamic storage allocation, resizing, and advanced features like snapshots and encryption.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction-to-volume-management" id="id1">Introduction to Volume Management</a></p>
+<ul>
+<li><p><a class="reference internal" href="#key-concepts" id="id2">Key Concepts</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#lvm-logical-volume-manager" id="id3">LVM (Logical Volume Manager)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installation-and-setup" id="id4">Installation and Setup</a></p></li>
+<li><p><a class="reference internal" href="#creating-physical-volumes" id="id5">Creating Physical Volumes</a></p></li>
+<li><p><a class="reference internal" href="#creating-volume-groups" id="id6">Creating Volume Groups</a></p></li>
+<li><p><a class="reference internal" href="#creating-logical-volumes" id="id7">Creating Logical Volumes</a></p></li>
+<li><p><a class="reference internal" href="#formatting-and-mounting-lvm-volumes" id="id8">Formatting and Mounting LVM Volumes</a></p></li>
+<li><p><a class="reference internal" href="#resizing-lvm-volumes" id="id9">Resizing LVM Volumes</a></p></li>
+<li><p><a class="reference internal" href="#lvm-snapshots" id="id10">LVM Snapshots</a></p></li>
+<li><p><a class="reference internal" href="#advanced-lvm-features" id="id11">Advanced LVM Features</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#zfs-volume-management" id="id12">ZFS Volume Management</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installation-on-ubuntu-22-04" id="id13">Installation on Ubuntu 22.04</a></p></li>
+<li><p><a class="reference internal" href="#creating-zfs-pools" id="id14">Creating ZFS Pools</a></p></li>
+<li><p><a class="reference internal" href="#creating-zfs-datasets" id="id15">Creating ZFS Datasets</a></p></li>
+<li><p><a class="reference internal" href="#zfs-snapshots-and-clones" id="id16">ZFS Snapshots and Clones</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#btrfs-volume-management" id="id17">Btrfs Volume Management</a></p>
+<ul>
+<li><p><a class="reference internal" href="#creating-btrfs-volumes" id="id18">Creating Btrfs Volumes</a></p></li>
+<li><p><a class="reference internal" href="#btrfs-subvolumes" id="id19">Btrfs Subvolumes</a></p></li>
+<li><p><a class="reference internal" href="#btrfs-snapshots" id="id20">Btrfs Snapshots</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#volume-management-scripts" id="id21">Volume Management Scripts</a></p>
+<ul>
+<li><p><a class="reference internal" href="#lvm-monitoring-script" id="id22">LVM Monitoring Script</a></p></li>
+<li><p><a class="reference internal" href="#automated-backup-script" id="id23">Automated Backup Script</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#common-tasks-and-q-a" id="id24">Common Tasks and Q&amp;A</a></p></li>
+<li><p><a class="reference internal" href="#best-practices" id="id25">Best Practices</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id26">See Also</a></p></li>
+</ul>
+</nav>
+<section id="introduction-to-volume-management">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction to Volume Management</a><a class="headerlink" href="#introduction-to-volume-management" title="Link to this heading"></a></h2>
+<p>Volume management systems allow you to:</p>
+<ul class="simple">
+<li><p>Combine multiple physical disks into logical volumes</p></li>
+<li><p>Resize volumes dynamically without downtime</p></li>
+<li><p>Create snapshots for backup and testing</p></li>
+<li><p>Implement storage encryption and compression</p></li>
+<li><p>Manage storage pools efficiently</p></li>
+</ul>
+<section id="key-concepts">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Key Concepts</a><a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><strong>Physical Volumes (PV)</strong></dt><dd><p>Physical storage devices or partitions</p>
+</dd>
+<dt><strong>Volume Groups (VG)</strong></dt><dd><p>Collections of physical volumes</p>
+</dd>
+<dt><strong>Logical Volumes (LV)</strong></dt><dd><p>Virtual partitions created from volume groups</p>
+</dd>
+<dt><strong>Logical Volume Manager (LVM)</strong></dt><dd><p>The primary volume management system in Linux</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="lvm-logical-volume-manager">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">LVM (Logical Volume Manager)</a><a class="headerlink" href="#lvm-logical-volume-manager" title="Link to this heading"></a></h2>
+<section id="installation-and-setup">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Installation and Setup</a><a class="headerlink" href="#installation-and-setup" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install LVM tools on Ubuntu 22.04</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>lvm2
+
+<span class="c1"># Check LVM installation</span>
+lvm<span class="w"> </span>version
+</pre></div>
+</div>
+</section>
+<section id="creating-physical-volumes">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Creating Physical Volumes</a><a class="headerlink" href="#creating-physical-volumes" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create physical volume from disk</span>
+sudo<span class="w"> </span>pvcreate<span class="w"> </span>/dev/sdb
+
+<span class="c1"># Create PV from partition</span>
+sudo<span class="w"> </span>pvcreate<span class="w"> </span>/dev/sdc1
+
+<span class="c1"># Display physical volumes</span>
+sudo<span class="w"> </span>pvdisplay
+sudo<span class="w"> </span>pvs
+</pre></div>
+</div>
+</section>
+<section id="creating-volume-groups">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Creating Volume Groups</a><a class="headerlink" href="#creating-volume-groups" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create volume group from single PV</span>
+sudo<span class="w"> </span>vgcreate<span class="w"> </span>myvg<span class="w"> </span>/dev/sdb
+
+<span class="c1"># Create VG from multiple PVs</span>
+sudo<span class="w"> </span>vgcreate<span class="w"> </span>datavg<span class="w"> </span>/dev/sdb<span class="w"> </span>/dev/sdc
+
+<span class="c1"># Display volume groups</span>
+sudo<span class="w"> </span>vgdisplay
+sudo<span class="w"> </span>vgs
+</pre></div>
+</div>
+</section>
+<section id="creating-logical-volumes">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Creating Logical Volumes</a><a class="headerlink" href="#creating-logical-volumes" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create LV with specific size</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>10G<span class="w"> </span>-n<span class="w"> </span>mylv<span class="w"> </span>myvg
+
+<span class="c1"># Create LV using percentage of VG</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-l<span class="w"> </span><span class="m">50</span>%VG<span class="w"> </span>-n<span class="w"> </span>datalv<span class="w"> </span>datavg
+
+<span class="c1"># Create LV using all available space</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-l<span class="w"> </span><span class="m">100</span>%FREE<span class="w"> </span>-n<span class="w"> </span>homelv<span class="w"> </span>myvg
+
+<span class="c1"># Display logical volumes</span>
+sudo<span class="w"> </span>lvdisplay
+sudo<span class="w"> </span>lvs
+</pre></div>
+</div>
+</section>
+<section id="formatting-and-mounting-lvm-volumes">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Formatting and Mounting LVM Volumes</a><a class="headerlink" href="#formatting-and-mounting-lvm-volumes" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Format logical volume</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/myvg/mylv
+
+<span class="c1"># Create mount point</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/mylv
+
+<span class="c1"># Mount the volume</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/myvg/mylv<span class="w"> </span>/mnt/mylv
+
+<span class="c1"># Add to /etc/fstab for persistent mounting</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;/dev/myvg/mylv /mnt/mylv ext4 defaults 0 2&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+</pre></div>
+</div>
+</section>
+<section id="resizing-lvm-volumes">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Resizing LVM Volumes</a><a class="headerlink" href="#resizing-lvm-volumes" title="Link to this heading"></a></h3>
+<p><strong>Extending Logical Volumes</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extend LV size</span>
+sudo<span class="w"> </span>lvextend<span class="w"> </span>-L<span class="w"> </span>+5G<span class="w"> </span>/dev/myvg/mylv
+
+<span class="c1"># Extend LV to use all available space</span>
+sudo<span class="w"> </span>lvextend<span class="w"> </span>-l<span class="w"> </span>+100%FREE<span class="w"> </span>/dev/myvg/mylv
+
+<span class="c1"># Resize filesystem (ext4)</span>
+sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/myvg/mylv
+
+<span class="c1"># For XFS filesystem</span>
+sudo<span class="w"> </span>xfs_growfs<span class="w"> </span>/mnt/mylv
+</pre></div>
+</div>
+<p><strong>Shrinking Logical Volumes</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unmount the filesystem first</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/mylv
+
+<span class="c1"># Check filesystem</span>
+sudo<span class="w"> </span>e2fsck<span class="w"> </span>-f<span class="w"> </span>/dev/myvg/mylv
+
+<span class="c1"># Shrink filesystem first</span>
+sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/myvg/mylv<span class="w"> </span>8G
+
+<span class="c1"># Then shrink the logical volume</span>
+sudo<span class="w"> </span>lvreduce<span class="w"> </span>-L<span class="w"> </span>8G<span class="w"> </span>/dev/myvg/mylv
+
+<span class="c1"># Remount</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/myvg/mylv<span class="w"> </span>/mnt/mylv
+</pre></div>
+</div>
+</section>
+<section id="lvm-snapshots">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">LVM Snapshots</a><a class="headerlink" href="#lvm-snapshots" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create snapshot</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>2G<span class="w"> </span>-s<span class="w"> </span>-n<span class="w"> </span>mylv_snapshot<span class="w"> </span>/dev/myvg/mylv
+
+<span class="c1"># Mount snapshot for backup</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/snapshot
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/myvg/mylv_snapshot<span class="w"> </span>/mnt/snapshot
+
+<span class="c1"># Remove snapshot after backup</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/snapshot
+sudo<span class="w"> </span>lvremove<span class="w"> </span>/dev/myvg/mylv_snapshot
+</pre></div>
+</div>
+</section>
+<section id="advanced-lvm-features">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Advanced LVM Features</a><a class="headerlink" href="#advanced-lvm-features" title="Link to this heading"></a></h3>
+<p><strong>LVM Thin Provisioning</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create thin pool</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>50G<span class="w"> </span>--thinpool<span class="w"> </span>mythinpool<span class="w"> </span>myvg
+
+<span class="c1"># Create thin volume</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-V<span class="w"> </span>100G<span class="w"> </span>--thin<span class="w"> </span>myvg/mythinpool<span class="w"> </span>-n<span class="w"> </span>thinlv
+
+<span class="c1"># Monitor thin pool usage</span>
+sudo<span class="w"> </span>lvs<span class="w"> </span>-o<span class="w"> </span>+data_percent,metadata_percent
+</pre></div>
+</div>
+<p><strong>LVM Caching</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create cache pool (requires SSD)</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>10G<span class="w"> </span>-n<span class="w"> </span>cachepool<span class="w"> </span>myvg<span class="w"> </span>/dev/nvme0n1p1
+
+<span class="c1"># Convert to cache pool</span>
+sudo<span class="w"> </span>lvconvert<span class="w"> </span>--type<span class="w"> </span>cache-pool<span class="w"> </span>myvg/cachepool
+
+<span class="c1"># Cache a logical volume</span>
+sudo<span class="w"> </span>lvconvert<span class="w"> </span>--type<span class="w"> </span>cache<span class="w"> </span>--cachepool<span class="w"> </span>myvg/cachepool<span class="w"> </span>myvg/mylv
+</pre></div>
+</div>
+</section>
+</section>
+<section id="zfs-volume-management">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">ZFS Volume Management</a><a class="headerlink" href="#zfs-volume-management" title="Link to this heading"></a></h2>
+<section id="installation-on-ubuntu-22-04">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Installation on Ubuntu 22.04</a><a class="headerlink" href="#installation-on-ubuntu-22-04" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install ZFS</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>zfsutils-linux
+
+<span class="c1"># Load ZFS module</span>
+sudo<span class="w"> </span>modprobe<span class="w"> </span>zfs
+
+<span class="c1"># Verify installation</span>
+zfs<span class="w"> </span>version
+</pre></div>
+</div>
+</section>
+<section id="creating-zfs-pools">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Creating ZFS Pools</a><a class="headerlink" href="#creating-zfs-pools" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create simple pool</span>
+sudo<span class="w"> </span>zpool<span class="w"> </span>create<span class="w"> </span>mypool<span class="w"> </span>/dev/sdb
+
+<span class="c1"># Create mirrored pool</span>
+sudo<span class="w"> </span>zpool<span class="w"> </span>create<span class="w"> </span>mypool<span class="w"> </span>mirror<span class="w"> </span>/dev/sdb<span class="w"> </span>/dev/sdc
+
+<span class="c1"># Create RAIDZ pool (RAID5-like)</span>
+sudo<span class="w"> </span>zpool<span class="w"> </span>create<span class="w"> </span>mypool<span class="w"> </span>raidz<span class="w"> </span>/dev/sdb<span class="w"> </span>/dev/sdc<span class="w"> </span>/dev/sdd
+
+<span class="c1"># Check pool status</span>
+sudo<span class="w"> </span>zpool<span class="w"> </span>status
+sudo<span class="w"> </span>zpool<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="creating-zfs-datasets">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Creating ZFS Datasets</a><a class="headerlink" href="#creating-zfs-datasets" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create dataset</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>create<span class="w"> </span>mypool/data
+
+<span class="c1"># Create dataset with compression</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>create<span class="w"> </span>-o<span class="w"> </span><span class="nv">compression</span><span class="o">=</span>lz4<span class="w"> </span>mypool/compressed
+
+<span class="c1"># Set quota</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">quota</span><span class="o">=</span>10G<span class="w"> </span>mypool/data
+
+<span class="c1"># List datasets</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="zfs-snapshots-and-clones">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">ZFS Snapshots and Clones</a><a class="headerlink" href="#zfs-snapshots-and-clones" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create snapshot</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>snapshot<span class="w"> </span>mypool/data@backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
+
+<span class="c1"># List snapshots</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snapshot
+
+<span class="c1"># Clone snapshot</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>clone<span class="w"> </span>mypool/data@backup-20250715<span class="w"> </span>mypool/data-clone
+
+<span class="c1"># Rollback to snapshot</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>rollback<span class="w"> </span>mypool/data@backup-20250715
+</pre></div>
+</div>
+</section>
+</section>
+<section id="btrfs-volume-management">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Btrfs Volume Management</a><a class="headerlink" href="#btrfs-volume-management" title="Link to this heading"></a></h2>
+<section id="creating-btrfs-volumes">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Creating Btrfs Volumes</a><a class="headerlink" href="#creating-btrfs-volumes" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create single device Btrfs</span>
+sudo<span class="w"> </span>mkfs.btrfs<span class="w"> </span>/dev/sdb
+
+<span class="c1"># Create multi-device Btrfs</span>
+sudo<span class="w"> </span>mkfs.btrfs<span class="w"> </span>-d<span class="w"> </span>raid1<span class="w"> </span>-m<span class="w"> </span>raid1<span class="w"> </span>/dev/sdb<span class="w"> </span>/dev/sdc
+
+<span class="c1"># Mount Btrfs filesystem</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sdb<span class="w"> </span>/mnt/btrfs
+</pre></div>
+</div>
+</section>
+<section id="btrfs-subvolumes">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Btrfs Subvolumes</a><a class="headerlink" href="#btrfs-subvolumes" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create subvolume</span>
+sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>create<span class="w"> </span>/mnt/btrfs/subvol1
+
+<span class="c1"># List subvolumes</span>
+sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>list<span class="w"> </span>/mnt/btrfs
+
+<span class="c1"># Mount subvolume</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span><span class="nv">subvol</span><span class="o">=</span>subvol1<span class="w"> </span>/dev/sdb<span class="w"> </span>/mnt/subvol1
+</pre></div>
+</div>
+</section>
+<section id="btrfs-snapshots">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Btrfs Snapshots</a><a class="headerlink" href="#btrfs-snapshots" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create snapshot</span>
+sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>snapshot<span class="w"> </span>/mnt/btrfs/subvol1<span class="w"> </span>/mnt/btrfs/snapshot1
+
+<span class="c1"># Create read-only snapshot</span>
+sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>snapshot<span class="w"> </span>-r<span class="w"> </span>/mnt/btrfs/subvol1<span class="w"> </span>/mnt/btrfs/ro-snapshot
+</pre></div>
+</div>
+</section>
+</section>
+<section id="volume-management-scripts">
+<h2><a class="toc-backref" href="#id21" role="doc-backlink">Volume Management Scripts</a><a class="headerlink" href="#volume-management-scripts" title="Link to this heading"></a></h2>
+<section id="lvm-monitoring-script">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">LVM Monitoring Script</a><a class="headerlink" href="#lvm-monitoring-script" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">LVM Volume Monitoring Script for Ubuntu 22.04</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute shell command and return output&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="mi">1</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pv_info</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get physical volume information&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;sudo pvs --reportformat json&quot;</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_vg_info</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get volume group information&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;sudo vgs --reportformat json&quot;</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_lv_info</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get logical volume information&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;sudo lvs --reportformat json&quot;</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_space_usage</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check for volume groups with high usage&quot;&quot;&quot;</span>
+    <span class="n">vg_info</span> <span class="o">=</span> <span class="n">get_vg_info</span><span class="p">()</span>
+    <span class="n">alerts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;report&#39;</span> <span class="ow">in</span> <span class="n">vg_info</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vg_info</span><span class="p">[</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;vg&#39;</span><span class="p">]:</span>
+            <span class="n">used_percent</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="s1">&#39;vg_used_percent&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">used_percent</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">:</span>
+                <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VG </span><span class="si">{</span><span class="n">vg</span><span class="p">[</span><span class="s1">&#39;vg_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">used_percent</span><span class="si">}</span><span class="s2">% full&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">alerts</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== LVM Volume Status ===&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Physical Volumes</span>
+    <span class="n">pv_info</span> <span class="o">=</span> <span class="n">get_pv_info</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;report&#39;</span> <span class="ow">in</span> <span class="n">pv_info</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Physical Volumes:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pv</span> <span class="ow">in</span> <span class="n">pv_info</span><span class="p">[</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;pv&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">pv</span><span class="p">[</span><span class="s1">&#39;pv_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">pv</span><span class="p">[</span><span class="s1">&#39;pv_size&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">pv</span><span class="p">[</span><span class="s1">&#39;pv_used&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> used)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Volume Groups</span>
+    <span class="n">vg_info</span> <span class="o">=</span> <span class="n">get_vg_info</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;report&#39;</span> <span class="ow">in</span> <span class="n">vg_info</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Volume Groups:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">vg</span> <span class="ow">in</span> <span class="n">vg_info</span><span class="p">[</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;vg&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">vg</span><span class="p">[</span><span class="s1">&#39;vg_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">vg</span><span class="p">[</span><span class="s1">&#39;vg_size&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">vg</span><span class="p">[</span><span class="s1">&#39;vg_used_percent&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> used)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Logical Volumes</span>
+    <span class="n">lv_info</span> <span class="o">=</span> <span class="n">get_lv_info</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;report&#39;</span> <span class="ow">in</span> <span class="n">lv_info</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Logical Volumes:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lv</span> <span class="ow">in</span> <span class="n">lv_info</span><span class="p">[</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lv&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">lv</span><span class="p">[</span><span class="s1">&#39;lv_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">lv</span><span class="p">[</span><span class="s1">&#39;lv_size&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">lv</span><span class="p">[</span><span class="s1">&#39;data_percent&#39;</span><span class="p">]</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="s2">% data)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check for alerts</span>
+    <span class="n">alerts</span> <span class="o">=</span> <span class="n">check_space_usage</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">alerts</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== ALERTS ===&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">alert</span> <span class="ow">in</span> <span class="n">alerts</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: </span><span class="si">{</span><span class="n">alert</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="automated-backup-script">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Automated Backup Script</a><a class="headerlink" href="#automated-backup-script" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># LVM Snapshot Backup Script</span>
+
+<span class="nv">VOLUME_GROUP</span><span class="o">=</span><span class="s2">&quot;myvg&quot;</span>
+<span class="nv">LOGICAL_VOLUME</span><span class="o">=</span><span class="s2">&quot;mylv&quot;</span>
+<span class="nv">SNAPSHOT_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">LOGICAL_VOLUME</span><span class="si">}</span><span class="s2">_backup_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s2">&quot;/backup&quot;</span>
+<span class="nv">SNAPSHOT_SIZE</span><span class="o">=</span><span class="s2">&quot;2G&quot;</span>
+
+<span class="c1"># Function to log messages</span>
+log_message<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2">: </span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/var/log/lvm_backup.log
+<span class="o">}</span>
+
+<span class="c1"># Function to cleanup on exit</span>
+cleanup<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SNAPSHOT_CREATED</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>log_message<span class="w"> </span><span class="s2">&quot;Cleaning up snapshot: </span><span class="nv">$SNAPSHOT_NAME</span><span class="s2">&quot;</span>
+<span class="w">        </span>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/snapshot<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+<span class="w">        </span>sudo<span class="w"> </span>lvremove<span class="w"> </span>-f<span class="w"> </span>/dev/<span class="nv">$VOLUME_GROUP</span>/<span class="nv">$SNAPSHOT_NAME</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Set trap for cleanup</span>
+<span class="nb">trap</span><span class="w"> </span>cleanup<span class="w"> </span>EXIT
+
+<span class="c1"># Create snapshot</span>
+log_message<span class="w"> </span><span class="s2">&quot;Creating snapshot: </span><span class="nv">$SNAPSHOT_NAME</span><span class="s2">&quot;</span>
+<span class="k">if</span><span class="w"> </span>sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span><span class="nv">$SNAPSHOT_SIZE</span><span class="w"> </span>-s<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SNAPSHOT_NAME</span><span class="w"> </span>/dev/<span class="nv">$VOLUME_GROUP</span>/<span class="nv">$LOGICAL_VOLUME</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">SNAPSHOT_CREATED</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Snapshot created successfully&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Failed to create snapshot&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># Mount snapshot</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/snapshot
+<span class="k">if</span><span class="w"> </span>sudo<span class="w"> </span>mount<span class="w"> </span>/dev/<span class="nv">$VOLUME_GROUP</span>/<span class="nv">$SNAPSHOT_NAME</span><span class="w"> </span>/mnt/snapshot<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Snapshot mounted at /mnt/snapshot&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Failed to mount snapshot&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># Create backup</span>
+<span class="nv">BACKUP_FILE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$BACKUP_DIR</span><span class="s2">/backup_</span><span class="si">${</span><span class="nv">LOGICAL_VOLUME</span><span class="si">}</span><span class="s2">_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span><span class="s2">.tar.gz&quot;</span>
+log_message<span class="w"> </span><span class="s2">&quot;Creating backup: </span><span class="nv">$BACKUP_FILE</span><span class="s2">&quot;</span>
+
+<span class="k">if</span><span class="w"> </span>sudo<span class="w"> </span>tar<span class="w"> </span>-czf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_FILE</span><span class="s2">&quot;</span><span class="w"> </span>-C<span class="w"> </span>/mnt/snapshot<span class="w"> </span>.<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Backup completed: </span><span class="nv">$BACKUP_FILE</span><span class="s2">&quot;</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Backup size: </span><span class="k">$(</span>du<span class="w"> </span>-h<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="k">)</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Backup failed&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-tasks-and-q-a">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Common Tasks and Q&amp;A</a><a class="headerlink" href="#common-tasks-and-q-a" title="Link to this heading"></a></h2>
+<p><strong>Q: How do I extend a volume group with a new disk?</strong></p>
+<p>A: Add the new disk as a physical volume and extend the volume group:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>pvcreate<span class="w"> </span>/dev/sdd
+sudo<span class="w"> </span>vgextend<span class="w"> </span>myvg<span class="w"> </span>/dev/sdd
+</pre></div>
+</div>
+<p><strong>Q: Can I move data between logical volumes?</strong></p>
+<p>A: Yes, use pvmove to migrate data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move all data from /dev/sdb to /dev/sdc</span>
+sudo<span class="w"> </span>pvmove<span class="w"> </span>/dev/sdb<span class="w"> </span>/dev/sdc
+</pre></div>
+</div>
+<p><strong>Q: How do I remove a disk from LVM?</strong></p>
+<p>A: First move data, then remove:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>pvmove<span class="w"> </span>/dev/sdb
+sudo<span class="w"> </span>vgreduce<span class="w"> </span>myvg<span class="w"> </span>/dev/sdb
+sudo<span class="w"> </span>pvremove<span class="w"> </span>/dev/sdb
+</pre></div>
+</div>
+<p><strong>Q: What’s the difference between thick and thin provisioning?</strong></p>
+<p>A: Thick provisioning allocates all space immediately, while thin provisioning allocates space as needed, allowing overcommitment.</p>
+<p><strong>Q: How do I monitor thin pool usage?</strong></p>
+<p>A: Use lvs with additional columns:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>lvs<span class="w"> </span>-o<span class="w"> </span>+data_percent,metadata_percent
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2><a class="toc-backref" href="#id25" role="doc-backlink">Best Practices</a><a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Regular Monitoring</strong>
+- Monitor volume group usage
+- Set up alerts for high usage
+- Regular snapshot cleanup</p></li>
+<li><p><strong>Backup Strategy</strong>
+- Use LVM snapshots for consistent backups
+- Test restore procedures
+- Keep multiple snapshot generations</p></li>
+<li><p><strong>Performance</strong>
+- Align volumes with underlying storage
+- Use appropriate stripe sizes
+- Consider SSD caching for performance</p></li>
+<li><p><strong>Security</strong>
+- Use LUKS encryption for sensitive data
+- Implement proper access controls
+- Regular security audits</p></li>
+<li><p><strong>Disaster Recovery</strong>
+- Document volume group configurations
+- Practice recovery procedures
+- Maintain offsite backups</p></li>
+</ol>
+</section>
+<section id="see-also">
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="disk-management.html"><span class="doc">Disk Management</span></a></p></li>
+<li><p><a class="reference internal" href="file-systems.html"><span class="doc">File Systems</span></a></p></li>
+<li><p><a class="reference internal" href="raid-systems.html"><span class="doc">RAID Systems</span></a></p></li>
+<li><p><a class="reference internal" href="troubleshooting.html"><span class="doc">Troubleshooting Guide</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="network-storage.html" class="btn btn-neutral float-left" title="Network Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="storage-devices.html" class="btn btn-neutral float-right" title="Storage Devices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Rameshkumar T S.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

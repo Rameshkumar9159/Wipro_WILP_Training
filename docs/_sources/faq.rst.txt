@@ -1,0 +1,566 @@
+Frequently Asked Questions
+==========================
+
+Storage Fundamentals
+--------------------
+
+Q: What's the difference between storage and memory?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Memory (RAM) is volatile storage that loses data when power is removed, while storage is non-volatile and retains data permanently. Memory provides temporary workspace for active programs, while storage provides long-term data retention.
+
+.. code-block:: bash
+
+    # Check memory usage
+    free -h
+    
+    # Check storage usage
+    df -h
+    
+    # Show memory and storage together
+    echo "Memory:" && free -h && echo -e "\\nStorage:" && df -h
+
+Q: How do I determine what type of storage device I have?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Use these commands to identify your storage devices:
+
+.. code-block:: bash
+
+    # List all block devices
+    lsblk
+    
+    # Check if SSD or HDD
+    cat /sys/block/sda/queue/rotational
+    # 0 = SSD, 1 = HDD
+    
+    # Get detailed device information
+    sudo lshw -class disk
+    
+    # Check device specifications
+    sudo hdparm -I /dev/sda | grep -E "(Model|Serial|LBA)"
+
+Q: What filesystem should I use for different purposes?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Choose based on your specific needs:
+
+.. code-block:: text
+
+    Purpose                | Recommended Filesystem | Reason
+    -----------------------|------------------------|------------------
+    Ubuntu root partition | ext4                   | Stable, well-tested
+    Large files (>4GB)    | XFS or ext4           | Better large file support
+    Snapshots needed       | Btrfs                 | Built-in snapshot capability
+    Windows compatibility  | NTFS                  | Cross-platform support
+    USB drives            | exFAT                 | Universal compatibility
+    Network shares        | ext4 or XFS           | Good network performance
+
+File System Management
+---------------------
+
+Q: How do I safely resize a partition without losing data?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Follow these steps (ALWAYS backup first):
+
+.. code-block:: bash
+
+    # 1. BACKUP YOUR DATA FIRST!
+    
+    # 2. Unmount the partition
+    sudo umount /dev/sda2
+    
+    # 3. Check filesystem integrity
+    sudo fsck -f /dev/sda2
+    
+    # 4. Resize partition (using parted)
+    sudo parted /dev/sda resizepart 2 100%
+    
+    # 5. Resize filesystem to match partition
+    sudo resize2fs /dev/sda2
+    
+    # 6. Mount and verify
+    sudo mount /dev/sda2 /mnt/test
+    df -h /mnt/test
+
+Q: How can I recover deleted files?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Recovery depends on how quickly you act and the filesystem type:
+
+.. code-block:: bash
+
+    # Install recovery tools
+    sudo apt install testdisk photorec extundelete
+    
+    # For ext4 filesystems (must act quickly)
+    sudo extundelete /dev/sda1 --restore-file /path/to/deleted/file
+    
+    # For general file recovery
+    sudo photorec /dev/sda1
+    
+    # For partition recovery
+    sudo testdisk /dev/sda
+    
+    # Emergency: Stop using the drive immediately
+    sudo mount -o remount,ro /dev/sda1
+
+Q: How do I check and repair filesystem errors?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Use appropriate tools for each filesystem type:
+
+.. code-block:: bash
+
+    # For ext4 filesystems
+    sudo fsck.ext4 -f /dev/sda1     # Force check
+    sudo fsck.ext4 -p /dev/sda1     # Automatic repair
+    
+    # For XFS filesystems
+    sudo xfs_check /dev/sda1        # Check only
+    sudo xfs_repair /dev/sda1       # Repair
+    
+    # For Btrfs filesystems
+    sudo btrfs check /dev/sda1      # Check
+    sudo btrfs check --repair /dev/sda1  # Repair
+    
+    # Check all filesystems in fstab
+    sudo fsck -A -f
+
+Disk Management
+--------------
+
+Q: How do I add a new hard drive to my Ubuntu system?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Follow this complete process:
+
+.. code-block:: bash
+
+    # 1. Identify the new drive
+    sudo fdisk -l
+    lsblk
+    
+    # 2. Create partition table
+    sudo parted /dev/sdb mklabel gpt
+    
+    # 3. Create partition
+    sudo parted /dev/sdb mkpart primary ext4 0% 100%
+    
+    # 4. Format the partition
+    sudo mkfs.ext4 /dev/sdb1
+    
+    # 5. Create mount point
+    sudo mkdir /mnt/newdrive
+    
+    # 6. Mount temporarily
+    sudo mount /dev/sdb1 /mnt/newdrive
+    
+    # 7. Add to fstab for permanent mounting
+    echo "UUID=$(sudo blkid -s UUID -o value /dev/sdb1) /mnt/newdrive ext4 defaults 0 2" | sudo tee -a /etc/fstab
+    
+    # 8. Test fstab entry
+    sudo umount /mnt/newdrive
+    sudo mount -a
+
+Q: How can I improve disk performance?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Several optimization techniques:
+
+.. code-block:: bash
+
+    # Enable TRIM for SSDs
+    sudo systemctl enable fstrim.timer
+    
+    # Optimize I/O scheduler
+    # For SSDs
+    echo none | sudo tee /sys/block/sda/queue/scheduler
+    
+    # For HDDs
+    echo mq-deadline | sudo tee /sys/block/sda/queue/scheduler
+    
+    # Optimize mount options
+    sudo mount -o remount,noatime,discard /dev/sda1
+    
+    # Disable swap if you have enough RAM
+    sudo swapoff -a
+    # Comment out swap in /etc/fstab
+    
+    # Optimize filesystem
+    sudo tune2fs -o discard /dev/sda1
+
+Q: What should I do if my disk is failing?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Take immediate action to protect your data:
+
+.. code-block:: bash
+
+    # 1. Check SMART status
+    sudo smartctl -a /dev/sda
+    
+    # 2. If drive is still accessible, backup immediately
+    sudo dd if=/dev/sda of=/backup/disk_image.img bs=1M status=progress
+    
+    # 3. Or use ddrescue for damaged drives
+    sudo apt install gddrescue
+    sudo ddrescue /dev/sda /backup/disk_image.img /backup/rescue.log
+    
+    # 4. Stop using the drive immediately
+    sudo umount /dev/sda1
+    
+    # 5. Replace the drive and restore from backup
+
+RAID Configuration
+-----------------
+
+Q: Which RAID level should I choose?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Choose based on your priorities:
+
+.. code-block:: text
+
+    Priority              | RAID Level | Min Disks | Capacity Loss | Performance
+    ----------------------|------------|-----------|---------------|-------------
+    Performance Only      | RAID 0     | 2         | None          | Excellent
+    Basic Redundancy      | RAID 1     | 2         | 50%           | Good Read
+    Balanced Performance  | RAID 5     | 3         | 1 disk        | Good
+    High Fault Tolerance  | RAID 6     | 4         | 2 disks       | Moderate
+    Performance + Safety  | RAID 10    | 4         | 50%           | Excellent
+
+Q: How do I replace a failed disk in a RAID array?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Steps for replacing a failed RAID disk:
+
+.. code-block:: bash
+
+    # 1. Identify failed disk
+    cat /proc/mdstat
+    sudo mdadm --detail /dev/md0
+    
+    # 2. Mark disk as failed (if not auto-detected)
+    sudo mdadm --fail /dev/md0 /dev/sdb
+    
+    # 3. Remove failed disk from array
+    sudo mdadm --remove /dev/md0 /dev/sdb
+    
+    # 4. Physically replace the disk
+    # Power down system if hot-swap not supported
+    
+    # 5. Add new disk to array
+    sudo mdadm --add /dev/md0 /dev/sdb
+    
+    # 6. Monitor rebuild progress
+    watch cat /proc/mdstat
+
+Q: Can I convert between RAID levels?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Yes, but with limitations and requirements:
+
+.. code-block:: bash
+
+    # RAID 1 to RAID 5 (requires adding a disk first)
+    sudo mdadm --add /dev/md0 /dev/sdd
+    sudo mdadm --grow /dev/md0 --level=5 --raid-devices=3
+    
+    # RAID 5 to RAID 6 (requires adding a disk)
+    sudo mdadm --add /dev/md0 /dev/sde
+    sudo mdadm --grow /dev/md0 --level=6 --raid-devices=4
+    
+    # Note: ALWAYS backup data before conversion
+    # Some conversions may not be possible
+    
+    # Check conversion progress
+    cat /proc/mdstat
+
+Network Storage
+--------------
+
+Q: Should I use NFS or SMB for file sharing?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Choose based on your environment:
+
+.. code-block:: text
+
+    Scenario                    | Recommended | Reason
+    ----------------------------|-------------|------------------
+    Linux-only environment     | NFS         | Better performance, native
+    Mixed OS (Linux/Windows/Mac)| SMB/CIFS    | Universal compatibility
+    High-performance computing  | NFS         | Lower overhead
+    Simple file sharing         | SMB/CIFS    | Easier to configure
+    Security-critical          | NFS + Kerberos | Better authentication
+
+Q: How do I troubleshoot slow network storage?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Diagnose and optimize network storage performance:
+
+.. code-block:: bash
+
+    # Check network connectivity
+    ping storage-server
+    traceroute storage-server
+    
+    # Test network bandwidth
+    iperf3 -c storage-server
+    
+    # Check mount options
+    mount | grep -E "(nfs|cifs)"
+    
+    # Optimize NFS mount options
+    sudo mount -o remount,rsize=32768,wsize=32768,hard,intr /mnt/nfs
+    
+    # Monitor network I/O
+    iftop -i eth0
+    nethogs
+    
+    # Check for packet loss
+    mtr storage-server
+
+Q: How do I set up automatic mounting for network drives?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Configure persistent network mounts:
+
+.. code-block:: bash
+
+    # For NFS shares
+    echo "nfs-server:/path/to/share /mnt/nfs nfs defaults,_netdev 0 0" | sudo tee -a /etc/fstab
+    
+    # For SMB/CIFS shares with credentials
+    # Create credentials file
+    cat > ~/.smbcredentials << EOF
+    username=myuser
+    password=mypassword
+    domain=mydomain
+    EOF
+    chmod 600 ~/.smbcredentials
+    
+    # Add to fstab
+    echo "//server/share /mnt/smb cifs credentials=/home/user/.smbcredentials,uid=1000,gid=1000,_netdev 0 0" | sudo tee -a /etc/fstab
+    
+    # Test automatic mounting
+    sudo mount -a
+
+Backup and Recovery
+------------------
+
+Q: What's the best backup strategy for Ubuntu?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Implement the 3-2-1 backup rule:
+
+.. code-block:: bash
+
+    # 3-2-1 Rule: 3 copies, 2 different media types, 1 offsite
+    
+    # Local backup with rsync
+    rsync -av --delete /home/user/ /backup/local/
+    
+    # External drive backup
+    rsync -av --delete /home/user/ /media/external/backup/
+    
+    # Cloud backup with rclone
+    rclone sync /home/user/ cloud:backup/
+    
+    # System backup script
+    cat > /usr/local/bin/backup.sh << 'EOF'
+    #!/bin/bash
+    # Comprehensive backup script
+    
+    # Backup user data
+    rsync -av /home/ /backup/home/
+    
+    # Backup system configuration
+    tar -czf /backup/system-$(date +%Y%m%d).tar.gz /etc /var/lib/dpkg
+    
+    # Create disk image of root partition
+    dd if=/dev/sda1 of=/backup/root-$(date +%Y%m%d).img bs=1M
+    EOF
+
+Q: How do I restore from a backup?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Restoration process depends on backup type:
+
+.. code-block:: bash
+
+    # Restore from rsync backup
+    rsync -av /backup/home/ /home/
+    
+    # Restore from tar archive
+    cd /
+    sudo tar -xzf /backup/system-20240101.tar.gz
+    
+    # Restore from disk image
+    sudo dd if=/backup/root-20240101.img of=/dev/sda1 bs=1M status=progress
+    
+    # Restore specific files
+    sudo tar -xzf /backup/system.tar.gz -C / specific/file/path
+
+Troubleshooting
+--------------
+
+Q: My system won't boot after storage changes. How do I fix it?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Boot from Ubuntu live USB and repair:
+
+.. code-block:: bash
+
+    # Boot from Ubuntu live USB
+    
+    # Mount root partition
+    sudo mount /dev/sda2 /mnt
+    
+    # Mount other partitions
+    sudo mount /dev/sda1 /mnt/boot/efi  # EFI partition
+    
+    # Bind mount system directories
+    sudo mount --bind /dev /mnt/dev
+    sudo mount --bind /proc /mnt/proc
+    sudo mount --bind /sys /mnt/sys
+    
+    # Chroot into system
+    sudo chroot /mnt
+    
+    # Repair GRUB
+    grub-install /dev/sda
+    update-grub
+    
+    # Fix fstab if needed
+    nano /etc/fstab
+    
+    # Exit and reboot
+    exit
+    sudo reboot
+
+Q: How do I diagnose storage performance issues?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Use these diagnostic tools:
+
+.. code-block:: bash
+
+    # Monitor I/O in real-time
+    sudo iotop -o
+    
+    # Check I/O statistics
+    iostat -x 1
+    
+    # Monitor disk usage
+    watch df -h
+    
+    # Check for high I/O wait
+    top  # Look for high %wa (I/O wait)
+    
+    # Test disk speed
+    sudo hdparm -Tt /dev/sda
+    
+    # Check for filesystem errors
+    dmesg | grep -i error
+    
+    # Monitor SMART attributes
+    sudo smartctl -A /dev/sda
+
+Q: What should I do if I'm running out of disk space?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Free up space systematically:
+
+.. code-block:: bash
+
+    # Find large files
+    sudo find / -type f -size +100M -exec ls -lh {} \\; 2>/dev/null
+    
+    # Check directory sizes
+    sudo du -h --max-depth=1 / | sort -hr
+    
+    # Clean package cache
+    sudo apt autoclean
+    sudo apt autoremove
+    
+    # Clean system logs
+    sudo journalctl --vacuum-time=3d
+    
+    # Clean user caches
+    rm -rf ~/.cache/*
+    rm -rf ~/.thumbnails/*
+    
+    # Find and remove duplicate files
+    fdupes -r /home/user -d
+    
+    # Move large files to external storage
+    mv /home/user/large_files/ /mnt/external/
+
+Performance Optimization
+-----------------------
+
+Q: How can I optimize Ubuntu for SSD storage?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Apply SSD-specific optimizations:
+
+.. code-block:: bash
+
+    # Enable TRIM
+    sudo systemctl enable fstrim.timer
+    
+    # Set I/O scheduler to none
+    echo none | sudo tee /sys/block/sda/queue/scheduler
+    
+    # Update fstab with SSD-optimized options
+    # Add noatime,discard to mount options
+    sudo nano /etc/fstab
+    # Example: UUID=xxx / ext4 defaults,noatime,discard 0 1
+    
+    # Reduce swappiness
+    echo "vm.swappiness=1" | sudo tee -a /etc/sysctl.conf
+    
+    # Move temporary files to RAM
+    echo "tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0" | sudo tee -a /etc/fstab
+
+Q: How do I monitor storage health proactively?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Set up comprehensive monitoring:
+
+.. code-block:: bash
+
+    # Install monitoring tools
+    sudo apt install smartmontools sysstat
+    
+    # Enable SMART monitoring
+    sudo systemctl enable smartd
+    
+    # Configure email alerts
+    sudo nano /etc/smartd.conf
+    # Add: /dev/sda -a -o on -S on -s (S/../.././02|L/../../6/03) -m admin@example.com
+    
+    # Create monitoring script
+    cat > /usr/local/bin/storage_health.sh << 'EOF'
+    #!/bin/bash
+    
+    # Check disk usage
+    df -h | awk 'NR>1 {if($5+0 > 85) print $0}' | mail -s "Disk Usage Alert" admin@example.com
+    
+    # Check SMART status
+    for disk in /dev/sd[a-z]; do
+        if [ -b "$disk" ]; then
+            if ! smartctl -H "$disk" | grep -q PASSED; then
+                echo "SMART failure on $disk" | mail -s "SMART Alert" admin@example.com
+            fi
+        fi
+    done
+    EOF
+    
+    chmod +x /usr/local/bin/storage_health.sh
+    
+    # Schedule regular checks
+    echo "0 6 * * * /usr/local/bin/storage_health.sh" | sudo crontab -

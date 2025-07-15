@@ -1,0 +1,913 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disk Management &mdash; Storage Systems and Data Management Guide 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="File Systems" href="file-systems.html" />
+    <link rel="prev" title="Storage Overview" href="storage-overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Storage Systems and Data Management Guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Storage Fundamentals:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="storage-overview.html">Storage Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Disk Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-disk-management">Understanding Disk Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#disk-management-fundamentals">Disk Management Fundamentals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-disk-management">What is Disk Management?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#disk-types-and-interfaces">Disk Types and Interfaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#physical-disk-types">Physical Disk Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interface-types">Interface Types</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ubuntu-22-04-disk-management-commands">Ubuntu 22.04 Disk Management Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#essential-disk-commands">Essential Disk Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-disk-information">Advanced Disk Information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#partitioning-with-fdisk">Partitioning with fdisk</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-partitions">Creating Partitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#partitioning-with-parted">Partitioning with parted</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#filesystem-creation-and-management">Filesystem Creation and Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-filesystems">Creating Filesystems</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filesystem-checking-and-repair">Filesystem Checking and Repair</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mounting-and-unmounting">Mounting and Unmounting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#manual-mounting">Manual Mounting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automatic-mounting-with-etc-fstab">Automatic Mounting with /etc/fstab</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#frequently-asked-questions">Frequently Asked Questions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#q-how-do-i-check-disk-space-usage-on-ubuntu-22-04">Q: How do I check disk space usage on Ubuntu 22.04?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q-what-s-the-difference-between-fdisk-and-parted">Q: What’s the difference between fdisk and parted?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q-how-do-i-resize-a-partition-without-losing-data">Q: How do I resize a partition without losing data?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q-how-can-i-securely-wipe-a-disk">Q: How can I securely wipe a disk?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#coding-examples">Coding Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python-disk-management-script">Python Disk Management Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bash-disk-monitoring-script">Bash Disk Monitoring Script</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#best-practices-for-disk-management">Best Practices for Disk Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#planning-and-strategy">Planning and Strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntu-22-04-optimization-tips">Ubuntu 22.04 Optimization Tips</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#security-and-recovery">Security and Recovery</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="file-systems.html">File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-organization.html">Data Organization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Storage Concepts:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="raid-systems.html">RAID Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-storage.html">Network Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="volume-management.html">Volume Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage-devices.html">Storage Devices</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Practical Implementation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu-setup.html">Ubuntu 22.04 Setup and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-examples.html">Coding Examples and Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Best Practices and Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#common-command-abbreviations">Common Command Abbreviations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#storage-unit-definitions">Storage Unit Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#raid-levels-reference">RAID Levels Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#network-storage-protocols">Network Storage Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#file-system-features">File System Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads and Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Storage Systems and Data Management Guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Disk Management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/disk-management.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="disk-management">
+<h1>Disk Management<a class="headerlink" href="#disk-management" title="Link to this heading"></a></h1>
+<section id="understanding-disk-management">
+<h2>Understanding Disk Management<a class="headerlink" href="#understanding-disk-management" title="Link to this heading"></a></h2>
+<p>Disk management involves the organization, partitioning, formatting, and maintenance of storage devices. In Ubuntu 22.04, disk management is crucial for optimal system performance and data organization.</p>
+<section id="disk-management-fundamentals">
+<h3>Disk Management Fundamentals<a class="headerlink" href="#disk-management-fundamentals" title="Link to this heading"></a></h3>
+<section id="what-is-disk-management">
+<h4>What is Disk Management?<a class="headerlink" href="#what-is-disk-management" title="Link to this heading"></a></h4>
+<p>Disk management encompasses:</p>
+<ul class="simple">
+<li><p><strong>Partitioning</strong>: Dividing physical disks into logical sections</p></li>
+<li><p><strong>Formatting</strong>: Preparing partitions with file systems</p></li>
+<li><p><strong>Mounting</strong>: Making partitions accessible to the operating system</p></li>
+<li><p><strong>Monitoring</strong>: Tracking disk health and performance</p></li>
+<li><p><strong>Maintenance</strong>: Optimizing and repairing disk issues</p></li>
+</ul>
+</section>
+</section>
+<section id="disk-types-and-interfaces">
+<h3>Disk Types and Interfaces<a class="headerlink" href="#disk-types-and-interfaces" title="Link to this heading"></a></h3>
+<section id="physical-disk-types">
+<h4>Physical Disk Types<a class="headerlink" href="#physical-disk-types" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Hard Disk Drives (HDD)</strong></p>
+<ul class="simple">
+<li><p>Mechanical storage with spinning platters</p></li>
+<li><p>Lower cost per GB</p></li>
+<li><p>Higher latency, slower access times</p></li>
+<li><p>Good for bulk storage and archival</p></li>
+</ul>
+</li>
+<li><p><strong>Solid State Drives (SSD)</strong></p>
+<ul class="simple">
+<li><p>Flash memory-based storage</p></li>
+<li><p>Faster access times, lower latency</p></li>
+<li><p>Higher cost per GB</p></li>
+<li><p>Ideal for operating systems and applications</p></li>
+</ul>
+</li>
+<li><p><strong>NVMe SSDs</strong></p>
+<ul class="simple">
+<li><p>PCIe-based interface</p></li>
+<li><p>Highest performance storage</p></li>
+<li><p>Direct CPU communication</p></li>
+<li><p>Best for high-performance applications</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="interface-types">
+<h4>Interface Types<a class="headerlink" href="#interface-types" title="Link to this heading"></a></h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SATA (Serial ATA)
+├── SATA I: 1.5 Gbps
+├── SATA II: 3.0 Gbps
+└── SATA III: 6.0 Gbps
+
+NVMe (Non-Volatile Memory Express)
+├── PCIe 3.0: Up to 32 Gbps
+└── PCIe 4.0: Up to 64 Gbps
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ubuntu-22-04-disk-management-commands">
+<h3>Ubuntu 22.04 Disk Management Commands<a class="headerlink" href="#ubuntu-22-04-disk-management-commands" title="Link to this heading"></a></h3>
+<section id="essential-disk-commands">
+<h4>Essential Disk Commands<a class="headerlink" href="#essential-disk-commands" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all block devices</span>
+lsblk
+
+<span class="c1"># Display partition tables</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>-l
+
+<span class="c1"># Show disk usage by filesystem</span>
+df<span class="w"> </span>-h
+
+<span class="c1"># Display directory sizes</span>
+du<span class="w"> </span>-sh<span class="w"> </span>/home/*
+
+<span class="c1"># List mounted filesystems</span>
+mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>column<span class="w"> </span>-t
+
+<span class="c1"># Show disk I/O statistics</span>
+iostat<span class="w"> </span>-x<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-disk-information">
+<h4>Advanced Disk Information<a class="headerlink" href="#advanced-disk-information" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Detailed disk information</span>
+sudo<span class="w"> </span>lshw<span class="w"> </span>-class<span class="w"> </span>disk
+
+<span class="c1"># SMART disk health information</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-a<span class="w"> </span>/dev/sda
+
+<span class="c1"># Disk geometry information</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-g<span class="w"> </span>/dev/sda
+
+<span class="c1"># Check bad blocks</span>
+sudo<span class="w"> </span>badblocks<span class="w"> </span>-v<span class="w"> </span>/dev/sda
+
+<span class="c1"># Display partition UUID</span>
+sudo<span class="w"> </span>blkid
+</pre></div>
+</div>
+</section>
+</section>
+<section id="partitioning-with-fdisk">
+<h3>Partitioning with fdisk<a class="headerlink" href="#partitioning-with-fdisk" title="Link to this heading"></a></h3>
+<section id="creating-partitions">
+<h4>Creating Partitions<a class="headerlink" href="#creating-partitions" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start fdisk for a specific disk</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>/dev/sdb
+
+<span class="c1"># Within fdisk:</span>
+<span class="c1"># n - Create new partition</span>
+<span class="c1"># d - Delete partition</span>
+<span class="c1"># p - Print partition table</span>
+<span class="c1"># w - Write changes and exit</span>
+<span class="c1"># q - Quit without saving</span>
+
+<span class="c1"># Example: Create a new primary partition</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>/dev/sdb<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">n</span>
+<span class="s">p</span>
+<span class="s">1</span>
+
+
+<span class="s">w</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</section>
+<section id="partitioning-with-parted">
+<h4>Partitioning with parted<a class="headerlink" href="#partitioning-with-parted" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create GPT partition table</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mklabel<span class="w"> </span>gpt
+
+<span class="c1"># Create partition</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span><span class="m">0</span>%<span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># Set partition flags</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>boot<span class="w"> </span>on
+
+<span class="c1"># Display partition information</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>print
+</pre></div>
+</div>
+</section>
+</section>
+<section id="filesystem-creation-and-management">
+<h3>Filesystem Creation and Management<a class="headerlink" href="#filesystem-creation-and-management" title="Link to this heading"></a></h3>
+<section id="creating-filesystems">
+<h4>Creating Filesystems<a class="headerlink" href="#creating-filesystems" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create ext4 filesystem</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Create XFS filesystem</span>
+sudo<span class="w"> </span>mkfs.xfs<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Create Btrfs filesystem</span>
+sudo<span class="w"> </span>mkfs.btrfs<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Create FAT32 filesystem</span>
+sudo<span class="w"> </span>mkfs.fat<span class="w"> </span>-F32<span class="w"> </span>/dev/sdb1
+</pre></div>
+</div>
+</section>
+<section id="filesystem-checking-and-repair">
+<h4>Filesystem Checking and Repair<a class="headerlink" href="#filesystem-checking-and-repair" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check ext4 filesystem</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Force check even if clean</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>-f<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Check and repair filesystem</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>-p<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Check XFS filesystem</span>
+sudo<span class="w"> </span>xfs_check<span class="w"> </span>/dev/sdb1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="mounting-and-unmounting">
+<h3>Mounting and Unmounting<a class="headerlink" href="#mounting-and-unmounting" title="Link to this heading"></a></h3>
+<section id="manual-mounting">
+<h4>Manual Mounting<a class="headerlink" href="#manual-mounting" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create mount point</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/mydisk
+
+<span class="c1"># Mount filesystem</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/mydisk
+
+<span class="c1"># Mount with specific options</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>rw,noatime<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/mydisk
+
+<span class="c1"># Unmount filesystem</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/mydisk
+
+<span class="c1"># Force unmount (use carefully)</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>-f<span class="w"> </span>/mnt/mydisk
+</pre></div>
+</div>
+</section>
+<section id="automatic-mounting-with-etc-fstab">
+<h4>Automatic Mounting with /etc/fstab<a class="headerlink" href="#automatic-mounting-with-etc-fstab" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Edit fstab file</span>
+sudo<span class="w"> </span>vim<span class="w"> </span>/etc/fstab
+
+<span class="c1"># Example fstab entries:</span>
+<span class="c1"># UUID=12345678-1234-1234-1234-123456789012 /mnt/mydisk ext4 defaults 0 2</span>
+<span class="c1"># /dev/sdb1 /mnt/backup ext4 rw,noatime 0 2</span>
+
+<span class="c1"># Get UUID of a partition</span>
+sudo<span class="w"> </span>blkid<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Test fstab configuration</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-a
+</pre></div>
+</div>
+</section>
+</section>
+<section id="frequently-asked-questions">
+<h3>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading"></a></h3>
+<section id="q-how-do-i-check-disk-space-usage-on-ubuntu-22-04">
+<h4>Q: How do I check disk space usage on Ubuntu 22.04?<a class="headerlink" href="#q-how-do-i-check-disk-space-usage-on-ubuntu-22-04" title="Link to this heading"></a></h4>
+<p><strong>A:</strong> Use these commands to check disk space:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Overall disk usage</span>
+df<span class="w"> </span>-h
+
+<span class="c1"># Specific directory usage</span>
+du<span class="w"> </span>-sh<span class="w"> </span>/home/username
+
+<span class="c1"># Interactive disk usage browser</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ncdu
+ncdu<span class="w"> </span>/
+</pre></div>
+</div>
+</section>
+<section id="q-what-s-the-difference-between-fdisk-and-parted">
+<h4>Q: What’s the difference between fdisk and parted?<a class="headerlink" href="#q-what-s-the-difference-between-fdisk-and-parted" title="Link to this heading"></a></h4>
+<p><strong>A:</strong></p>
+<ul class="simple">
+<li><p><strong>fdisk</strong>: Traditional partitioning tool, best for MBR partitions</p></li>
+<li><p><strong>parted</strong>: Modern tool supporting both MBR and GPT, better for large disks (&gt;2TB)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># fdisk - good for disks &lt; 2TB</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>/dev/sdb
+
+<span class="c1"># parted - better for large disks and GPT</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-resize-a-partition-without-losing-data">
+<h4>Q: How do I resize a partition without losing data?<a class="headerlink" href="#q-how-do-i-resize-a-partition-without-losing-data" title="Link to this heading"></a></h4>
+<p><strong>A:</strong> Use these steps carefully:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Backup your data first!</span>
+<span class="c1"># 2. Unmount the partition</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># 3. Check filesystem</span>
+sudo<span class="w"> </span>fsck<span class="w"> </span>-f<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># 4. Resize partition with parted</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>resizepart<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># 5. Resize filesystem</span>
+sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># 6. Remount</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/mydisk
+</pre></div>
+</div>
+</section>
+<section id="q-how-can-i-securely-wipe-a-disk">
+<h4>Q: How can I securely wipe a disk?<a class="headerlink" href="#q-how-can-i-securely-wipe-a-disk" title="Link to this heading"></a></h4>
+<p><strong>A:</strong> Several methods for secure disk wiping:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Method 1: Using dd (single pass)</span>
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdb<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+
+<span class="c1"># Method 2: Using shred (multiple passes)</span>
+sudo<span class="w"> </span>shred<span class="w"> </span>-vfz<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span><span class="w"> </span>/dev/sdb
+
+<span class="c1"># Method 3: Using DBAN (boot from USB)</span>
+<span class="c1"># Download DBAN ISO and create bootable USB</span>
+
+<span class="c1"># For SSDs, use secure erase</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>--user-master<span class="w"> </span>u<span class="w"> </span>--security-set-pass<span class="w"> </span>p<span class="w"> </span>/dev/sdb
+sudo<span class="w"> </span>hdparm<span class="w"> </span>--user-master<span class="w"> </span>u<span class="w"> </span>--security-erase<span class="w"> </span>p<span class="w"> </span>/dev/sdb
+</pre></div>
+</div>
+</section>
+</section>
+<section id="coding-examples">
+<h3>Coding Examples<a class="headerlink" href="#coding-examples" title="Link to this heading"></a></h3>
+<section id="python-disk-management-script">
+<h4>Python Disk Management Script<a class="headerlink" href="#python-disk-management-script" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Disk management utility for Ubuntu 22.04</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DiskManager</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_root_privileges</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_root_privileges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if running with root privileges&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This script requires root privileges. Run with sudo.&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_disks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List all available disks&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;lsblk&#39;</span><span class="p">,</span> <span class="s1">&#39;-J&#39;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;blockdevices&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error listing disks: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_disk_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get detailed information about a disk&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Get basic info</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;lsblk&#39;</span><span class="p">,</span> <span class="s1">&#39;-J&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">],</span>
+                                  <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">basic_info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+
+            <span class="c1"># Get SMART info</span>
+            <span class="n">smart_result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;smartctl&#39;</span><span class="p">,</span> <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">],</span>
+                                        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;basic&#39;</span><span class="p">:</span> <span class="n">basic_info</span><span class="p">,</span>
+                <span class="s1">&#39;smart&#39;</span><span class="p">:</span> <span class="n">smart_result</span><span class="o">.</span><span class="n">stdout</span> <span class="k">if</span> <span class="n">smart_result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;N/A&#39;</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;100%&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new partition&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Create GPT partition table</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;parted&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="s1">&#39;mklabel&#39;</span><span class="p">,</span> <span class="s1">&#39;gpt&#39;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Create partition</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;parted&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="s1">&#39;mkpart&#39;</span><span class="p">,</span> <span class="s1">&#39;primary&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;ext4&#39;</span><span class="p">,</span> <span class="s1">&#39;0%&#39;</span><span class="p">,</span> <span class="n">size</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating partition: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="s1">&#39;ext4&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format a partition with specified filesystem&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filesystem</span> <span class="o">==</span> <span class="s1">&#39;ext4&#39;</span><span class="p">:</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;mkfs.ext4&#39;</span><span class="p">,</span> <span class="s1">&#39;-F&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">filesystem</span> <span class="o">==</span> <span class="s1">&#39;xfs&#39;</span><span class="p">:</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;mkfs.xfs&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">filesystem</span> <span class="o">==</span> <span class="s1">&#39;btrfs&#39;</span><span class="p">:</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;mkfs.btrfs&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported filesystem: </span><span class="si">{</span><span class="n">filesystem</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error formatting partition: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mount_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">mountpoint</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="s1">&#39;defaults&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mount a partition&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Create mountpoint if it doesn&#39;t exist</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">mountpoint</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Mount the partition</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;mount&#39;</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">mountpoint</span><span class="p">],</span>
+                         <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error mounting partition: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_filesystem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check filesystem integrity&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;fsck&#39;</span><span class="p">,</span> <span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">],</span>
+                                  <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;clean&#39;</span> <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;errors&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+
+<span class="c1"># Example usage</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">dm</span> <span class="o">=</span> <span class="n">DiskManager</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Available Disks ===&quot;</span><span class="p">)</span>
+    <span class="n">disks</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">list_disks</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">disk</span> <span class="ow">in</span> <span class="n">disks</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device: </span><span class="si">{</span><span class="n">disk</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Size: </span><span class="si">{</span><span class="n">disk</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Type: </span><span class="si">{</span><span class="n">disk</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Interactive disk management</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">get_disk_info</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">nDisk information for </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="bash-disk-monitoring-script">
+<h4>Bash Disk Monitoring Script<a class="headerlink" href="#bash-disk-monitoring-script" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># disk_monitor.sh - Comprehensive disk monitoring for Ubuntu 22.04</span>
+
+<span class="c1"># Configuration</span>
+<span class="nv">ALERT_THRESHOLD</span><span class="o">=</span><span class="m">85</span><span class="w">  </span><span class="c1"># Alert when disk usage exceeds this percentage</span>
+<span class="nv">EMAIL_ALERT</span><span class="o">=</span><span class="s2">&quot;admin@example.com&quot;</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/var/log/disk_monitor.log&quot;</span>
+
+<span class="c1"># Colors</span>
+<span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;\033[0;31m&#39;</span>
+<span class="nv">GREEN</span><span class="o">=</span><span class="s1">&#39;\033[0;32m&#39;</span>
+<span class="nv">YELLOW</span><span class="o">=</span><span class="s1">&#39;\033[1;33m&#39;</span>
+<span class="nv">BLUE</span><span class="o">=</span><span class="s1">&#39;\033[0;34m&#39;</span>
+<span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span>
+
+<span class="c1"># Logging function</span>
+log_message<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2"> - </span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Check disk usage</span>
+check_disk_usage<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">=== Disk Usage Check ===</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-vE<span class="w"> </span><span class="s1">&#39;^Filesystem|tmpfs|cdrom&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $5 &quot; &quot; $1 &quot; &quot; $6}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>output<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">usage</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$output</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/%//g&#39;</span><span class="k">)</span>
+<span class="w">        </span><span class="nv">partition</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$output</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+<span class="w">        </span><span class="nv">mountpoint</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$output</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $3}&#39;</span><span class="k">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$usage</span><span class="w"> </span>-ge<span class="w"> </span><span class="nv">$ALERT_THRESHOLD</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">WARNING: </span><span class="nv">$partition</span><span class="s2"> (</span><span class="nv">$mountpoint</span><span class="s2">) is </span><span class="si">${</span><span class="nv">usage</span><span class="si">}</span><span class="s2">% full</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span>log_message<span class="w"> </span><span class="s2">&quot;HIGH USAGE: </span><span class="nv">$partition</span><span class="s2"> (</span><span class="nv">$mountpoint</span><span class="s2">) is </span><span class="si">${</span><span class="nv">usage</span><span class="si">}</span><span class="s2">% full&quot;</span>
+
+<span class="w">            </span><span class="c1"># Send email alert if configured</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>mail<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$EMAIL_ALERT</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Disk usage alert: </span><span class="nv">$partition</span><span class="s2"> (</span><span class="nv">$mountpoint</span><span class="s2">) is </span><span class="si">${</span><span class="nv">usage</span><span class="si">}</span><span class="s2">% full&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                    </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Disk Usage Alert - </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$EMAIL_ALERT</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="s2">OK: </span><span class="nv">$partition</span><span class="s2"> (</span><span class="nv">$mountpoint</span><span class="s2">) is </span><span class="si">${</span><span class="nv">usage</span><span class="si">}</span><span class="s2">% full</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c1"># Check disk health using SMART</span>
+check_disk_health<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">=== Disk Health Check ===</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>disk<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev/sd<span class="o">[</span>a-z<span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$disk</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Checking </span><span class="nv">$disk</span><span class="s2">...&quot;</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>smartctl<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span><span class="nv">health</span><span class="o">=</span><span class="k">$(</span>smartctl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$disk</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;SMART overall-health&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $6}&#39;</span><span class="k">)</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$health</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;PASSED&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="nv">$disk</span><span class="s2">: Health OK</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="w">                    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="nv">$disk</span><span class="s2">: Health FAILED</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">                    </span>log_message<span class="w"> </span><span class="s2">&quot;DISK HEALTH: </span><span class="nv">$disk</span><span class="s2"> health check failed&quot;</span>
+<span class="w">                </span><span class="k">fi</span>
+
+<span class="w">                </span><span class="c1"># Check temperature</span>
+<span class="w">                </span><span class="nv">temp</span><span class="o">=</span><span class="k">$(</span>smartctl<span class="w"> </span>-A<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$disk</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Temperature_Celsius<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $10}&#39;</span><span class="k">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$temp</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$temp</span><span class="s2">&quot;</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">55</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                        </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">YELLOW</span><span class="si">}</span><span class="nv">$disk</span><span class="s2">: Temperature high (</span><span class="si">${</span><span class="nv">temp</span><span class="si">}</span><span class="s2">°C)</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">                    </span><span class="k">else</span>
+<span class="w">                        </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="nv">$disk</span><span class="s2">: Temperature OK (</span><span class="si">${</span><span class="nv">temp</span><span class="si">}</span><span class="s2">°C)</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">                    </span><span class="k">fi</span>
+<span class="w">                </span><span class="k">fi</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;smartctl not available. Install with: sudo apt install smartmontools&quot;</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c1"># Monitor I/O performance</span>
+monitor_io<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">=== I/O Performance Monitor ===</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>iostat<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>iostat<span class="w"> </span>-x<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+4
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;iostat not available. Install with: sudo apt install sysstat&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Find large files</span>
+find_large_files<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">=== Large Files (&gt;1GB) ===</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>find<span class="w"> </span>/<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-size<span class="w"> </span>+1G<span class="w"> </span>-exec<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>awk<span class="w"> </span><span class="s1">&#39;{print $5 &quot;\t&quot; $9}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-hr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
+<span class="o">}</span>
+
+<span class="c1"># Clean temporary files</span>
+cleanup_temp<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">=== Cleaning Temporary Files ===</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="c1"># Get initial disk usage</span>
+<span class="w">    </span><span class="nv">initial_usage</span><span class="o">=</span><span class="k">$(</span>df<span class="w"> </span>/<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $3}&#39;</span><span class="k">)</span>
+
+<span class="w">    </span><span class="c1"># Clean apt cache</span>
+<span class="w">    </span>apt-get<span class="w"> </span>autoclean<span class="w"> </span>-y
+<span class="w">    </span>apt-get<span class="w"> </span>autoremove<span class="w"> </span>-y
+
+<span class="w">    </span><span class="c1"># Clean logs older than 30 days</span>
+<span class="w">    </span>find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+
+<span class="w">    </span><span class="c1"># Clean temporary files</span>
+<span class="w">    </span>find<span class="w"> </span>/tmp<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+7<span class="w"> </span>-delete
+<span class="w">    </span>find<span class="w"> </span>/var/tmp<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+7<span class="w"> </span>-delete
+
+<span class="w">    </span><span class="c1"># Clean user caches</span>
+<span class="w">    </span>find<span class="w"> </span>/home<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;.cache&quot;</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span>/thumbnails/*<span class="w"> </span><span class="se">\;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
+
+<span class="w">    </span><span class="c1"># Get final disk usage</span>
+<span class="w">    </span><span class="nv">final_usage</span><span class="o">=</span><span class="k">$(</span>df<span class="w"> </span>/<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $3}&#39;</span><span class="k">)</span>
+
+<span class="w">    </span><span class="c1"># Calculate space freed</span>
+<span class="w">    </span><span class="nv">space_freed</span><span class="o">=</span><span class="k">$((</span><span class="nv">initial_usage</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">final_usage</span><span class="k">))</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="s2">Cleanup completed. Space freed: </span><span class="si">${</span><span class="nv">space_freed</span><span class="si">}</span><span class="s2">KB</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;CLEANUP: Freed </span><span class="si">${</span><span class="nv">space_freed</span><span class="si">}</span><span class="s2">KB of disk space&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Generate disk report</span>
+generate_report<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nv">report_file</span><span class="o">=</span><span class="s2">&quot;/tmp/disk_report_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span><span class="s2">.txt&quot;</span>
+
+<span class="w">    </span><span class="o">{</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Disk Report for </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2"> - </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;==================================================&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Disk Usage:&quot;</span>
+<span class="w">        </span>df<span class="w"> </span>-h
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Largest Directories:&quot;</span>
+<span class="w">        </span>du<span class="w"> </span>-h<span class="w"> </span>/home<span class="w"> </span>/var<span class="w"> </span>/usr<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-hr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Mount Points:&quot;</span>
+<span class="w">        </span>mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;^/dev&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Block Devices:&quot;</span>
+<span class="w">        </span>lsblk
+
+<span class="w">    </span><span class="o">}</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_file</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="s2">Report generated: </span><span class="nv">$report_file</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="c1"># Email report if configured</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>mail<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$EMAIL_ALERT</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>cat<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Disk Report - </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$EMAIL_ALERT</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Main menu</span>
+<span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">help</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span><span class="s2">&quot;usage&quot;</span><span class="o">)</span>
+<span class="w">        </span>check_disk_usage
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span><span class="s2">&quot;health&quot;</span><span class="o">)</span>
+<span class="w">        </span>check_disk_health
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span><span class="s2">&quot;io&quot;</span><span class="o">)</span>
+<span class="w">        </span>monitor_io
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span><span class="s2">&quot;large&quot;</span><span class="o">)</span>
+<span class="w">        </span>find_large_files
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span><span class="s2">&quot;clean&quot;</span><span class="o">)</span>
+<span class="w">        </span>cleanup_temp
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span><span class="s2">&quot;report&quot;</span><span class="o">)</span>
+<span class="w">        </span>generate_report
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span><span class="s2">&quot;all&quot;</span><span class="o">)</span>
+<span class="w">        </span>check_disk_usage
+<span class="w">        </span>check_disk_health
+<span class="w">        </span>monitor_io
+<span class="w">        </span>find_large_files
+<span class="w">        </span><span class="p">;;</span>
+<span class="w">    </span><span class="s2">&quot;help&quot;</span><span class="p">|</span>*<span class="o">)</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Disk Monitor for Ubuntu 22.04&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> [option]&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Options:&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  usage  - Check disk usage&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  health - Check disk health (SMART)&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  io     - Monitor I/O performance&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  large  - Find large files&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  clean  - Clean temporary files&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  report - Generate comprehensive report&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  all    - Run all checks&quot;</span>
+<span class="w">        </span><span class="p">;;</span>
+<span class="k">esac</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices-for-disk-management">
+<h3>Best Practices for Disk Management<a class="headerlink" href="#best-practices-for-disk-management" title="Link to this heading"></a></h3>
+<section id="planning-and-strategy">
+<h4>Planning and Strategy<a class="headerlink" href="#planning-and-strategy" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Partition Strategy</strong>:</p>
+<ul class="simple">
+<li><p>Separate /home from root partition</p></li>
+<li><p>Use dedicated partitions for /var and /tmp</p></li>
+<li><p>Plan for future expansion</p></li>
+</ul>
+</li>
+<li><p><strong>Filesystem Selection</strong>:</p>
+<ul class="simple">
+<li><p>ext4: General purpose, reliable</p></li>
+<li><p>XFS: Large files and high performance</p></li>
+<li><p>Btrfs: Advanced features, snapshots</p></li>
+<li><p>ZFS: Enterprise features, data integrity</p></li>
+</ul>
+</li>
+<li><p><strong>Monitoring and Maintenance</strong>:</p>
+<ul class="simple">
+<li><p>Regular SMART checks</p></li>
+<li><p>Monitor disk usage trends</p></li>
+<li><p>Schedule regular filesystem checks</p></li>
+<li><p>Implement log rotation</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="ubuntu-22-04-optimization-tips">
+<h4>Ubuntu 22.04 Optimization Tips<a class="headerlink" href="#ubuntu-22-04-optimization-tips" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable automatic TRIM for SSDs</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>fstrim.timer
+
+<span class="c1"># Optimize mount options for performance</span>
+<span class="c1"># Add to /etc/fstab:</span>
+<span class="c1"># /dev/sda1 / ext4 defaults,noatime,discard 0 1</span>
+
+<span class="c1"># Configure I/O scheduler for SSDs</span>
+<span class="nb">echo</span><span class="w"> </span>none<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Set up monitoring</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>smartmontools<span class="w"> </span>sysstat
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>smartd
+
+<span class="c1"># Configure SMART monitoring</span>
+sudo<span class="w"> </span>vim<span class="w"> </span>/etc/smartd.conf
+<span class="c1"># Add: /dev/sda -a -o on -S on -s (S/../.././02|L/../../6/03)</span>
+</pre></div>
+</div>
+</section>
+<section id="security-and-recovery">
+<h4>Security and Recovery<a class="headerlink" href="#security-and-recovery" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Backup Strategy</strong>:</p>
+<ul class="simple">
+<li><p>Regular automated backups</p></li>
+<li><p>Test restoration procedures</p></li>
+<li><p>Offsite backup storage</p></li>
+<li><p>Document recovery procedures</p></li>
+</ul>
+</li>
+<li><p><strong>Access Control</strong>:</p>
+<ul class="simple">
+<li><p>Proper file permissions</p></li>
+<li><p>User and group management</p></li>
+<li><p>Audit trail logging</p></li>
+<li><p>Encryption for sensitive data</p></li>
+</ul>
+</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up automatic backups</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>rsync
+
+<span class="c1"># Create backup script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/usr/local/bin/backup.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+<span class="s">rsync -avz --delete /home/ /backup/home/</span>
+<span class="s">rsync -avz --delete /etc/ /backup/etc/</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/backup.sh
+
+<span class="c1"># Schedule with cron</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0 2 * * * /usr/local/bin/backup.sh&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>crontab<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="storage-overview.html" class="btn btn-neutral float-left" title="Storage Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="file-systems.html" class="btn btn-neutral float-right" title="File Systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Rameshkumar T S.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

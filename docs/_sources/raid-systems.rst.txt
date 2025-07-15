@@ -1,0 +1,1114 @@
+RAID Systems
+============
+
+Understanding RAID
+------------------
+
+RAID (Redundant Array of Independent Disks) is a technology that combines multiple disk drives into a single logical unit to improve performance, provide redundancy, or both. RAID systems are crucial for data protection and performance optimization in storage systems.
+
+What is RAID?
+~~~~~~~~~~~~~
+
+RAID provides:
+
+* **Data Redundancy**: Protection against disk failures
+* **Performance Improvement**: Faster read/write operations through parallelism
+* **Storage Efficiency**: Optimized use of available disk space
+* **Fault Tolerance**: Ability to continue operation despite disk failures
+* **Scalability**: Easy expansion of storage capacity
+
+RAID Levels Overview
+~~~~~~~~~~~~~~~~~~~
+
+Standard RAID Levels
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: text
+
+    RAID Level    | Description              | Min Disks | Fault Tolerance | Performance
+    --------------|--------------------------|-----------|-----------------|-------------
+    RAID 0        | Striping (no redundancy) | 2         | None           | High Read/Write
+    RAID 1        | Mirroring                | 2         | 1 disk failure | Good Read, Normal Write
+    RAID 5        | Striping with Parity     | 3         | 1 disk failure | Good Read, Moderate Write
+    RAID 6        | Double Parity           | 4         | 2 disk failures| Good Read, Lower Write
+    RAID 10       | Mirror + Stripe         | 4         | Multiple disks | High Read/Write
+
+RAID 0 - Striping
+^^^^^^^^^^^^^^^^^
+
+**Characteristics:**
+* Data is striped across multiple disks
+* No redundancy - failure of any disk results in total data loss
+* Excellent performance for both reads and writes
+* Full utilization of disk capacity
+
+**Use Cases:**
+* High-performance applications
+* Temporary data processing
+* Non-critical data requiring high speed
+
+.. code-block:: bash
+
+    # Create RAID 0 with mdadm
+    sudo mdadm --create /dev/md0 --level=0 --raid-devices=2 /dev/sdb /dev/sdc
+    
+    # Format and mount
+    sudo mkfs.ext4 /dev/md0
+    sudo mkdir /mnt/raid0
+    sudo mount /dev/md0 /mnt/raid0
+
+RAID 1 - Mirroring
+^^^^^^^^^^^^^^^^^^
+
+**Characteristics:**
+* Data is mirrored across multiple disks
+* Can survive failure of all but one disk
+* Read performance can be improved
+* Write performance is similar to single disk
+* 50% storage efficiency
+
+**Use Cases:**
+* Critical data requiring high availability
+* Operating system partitions
+* Database storage
+* Boot drives
+
+.. code-block:: bash
+
+    # Create RAID 1 with mdadm
+    sudo mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
+    
+    # Monitor RAID status
+    cat /proc/mdstat
+    
+    # Check RAID details
+    sudo mdadm --detail /dev/md1
+
+RAID 5 - Striping with Parity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Characteristics:**
+* Data and parity information striped across all disks
+* Can survive failure of one disk
+* Good read performance
+* Write performance penalty due to parity calculation
+* Storage efficiency: (n-1)/n where n is number of disks
+
+**Use Cases:**
+* General purpose storage
+* File servers
+* Backup storage
+* Cost-effective redundancy
+
+.. code-block:: bash
+
+    # Create RAID 5 with 3 disks
+    sudo mdadm --create /dev/md5 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd
+    
+    # Add spare disk
+    sudo mdadm --add /dev/md5 /dev/sde
+
+RAID 6 - Double Parity
+^^^^^^^^^^^^^^^^^^^^^^
+
+**Characteristics:**
+* Two parity blocks for each stripe
+* Can survive failure of two disks
+* Better fault tolerance than RAID 5
+* Lower write performance than RAID 5
+* Storage efficiency: (n-2)/n
+
+**Use Cases:**
+* Large disk arrays
+* Critical data with high availability requirements
+* Long rebuild times scenarios
+* Enterprise storage systems
+
+.. code-block:: bash
+
+    # Create RAID 6 with 4 disks
+    sudo mdadm --create /dev/md6 --level=6 --raid-devices=4 /dev/sdb /dev/sdc /dev/sdd /dev/sde
+
+RAID 10 - Mirror and Stripe
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Characteristics:**
+* Combines RAID 1 (mirroring) and RAID 0 (striping)
+* Excellent performance and redundancy
+* Can survive multiple disk failures (in different mirror sets)
+* 50% storage efficiency
+* Fast rebuild times
+
+**Use Cases:**
+* High-performance databases
+* Virtual machine storage
+* High-availability applications
+* Enterprise critical data
+
+.. code-block:: bash
+
+    # Create RAID 10 with 4 disks
+    sudo mdadm --create /dev/md10 --level=10 --raid-devices=4 /dev/sdb /dev/sdc /dev/sdd /dev/sde
+
+Setting Up RAID on Ubuntu 22.04
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Installing RAID Tools
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Install mdadm for software RAID
+    sudo apt update
+    sudo apt install mdadm
+
+    # Install additional tools
+    sudo apt install smartmontools hdparm parted
+
+    # Check available disks
+    sudo fdisk -l
+    lsblk
+
+Preparing Disks for RAID
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Wipe disk signatures (WARNING: This destroys data!)
+    sudo wipefs -a /dev/sdb
+    sudo wipefs -a /dev/sdc
+
+    # Create partitions (optional, can use whole disks)
+    sudo parted /dev/sdb mklabel gpt
+    sudo parted /dev/sdb mkpart primary 0% 100%
+    sudo parted /dev/sdb set 1 raid on
+
+    # Verify no existing RAID metadata
+    sudo mdadm --examine /dev/sdb
+    sudo mdadm --examine /dev/sdc
+
+Creating RAID Arrays
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Create RAID 1 array
+    sudo mdadm --create --verbose /dev/md0 \\
+        --level=1 \\
+        --raid-devices=2 \\
+        /dev/sdb /dev/sdc
+
+    # Create RAID 5 array with spare
+    sudo mdadm --create --verbose /dev/md1 \\
+        --level=5 \\
+        --raid-devices=3 \\
+        --spare-devices=1 \\
+        /dev/sdb /dev/sdc /dev/sdd /dev/sde
+
+    # Save RAID configuration
+    sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+
+    # Update initramfs
+    sudo update-initramfs -u
+
+RAID Management and Monitoring
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Monitoring RAID Status
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Check RAID status
+    cat /proc/mdstat
+
+    # Detailed RAID information
+    sudo mdadm --detail /dev/md0
+
+    # Monitor RAID in real-time
+    watch cat /proc/mdstat
+
+    # Check individual disk health
+    sudo smartctl -a /dev/sdb
+
+RAID Maintenance Operations
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Add a disk to RAID array
+    sudo mdadm --add /dev/md0 /dev/sdd
+
+    # Remove a disk from RAID array
+    sudo mdadm --remove /dev/md0 /dev/sdd
+
+    # Mark a disk as failed
+    sudo mdadm --fail /dev/md0 /dev/sdb
+
+    # Replace a failed disk
+    sudo mdadm --remove /dev/md0 /dev/sdb
+    # Physically replace disk
+    sudo mdadm --add /dev/md0 /dev/sdb
+
+    # Grow RAID array (add more disks)
+    sudo mdadm --grow /dev/md0 --raid-devices=3 --add /dev/sdd
+
+    # Reshape RAID array
+    sudo mdadm --grow /dev/md0 --level=6
+
+RAID Performance Optimization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Stripe Size Optimization
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Create RAID with custom chunk size
+    sudo mdadm --create /dev/md0 \\
+        --level=5 \\
+        --chunk=64 \\
+        --raid-devices=3 \\
+        /dev/sdb /dev/sdc /dev/sdd
+
+    # Test different chunk sizes for your workload
+    for chunk in 32 64 128 256 512; do
+        echo "Testing chunk size: $chunk"
+        # Create test array and measure performance
+    done
+
+I/O Scheduler Optimization
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Set I/O scheduler for RAID devices
+    echo mq-deadline | sudo tee /sys/block/md0/queue/scheduler
+
+    # Optimize readahead
+    sudo blockdev --setra 65536 /dev/md0
+
+    # Disable barriers for better performance (if UPS protected)
+    sudo mount -o barrier=0 /dev/md0 /mnt/raid
+
+Filesystem Considerations
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    # Align filesystem to RAID geometry
+    # For RAID 5 with 3 disks and 64K chunk size:
+    # Stripe width = (disks - parity) * chunk_size = 2 * 64K = 128K
+    
+    sudo mkfs.ext4 -E stride=16,stripe-width=32 /dev/md0
+
+    # For XFS on RAID
+    sudo mkfs.xfs -d su=65536,sw=2 /dev/md0
+
+Frequently Asked Questions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Q: Which RAID level should I choose for my use case?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Choose based on your priorities:
+
+.. code-block:: text
+
+    Priority              | Recommended RAID
+    ---------------------|------------------
+    Maximum Performance  | RAID 0 (no redundancy)
+    High Availability    | RAID 1 or RAID 10
+    Balanced Performance | RAID 5
+    Maximum Protection   | RAID 6
+    Performance + Safety | RAID 10
+
+Q: Can I convert between RAID levels?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Yes, but with limitations:
+
+.. code-block:: bash
+
+    # Convert RAID 1 to RAID 5 (requires adding disks first)
+    sudo mdadm --add /dev/md0 /dev/sdd
+    sudo mdadm --grow /dev/md0 --level=5 --raid-devices=3
+
+    # Convert RAID 5 to RAID 6
+    sudo mdadm --grow /dev/md0 --level=6 --raid-devices=4 --add /dev/sde
+
+    # Note: Always backup data before conversion!
+
+Q: How do I recover from a RAID failure?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Recovery steps depend on the failure type:
+
+.. code-block:: bash
+
+    # For single disk failure in RAID 1/5/6:
+    # 1. Replace failed disk
+    sudo mdadm --remove /dev/md0 /dev/sdb  # Remove failed disk
+    # 2. Add new disk
+    sudo mdadm --add /dev/md0 /dev/sdb
+
+    # For array corruption:
+    # 1. Stop array
+    sudo mdadm --stop /dev/md0
+    # 2. Assemble with force
+    sudo mdadm --assemble --force /dev/md0 /dev/sdb /dev/sdc
+
+    # For complete array loss:
+    # 1. Try to recreate array with same parameters
+    # 2. Use data recovery tools
+    # 3. Restore from backup
+
+Q: How do I monitor RAID health automatically?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**A:** Set up automated monitoring:
+
+.. code-block:: bash
+
+    # Configure mdadm monitoring
+    echo "MAILADDR admin@example.com" | sudo tee -a /etc/mdadm/mdadm.conf
+    
+    # Test email notification
+    sudo mdadm --monitor --test /dev/md0
+
+    # Set up continuous monitoring service
+    sudo systemctl enable mdmonitor
+    sudo systemctl start mdmonitor
+
+Coding Examples
+~~~~~~~~~~~~~~~
+
+Python RAID Monitoring Script
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    """
+    RAID monitoring and management script for Ubuntu 22.04
+    """
+    import subprocess
+    import re
+    import json
+    import time
+    import smtplib
+    from email.mime.text import MIMEText
+    from datetime import datetime
+
+    class RAIDMonitor:
+        def __init__(self):
+            self.raid_devices = self.discover_raid_devices()
+            
+        def discover_raid_devices(self):
+            """Discover all RAID devices on the system"""
+            try:
+                result = subprocess.run(['cat', '/proc/mdstat'], 
+                                      capture_output=True, text=True)
+                
+                devices = []
+                for line in result.stdout.split('\\n'):
+                    if line.startswith('md'):
+                        device_name = line.split()[0]
+                        devices.append(f'/dev/{device_name}')
+                
+                return devices
+            except Exception as e:
+                print(f"Error discovering RAID devices: {e}")
+                return []
+
+        def get_raid_status(self, device):
+            """Get detailed status of a RAID device"""
+            try:
+                result = subprocess.run(['mdadm', '--detail', device], 
+                                      capture_output=True, text=True)
+                
+                if result.returncode != 0:
+                    return {'error': f'Failed to get status for {device}'}
+                
+                status = {'device': device, 'healthy': True, 'details': {}}
+                
+                for line in result.stdout.split('\\n'):
+                    line = line.strip()
+                    
+                    if 'State :' in line:
+                        state = line.split(':', 1)[1].strip()
+                        status['details']['state'] = state
+                        if 'clean' not in state.lower():
+                            status['healthy'] = False
+                    
+                    elif 'RAID Level :' in line:
+                        status['details']['level'] = line.split(':', 1)[1].strip()
+                    
+                    elif 'Array Size :' in line:
+                        status['details']['size'] = line.split(':', 1)[1].strip()
+                    
+                    elif 'Used Dev Size :' in line:
+                        status['details']['used_size'] = line.split(':', 1)[1].strip()
+                    
+                    elif 'Active Devices :' in line:
+                        status['details']['active_devices'] = int(line.split(':', 1)[1].strip())
+                    
+                    elif 'Working Devices :' in line:
+                        status['details']['working_devices'] = int(line.split(':', 1)[1].strip())
+                    
+                    elif 'Failed Devices :' in line:
+                        failed = int(line.split(':', 1)[1].strip())
+                        status['details']['failed_devices'] = failed
+                        if failed > 0:
+                            status['healthy'] = False
+                
+                return status
+                
+            except Exception as e:
+                return {'device': device, 'error': str(e)}
+
+        def get_disk_health(self, device):
+            """Check individual disk health using SMART"""
+            try:
+                result = subprocess.run(['smartctl', '-H', device], 
+                                      capture_output=True, text=True)
+                
+                if 'PASSED' in result.stdout:
+                    return {'device': device, 'smart_status': 'PASSED', 'healthy': True}
+                else:
+                    return {'device': device, 'smart_status': 'FAILED', 'healthy': False}
+                    
+            except Exception as e:
+                return {'device': device, 'error': str(e)}
+
+        def check_array_sync(self, device):
+            """Check if array is currently syncing/rebuilding"""
+            try:
+                with open('/proc/mdstat', 'r') as f:
+                    content = f.read()
+                
+                device_name = device.split('/')[-1]
+                
+                for line in content.split('\\n'):
+                    if device_name in line:
+                        if 'resync' in line or 'recovery' in line or 'rebuild' in line:
+                            # Extract progress if available
+                            progress_match = re.search(r'\\[([^\\]]+)\\]', line)
+                            if progress_match:
+                                return {
+                                    'syncing': True,
+                                    'progress': progress_match.group(1),
+                                    'status': line.strip()
+                                }
+                            return {'syncing': True, 'status': line.strip()}
+                
+                return {'syncing': False}
+                
+            except Exception as e:
+                return {'error': str(e)}
+
+        def generate_report(self):
+            """Generate comprehensive RAID status report"""
+            report = {
+                'timestamp': datetime.now().isoformat(),
+                'hostname': subprocess.run(['hostname'], capture_output=True, text=True).stdout.strip(),
+                'raid_devices': [],
+                'overall_health': True
+            }
+            
+            for device in self.raid_devices:
+                device_status = self.get_raid_status(device)
+                sync_status = self.check_array_sync(device)
+                
+                device_report = {
+                    'device': device,
+                    'status': device_status,
+                    'sync': sync_status
+                }
+                
+                if not device_status.get('healthy', False):
+                    report['overall_health'] = False
+                
+                report['raid_devices'].append(device_report)
+            
+            return report
+
+        def send_alert(self, message, subject="RAID Alert"):
+            """Send email alert (requires SMTP configuration)"""
+            try:
+                # Configure SMTP settings
+                smtp_server = "localhost"
+                smtp_port = 587
+                from_email = "raid-monitor@localhost"
+                to_email = "admin@localhost"
+                
+                msg = MIMEText(message)
+                msg['Subject'] = subject
+                msg['From'] = from_email
+                msg['To'] = to_email
+                
+                server = smtplib.SMTP(smtp_server, smtp_port)
+                server.send_message(msg)
+                server.quit()
+                
+                return True
+            except Exception as e:
+                print(f"Failed to send alert: {e}")
+                return False
+
+        def monitor_continuous(self, interval=300):
+            """Continuous monitoring with specified interval (seconds)"""
+            print(f"Starting RAID monitoring (checking every {interval} seconds)")
+            
+            while True:
+                try:
+                    report = self.generate_report()
+                    
+                    if not report['overall_health']:
+                        alert_message = f"RAID Health Alert - {report['hostname']}\\n\\n"
+                        alert_message += json.dumps(report, indent=2)
+                        
+                        print(f"ALERT: RAID issues detected at {report['timestamp']}")
+                        self.send_alert(alert_message, "RAID Health Alert")
+                    else:
+                        print(f"All RAID devices healthy at {report['timestamp']}")
+                    
+                    time.sleep(interval)
+                    
+                except KeyboardInterrupt:
+                    print("\\nMonitoring stopped by user")
+                    break
+                except Exception as e:
+                    print(f"Error during monitoring: {e}")
+                    time.sleep(interval)
+
+    # Example usage and CLI interface
+    if __name__ == "__main__":
+        import argparse
+        
+        parser = argparse.ArgumentParser(description='RAID Monitoring Tool')
+        parser.add_argument('--monitor', action='store_true', help='Start continuous monitoring')
+        parser.add_argument('--report', action='store_true', help='Generate one-time report')
+        parser.add_argument('--device', help='Check specific device')
+        parser.add_argument('--interval', type=int, default=300, help='Monitoring interval in seconds')
+        
+        args = parser.parse_args()
+        
+        monitor = RAIDMonitor()
+        
+        if args.monitor:
+            monitor.monitor_continuous(args.interval)
+        elif args.report:
+            report = monitor.generate_report()
+            print(json.dumps(report, indent=2))
+        elif args.device:
+            status = monitor.get_raid_status(args.device)
+            print(json.dumps(status, indent=2))
+        else:
+            # Default: show brief status
+            for device in monitor.raid_devices:
+                status = monitor.get_raid_status(device)
+                health = "HEALTHY" if status.get('healthy', False) else "UNHEALTHY"
+                print(f"{device}: {health}")
+
+Bash RAID Management Script
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    #!/bin/bash
+    # raid_manager.sh - Comprehensive RAID management for Ubuntu 22.04
+
+    # Configuration
+    CONFIG_FILE="/etc/raid_manager.conf"
+    LOG_FILE="/var/log/raid_manager.log"
+    ALERT_EMAIL="admin@localhost"
+
+    # Colors for output
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[1;33m'
+    BLUE='\033[0;34m'
+    NC='\033[0m'
+
+    # Logging function
+    log_message() {
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
+    }
+
+    # Check if running as root
+    check_root() {
+        if [[ $EUID -ne 0 ]]; then
+            echo -e "${RED}This script must be run as root${NC}"
+            exit 1
+        fi
+    }
+
+    # Install required packages
+    install_dependencies() {
+        echo -e "${BLUE}Installing RAID dependencies...${NC}"
+        
+        apt update
+        apt install -y mdadm smartmontools parted gdisk mail-utils
+        
+        # Enable mdadm monitoring
+        systemctl enable mdmonitor
+        systemctl start mdmonitor
+        
+        log_message "RAID dependencies installed"
+    }
+
+    # Discover RAID devices
+    discover_raids() {
+        echo -e "${BLUE}=== Discovered RAID Devices ===${NC}"
+        
+        if [[ -f /proc/mdstat ]]; then
+            cat /proc/mdstat
+            echo ""
+            
+            # List detailed information for each device
+            for device in /dev/md*; do
+                if [[ -b "$device" ]]; then
+                    echo -e "${GREEN}Details for $device:${NC}"
+                    mdadm --detail "$device" 2>/dev/null | head -20
+                    echo ""
+                fi
+            done
+        else
+            echo "No RAID devices found"
+        fi
+    }
+
+    # Create RAID array
+    create_raid() {
+        local level="$1"
+        local devices="$2"
+        local array_name="$3"
+        
+        if [[ -z "$level" ]] || [[ -z "$devices" ]]; then
+            echo "Usage: create_raid <level> <device1,device2,...> [array_name]"
+            echo "Example: create_raid 1 /dev/sdb,/dev/sdc myraid"
+            return 1
+        fi
+        
+        local device_array=(${devices//,/ })
+        local device_count=${#device_array[@]}
+        local raid_device="/dev/md${array_name:-$(date +%s)}"
+        
+        echo -e "${YELLOW}Creating RAID $level with $device_count devices${NC}"
+        
+        # Validate RAID level and device count
+        case "$level" in
+            "0")
+                if [[ $device_count -lt 2 ]]; then
+                    echo -e "${RED}RAID 0 requires at least 2 devices${NC}"
+                    return 1
+                fi
+                ;;
+            "1")
+                if [[ $device_count -lt 2 ]]; then
+                    echo -e "${RED}RAID 1 requires at least 2 devices${NC}"
+                    return 1
+                fi
+                ;;
+            "5")
+                if [[ $device_count -lt 3 ]]; then
+                    echo -e "${RED}RAID 5 requires at least 3 devices${NC}"
+                    return 1
+                fi
+                ;;
+            "6")
+                if [[ $device_count -lt 4 ]]; then
+                    echo -e "${RED}RAID 6 requires at least 4 devices${NC}"
+                    return 1
+                fi
+                ;;
+            "10")
+                if [[ $device_count -lt 4 ]] || [[ $((device_count % 2)) -ne 0 ]]; then
+                    echo -e "${RED}RAID 10 requires at least 4 devices (even number)${NC}"
+                    return 1
+                fi
+                ;;
+            *)
+                echo -e "${RED}Unsupported RAID level: $level${NC}"
+                return 1
+                ;;
+        esac
+        
+        # Prepare devices
+        echo "Preparing devices..."
+        for device in "${device_array[@]}"; do
+            echo "Wiping $device..."
+            wipefs -a "$device"
+            
+            # Zero superblock if exists
+            mdadm --zero-superblock "$device" 2>/dev/null
+        done
+        
+        # Create RAID array
+        echo "Creating RAID array..."
+        if mdadm --create --verbose "$raid_device" \\
+            --level="$level" \\
+            --raid-devices="$device_count" \\
+            "${device_array[@]}"; then
+            
+            echo -e "${GREEN}RAID array created successfully: $raid_device${NC}"
+            
+            # Save configuration
+            mdadm --detail --scan >> /etc/mdadm/mdadm.conf
+            update-initramfs -u
+            
+            log_message "Created RAID $level array $raid_device with devices: $devices"
+            
+            # Wait for array to synchronize
+            echo "Waiting for initial synchronization..."
+            while grep -q "resync" /proc/mdstat; do
+                echo -n "."
+                sleep 5
+            done
+            echo ""
+            echo -e "${GREEN}Initial synchronization complete${NC}"
+            
+        else
+            echo -e "${RED}Failed to create RAID array${NC}"
+            return 1
+        fi
+    }
+
+    # Monitor RAID health
+    monitor_raid_health() {
+        echo -e "${BLUE}=== RAID Health Monitor ===${NC}"
+        
+        local unhealthy_found=false
+        
+        # Check each RAID device
+        for device in /dev/md*; do
+            if [[ -b "$device" ]]; then
+                echo "Checking $device..."
+                
+                # Get RAID status
+                local status=$(mdadm --detail "$device" 2>/dev/null | grep "State :" | awk '{print $3}')
+                
+                if [[ "$status" == "clean" ]]; then
+                    echo -e "${GREEN}$device: Healthy ($status)${NC}"
+                else
+                    echo -e "${RED}$device: Unhealthy ($status)${NC}"
+                    unhealthy_found=true
+                    
+                    # Get detailed information
+                    mdadm --detail "$device"
+                fi
+                
+                # Check for rebuild/resync
+                if grep -q "$(basename $device)" /proc/mdstat; then
+                    local sync_info=$(grep "$(basename $device)" /proc/mdstat | grep -E "(resync|rebuild|recovery)")
+                    if [[ -n "$sync_info" ]]; then
+                        echo -e "${YELLOW}$device: $sync_info${NC}"
+                    fi
+                fi
+                
+                echo ""
+            fi
+        done
+        
+        # Check individual disk health
+        echo -e "${BLUE}=== Individual Disk Health ===${NC}"
+        for device in /dev/sd[a-z]; do
+            if [[ -b "$device" ]]; then
+                local smart_status=$(smartctl -H "$device" 2>/dev/null | grep "SMART overall-health" | awk '{print $6}')
+                if [[ "$smart_status" == "PASSED" ]]; then
+                    echo -e "${GREEN}$device: SMART PASSED${NC}"
+                elif [[ "$smart_status" == "FAILED" ]]; then
+                    echo -e "${RED}$device: SMART FAILED${NC}"
+                    unhealthy_found=true
+                fi
+            fi
+        done
+        
+        # Send alert if issues found
+        if [[ "$unhealthy_found" == "true" ]]; then
+            log_message "RAID health issues detected"
+            send_alert "RAID health issues detected on $(hostname)"
+        fi
+    }
+
+    # Manage RAID device
+    manage_raid() {
+        local action="$1"
+        local device="$2"
+        local target="$3"
+        
+        case "$action" in
+            "add")
+                if [[ -z "$device" ]] || [[ -z "$target" ]]; then
+                    echo "Usage: manage_raid add <raid_device> <new_disk>"
+                    return 1
+                fi
+                
+                echo -e "${YELLOW}Adding $target to $device${NC}"
+                if mdadm --add "$device" "$target"; then
+                    echo -e "${GREEN}Disk added successfully${NC}"
+                    log_message "Added disk $target to $device"
+                else
+                    echo -e "${RED}Failed to add disk${NC}"
+                fi
+                ;;
+                
+            "remove")
+                if [[ -z "$device" ]] || [[ -z "$target" ]]; then
+                    echo "Usage: manage_raid remove <raid_device> <disk>"
+                    return 1
+                fi
+                
+                echo -e "${YELLOW}Removing $target from $device${NC}"
+                if mdadm --remove "$device" "$target"; then
+                    echo -e "${GREEN}Disk removed successfully${NC}"
+                    log_message "Removed disk $target from $device"
+                else
+                    echo -e "${RED}Failed to remove disk${NC}"
+                fi
+                ;;
+                
+            "fail")
+                if [[ -z "$device" ]] || [[ -z "$target" ]]; then
+                    echo "Usage: manage_raid fail <raid_device> <disk>"
+                    return 1
+                fi
+                
+                echo -e "${YELLOW}Marking $target as failed in $device${NC}"
+                if mdadm --fail "$device" "$target"; then
+                    echo -e "${GREEN}Disk marked as failed${NC}"
+                    log_message "Marked disk $target as failed in $device"
+                else
+                    echo -e "${RED}Failed to mark disk as failed${NC}"
+                fi
+                ;;
+                
+            "replace")
+                if [[ -z "$device" ]] || [[ -z "$target" ]]; then
+                    echo "Usage: manage_raid replace <raid_device> <old_disk> <new_disk>"
+                    echo "Note: old_disk should be failed first"
+                    return 1
+                fi
+                
+                local new_disk="$4"
+                if [[ -z "$new_disk" ]]; then
+                    echo "New disk not specified"
+                    return 1
+                fi
+                
+                echo -e "${YELLOW}Replacing $target with $new_disk in $device${NC}"
+                
+                # Remove failed disk
+                mdadm --remove "$device" "$target"
+                
+                # Add new disk
+                if mdadm --add "$device" "$new_disk"; then
+                    echo -e "${GREEN}Disk replacement initiated${NC}"
+                    log_message "Replaced disk $target with $new_disk in $device"
+                else
+                    echo -e "${RED}Failed to add replacement disk${NC}"
+                fi
+                ;;
+                
+            *)
+                echo "Available actions: add, remove, fail, replace"
+                ;;
+        esac
+    }
+
+    # Send email alert
+    send_alert() {
+        local message="$1"
+        
+        if command -v mail &> /dev/null; then
+            echo "$message" | mail -s "RAID Alert - $(hostname)" "$ALERT_EMAIL"
+            log_message "Alert sent: $message"
+        else
+            log_message "Alert (mail not configured): $message"
+        fi
+    }
+
+    # Performance test
+    test_raid_performance() {
+        local device="$1"
+        local test_file="$2"
+        
+        if [[ -z "$device" ]]; then
+            echo "Usage: test_raid_performance <device> [test_file]"
+            return 1
+        fi
+        
+        local mount_point="/mnt/raid_test"
+        local test_path="${test_file:-$mount_point/test_file}"
+        
+        echo -e "${BLUE}=== RAID Performance Test ===${NC}"
+        
+        # Mount if not already mounted
+        if ! mountpoint -q "$mount_point"; then
+            mkdir -p "$mount_point"
+            mount "$device" "$mount_point"
+        fi
+        
+        echo "Testing write performance..."
+        local write_speed=$(dd if=/dev/zero of="$test_path" bs=1M count=1024 2>&1 | grep "MB/s" | awk '{print $(NF-1) " " $NF}')
+        echo "Write speed: $write_speed"
+        
+        echo "Testing read performance..."
+        local read_speed=$(dd if="$test_path" of=/dev/null bs=1M 2>&1 | grep "MB/s" | awk '{print $(NF-1) " " $NF}')
+        echo "Read speed: $read_speed"
+        
+        # Cleanup
+        rm -f "$test_path"
+        
+        log_message "Performance test for $device - Write: $write_speed, Read: $read_speed"
+    }
+
+    # Main menu
+    case "${1:-help}" in
+        "install")
+            check_root
+            install_dependencies
+            ;;
+        "discover")
+            discover_raids
+            ;;
+        "create")
+            check_root
+            create_raid "$2" "$3" "$4"
+            ;;
+        "monitor")
+            monitor_raid_health
+            ;;
+        "manage")
+            check_root
+            manage_raid "$2" "$3" "$4" "$5"
+            ;;
+        "performance")
+            test_raid_performance "$2" "$3"
+            ;;
+        "help"|*)
+            echo "RAID Manager for Ubuntu 22.04"
+            echo "Usage: $0 [command] [options]"
+            echo ""
+            echo "Commands:"
+            echo "  install                           - Install RAID dependencies"
+            echo "  discover                          - Discover existing RAID devices"
+            echo "  create <level> <devices> [name]   - Create new RAID array"
+            echo "  monitor                           - Check RAID health"
+            echo "  manage <action> <device> <disk>   - Manage RAID devices"
+            echo "  performance <device> [file]       - Test RAID performance"
+            echo ""
+            echo "RAID Levels: 0, 1, 5, 6, 10"
+            echo "Manage Actions: add, remove, fail, replace"
+            echo ""
+            echo "Examples:"
+            echo "  $0 create 1 /dev/sdb,/dev/sdc mirror1"
+            echo "  $0 create 5 /dev/sdb,/dev/sdc,/dev/sdd stripe1"
+            echo "  $0 manage add /dev/md0 /dev/sde"
+            echo "  $0 manage replace /dev/md0 /dev/sdb /dev/sdf"
+            echo "  $0 performance /dev/md0"
+            ;;
+    esac
+
+Best Practices for RAID Implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Planning and Design
+^^^^^^^^^^^^^^^^^^^
+
+1. **Capacity Planning**:
+   
+   * Calculate usable capacity for each RAID level
+   * Plan for future expansion
+   * Consider spare drives for automatic rebuilds
+   * Account for rebuild times
+
+2. **Performance Considerations**:
+   
+   * Match disk speeds and sizes
+   * Use appropriate chunk sizes for workload
+   * Consider I/O patterns
+   * Plan for concurrent operations
+
+Hardware Considerations
+^^^^^^^^^^^^^^^^^^^^^^
+
+1. **Disk Selection**:
+   
+   .. code-block:: bash
+
+       # Check disk specifications
+       sudo hdparm -I /dev/sdb | grep -E "(Model|Serial|Capacity)"
+       
+       # Verify disks are identical
+       for disk in /dev/sd[b-d]; do
+           echo "=== $disk ==="
+           sudo smartctl -i $disk | grep -E "(Device Model|Serial Number|User Capacity)"
+       done
+
+2. **Controller Considerations**:
+   
+   * Hardware RAID vs Software RAID
+   * Battery-backed write cache
+   * Multiple controller support
+   * Hot-swap capability
+
+Monitoring and Maintenance
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. **Automated Monitoring**:
+   
+   .. code-block:: bash
+
+       # Set up email notifications
+       echo "MAILADDR admin@example.com" >> /etc/mdadm/mdadm.conf
+       
+       # Configure monitoring daemon
+       systemctl enable mdmonitor
+       
+       # Test notifications
+       mdadm --monitor --test /dev/md0
+
+2. **Regular Maintenance**:
+   
+   .. code-block:: bash
+
+       # Schedule regular RAID checks
+       echo "0 1 1 * * root echo check > /sys/block/md0/md/sync_action" >> /etc/crontab
+       
+       # Monitor rebuild progress
+       watch cat /proc/mdstat
+       
+       # Check SMART status regularly
+       for disk in /dev/sd[a-z]; do
+           smartctl -a $disk | grep -E "(Health|Temperature|Error)"
+       done
+
+Recovery and Disaster Planning
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. **Backup Strategy**:
+   
+   * RAID is not a backup solution
+   * Implement 3-2-1 backup rule
+   * Test restoration procedures
+   * Document recovery processes
+
+2. **Disaster Recovery**:
+   
+   .. code-block:: bash
+
+       # Save RAID configuration
+       mdadm --detail --scan > /etc/mdadm/mdadm.conf.backup
+       
+       # Create recovery documentation
+       cat > /root/raid_recovery.txt << 'EOF'
+       RAID Recovery Procedures:
+       
+       1. Boot from rescue media
+       2. Install mdadm: apt install mdadm
+       3. Scan for arrays: mdadm --assemble --scan
+       4. Force assembly if needed: mdadm --assemble --force /dev/md0 /dev/sdb /dev/sdc
+       5. Mount and check data
+       EOF

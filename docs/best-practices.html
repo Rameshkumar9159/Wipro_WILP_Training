@@ -1,0 +1,836 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Best Practices and Guidelines &mdash; Storage Systems and Data Management Guide 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Troubleshooting Guide" href="troubleshooting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Storage Systems and Data Management Guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Storage Fundamentals:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-overview.html">Storage Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk-management.html">Disk Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file-systems.html">File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-organization.html">Data Organization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Storage Concepts:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="raid-systems.html">RAID Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-storage.html">Network Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="volume-management.html">Volume Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage-devices.html">Storage Devices</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Practical Implementation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ubuntu-setup.html">Ubuntu 22.04 Setup and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-examples.html">Coding Examples and Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Best Practices and Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#storage-planning-and-design">Storage Planning and Design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#capacity-planning">Capacity Planning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filesystem-selection-guidelines">Filesystem Selection Guidelines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#partitioning-best-practices">Partitioning Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#partition-layout-strategy">Partition Layout Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#alignment-and-performance">Alignment and Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-best-practices">Security Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#encryption-at-rest">Encryption at Rest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#access-control-and-permissions">Access Control and Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#backup-and-recovery-strategies">Backup and Recovery Strategies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#backup-strategy-framework">Backup Strategy Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recovery-planning">Recovery Planning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-optimization">Performance Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#i-o-optimization">I/O Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-and-cache-optimization">Memory and Cache Optimization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-and-alerting">Monitoring and Alerting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#proactive-monitoring">Proactive Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#maintenance-procedures">Maintenance Procedures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#regular-maintenance-tasks">Regular Maintenance Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation-and-change-management">Documentation and Change Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#documentation-standards">Documentation Standards</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#common-command-abbreviations">Common Command Abbreviations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#storage-unit-definitions">Storage Unit Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#raid-levels-reference">RAID Levels Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#network-storage-protocols">Network Storage Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#file-system-features">File System Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads and Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Storage Systems and Data Management Guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Best Practices and Guidelines</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/best-practices.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="best-practices-and-guidelines">
+<h1>Best Practices and Guidelines<a class="headerlink" href="#best-practices-and-guidelines" title="Link to this heading"></a></h1>
+<p>This section outlines industry best practices and proven guidelines for storage management on Ubuntu 22.04.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#storage-planning-and-design" id="id1">Storage Planning and Design</a></p>
+<ul>
+<li><p><a class="reference internal" href="#capacity-planning" id="id2">Capacity Planning</a></p></li>
+<li><p><a class="reference internal" href="#filesystem-selection-guidelines" id="id3">Filesystem Selection Guidelines</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#partitioning-best-practices" id="id4">Partitioning Best Practices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#partition-layout-strategy" id="id5">Partition Layout Strategy</a></p></li>
+<li><p><a class="reference internal" href="#alignment-and-performance" id="id6">Alignment and Performance</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#security-best-practices" id="id7">Security Best Practices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#encryption-at-rest" id="id8">Encryption at Rest</a></p></li>
+<li><p><a class="reference internal" href="#access-control-and-permissions" id="id9">Access Control and Permissions</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#backup-and-recovery-strategies" id="id10">Backup and Recovery Strategies</a></p>
+<ul>
+<li><p><a class="reference internal" href="#backup-strategy-framework" id="id11">Backup Strategy Framework</a></p></li>
+<li><p><a class="reference internal" href="#recovery-planning" id="id12">Recovery Planning</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#performance-optimization" id="id13">Performance Optimization</a></p>
+<ul>
+<li><p><a class="reference internal" href="#i-o-optimization" id="id14">I/O Optimization</a></p></li>
+<li><p><a class="reference internal" href="#memory-and-cache-optimization" id="id15">Memory and Cache Optimization</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#monitoring-and-alerting" id="id16">Monitoring and Alerting</a></p>
+<ul>
+<li><p><a class="reference internal" href="#proactive-monitoring" id="id17">Proactive Monitoring</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#maintenance-procedures" id="id18">Maintenance Procedures</a></p>
+<ul>
+<li><p><a class="reference internal" href="#regular-maintenance-tasks" id="id19">Regular Maintenance Tasks</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#documentation-and-change-management" id="id20">Documentation and Change Management</a></p>
+<ul>
+<li><p><a class="reference internal" href="#documentation-standards" id="id21">Documentation Standards</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="storage-planning-and-design">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Storage Planning and Design</a><a class="headerlink" href="#storage-planning-and-design" title="Link to this heading"></a></h2>
+<section id="capacity-planning">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Capacity Planning</a><a class="headerlink" href="#capacity-planning" title="Link to this heading"></a></h3>
+<p><strong>Growth Assessment:</strong></p>
+<ul class="simple">
+<li><p>Plan for 3-5 years of growth</p></li>
+<li><p>Account for data growth rates: 20-40% annually for typical business environments</p></li>
+<li><p>Include overhead for snapshots, backups, and temporary files</p></li>
+<li><p>Reserve 10-15% free space for optimal performance</p></li>
+</ul>
+<p><strong>Performance Requirements:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark current workload</span>
+iotop<span class="w"> </span>-a<span class="w"> </span>-o<span class="w"> </span>-d<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+
+<span class="c1"># Monitor I/O patterns</span>
+iostat<span class="w"> </span>-x<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>io-analysis.log
+
+<span class="c1"># Calculate IOPS requirements</span>
+<span class="c1"># Sequential workloads: 100-500 IOPS</span>
+<span class="c1"># Random workloads: 1000-10000+ IOPS</span>
+<span class="c1"># Database workloads: 5000-50000+ IOPS</span>
+</pre></div>
+</div>
+<p><strong>Storage Hierarchy Design:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Hot Data</strong> (frequently accessed)
+- NVMe SSD for highest performance
+- Direct attachment or high-speed SAN</p></li>
+<li><p><strong>Warm Data</strong> (regularly accessed)
+- SATA SSD or high-performance HDD
+- Network storage with good connectivity</p></li>
+<li><p><strong>Cold Data</strong> (archival/backup)
+- High-capacity HDD
+- Object storage or tape for long-term retention</p></li>
+</ol>
+</section>
+<section id="filesystem-selection-guidelines">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Filesystem Selection Guidelines</a><a class="headerlink" href="#filesystem-selection-guidelines" title="Link to this heading"></a></h3>
+<p><strong>Ext4 - General Purpose:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optimal for most workloads</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>-E<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">32</span>,stripe-width<span class="o">=</span><span class="m">64</span><span class="w"> </span>/dev/sdX1
+
+<span class="c1"># Mount options for performance</span>
+mount<span class="w"> </span>-o<span class="w"> </span>noatime,nodiratime,data<span class="o">=</span>writeback<span class="w"> </span>/dev/sdX1<span class="w"> </span>/mnt
+</pre></div>
+</div>
+<p><em>Use Cases:</em> Boot partitions, general file storage, databases with simple requirements</p>
+<p><strong>XFS - High Performance:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create with optimal settings</span>
+sudo<span class="w"> </span>mkfs.xfs<span class="w"> </span>-f<span class="w"> </span>-s<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">4096</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">agcount</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>/dev/sdX1
+
+<span class="c1"># Mount with performance options</span>
+mount<span class="w"> </span>-o<span class="w"> </span>noatime,logbsize<span class="o">=</span>256k,largeio<span class="w"> </span>/dev/sdX1<span class="w"> </span>/mnt
+</pre></div>
+</div>
+<p><em>Use Cases:</em> Large files, high-throughput applications, media streaming</p>
+<p><strong>Btrfs - Advanced Features:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create with metadata redundancy</span>
+sudo<span class="w"> </span>mkfs.btrfs<span class="w"> </span>-m<span class="w"> </span>raid1<span class="w"> </span>-d<span class="w"> </span>single<span class="w"> </span>/dev/sdX1<span class="w"> </span>/dev/sdX2
+
+<span class="c1"># Enable compression</span>
+mount<span class="w"> </span>-o<span class="w"> </span><span class="nv">compress</span><span class="o">=</span>zstd,noatime<span class="w"> </span>/dev/sdX1<span class="w"> </span>/mnt
+</pre></div>
+</div>
+<p><em>Use Cases:</em> Development environments, systems requiring snapshots, data integrity critical applications</p>
+<p><strong>ZFS - Enterprise Features:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install ZFS</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>zfsutils-linux
+
+<span class="c1"># Create pool with redundancy</span>
+sudo<span class="w"> </span>zpool<span class="w"> </span>create<span class="w"> </span>-o<span class="w"> </span><span class="nv">ashift</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>tank<span class="w"> </span>raidz2<span class="w"> </span>/dev/sd<span class="o">[</span>abcd<span class="o">]</span><span class="m">1</span>
+
+<span class="c1"># Create filesystem with compression</span>
+sudo<span class="w"> </span>zfs<span class="w"> </span>create<span class="w"> </span>-o<span class="w"> </span><span class="nv">compression</span><span class="o">=</span>lz4<span class="w"> </span>tank/data
+</pre></div>
+</div>
+<p><em>Use Cases:</em> Enterprise storage, virtualization, backup systems</p>
+</section>
+</section>
+<section id="partitioning-best-practices">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Partitioning Best Practices</a><a class="headerlink" href="#partitioning-best-practices" title="Link to this heading"></a></h2>
+<section id="partition-layout-strategy">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Partition Layout Strategy</a><a class="headerlink" href="#partition-layout-strategy" title="Link to this heading"></a></h3>
+<p><strong>Standard Desktop/Server Layout:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create GPT partition table</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mklabel<span class="w"> </span>gpt
+
+<span class="c1"># UEFI boot partition (512MB)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>fat32<span class="w"> </span>1MiB<span class="w"> </span>513MiB
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>esp<span class="w"> </span>on
+
+<span class="c1"># Root partition (20-50GB minimum)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>513MiB<span class="w"> </span>50GiB
+
+<span class="c1"># Home partition (remaining space)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>50GiB<span class="w"> </span><span class="m">100</span>%
+</pre></div>
+</div>
+<p><strong>Server Layout with Separate Partitions:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boot partition (1GB)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>1MiB<span class="w"> </span>1GiB
+
+<span class="c1"># Root partition (20GB)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>1GiB<span class="w"> </span>21GiB
+
+<span class="c1"># Var partition (10GB minimum)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>21GiB<span class="w"> </span>31GiB
+
+<span class="c1"># Home partition (as needed)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>31GiB<span class="w"> </span>131GiB
+
+<span class="c1"># Tmp partition (5GB)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>131GiB<span class="w"> </span>136GiB
+</pre></div>
+</div>
+<p><strong>LVM-based Layout:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create LVM partition</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>513MiB<span class="w"> </span><span class="m">100</span>%
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>lvm<span class="w"> </span>on
+
+<span class="c1"># Initialize LVM</span>
+sudo<span class="w"> </span>pvcreate<span class="w"> </span>/dev/sdX2
+sudo<span class="w"> </span>vgcreate<span class="w"> </span>vg0<span class="w"> </span>/dev/sdX2
+
+<span class="c1"># Create logical volumes</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>20G<span class="w"> </span>-n<span class="w"> </span>root<span class="w"> </span>vg0
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>10G<span class="w"> </span>-n<span class="w"> </span>var<span class="w"> </span>vg0
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>50G<span class="w"> </span>-n<span class="w"> </span>home<span class="w"> </span>vg0
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>4G<span class="w"> </span>-n<span class="w"> </span>swap<span class="w"> </span>vg0
+</pre></div>
+</div>
+</section>
+<section id="alignment-and-performance">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Alignment and Performance</a><a class="headerlink" href="#alignment-and-performance" title="Link to this heading"></a></h3>
+<p><strong>Sector Alignment:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check disk sector size</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w"> </span>/dev/sdX<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Sector size&quot;</span>
+
+<span class="c1"># For 4K sectors, align to 4096-byte boundaries</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>4096s<span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># For SSDs, align to 1MiB boundaries</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdX<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>1MiB<span class="w"> </span><span class="m">100</span>%
+</pre></div>
+</div>
+</section>
+</section>
+<section id="security-best-practices">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Security Best Practices</a><a class="headerlink" href="#security-best-practices" title="Link to this heading"></a></h2>
+<section id="encryption-at-rest">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Encryption at Rest</a><a class="headerlink" href="#encryption-at-rest" title="Link to this heading"></a></h3>
+<p><strong>LUKS Full Disk Encryption:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Encrypt partition</span>
+sudo<span class="w"> </span>cryptsetup<span class="w"> </span>luksFormat<span class="w"> </span>/dev/sdX1
+
+<span class="c1"># Open encrypted device</span>
+sudo<span class="w"> </span>cryptsetup<span class="w"> </span>luksOpen<span class="w"> </span>/dev/sdX1<span class="w"> </span>encrypted_root
+
+<span class="c1"># Format encrypted device</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/mapper/encrypted_root
+
+<span class="c1"># Add to crypttab</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;encrypted_root /dev/sdX1 none luks&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/crypttab
+</pre></div>
+</div>
+<p><strong>Directory-level Encryption:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install eCryptfs</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ecryptfs-utils
+
+<span class="c1"># Encrypt home directory</span>
+sudo<span class="w"> </span>ecryptfs-migrate-home<span class="w"> </span>-u<span class="w"> </span>username
+
+<span class="c1"># Or encrypt specific directories</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>ecryptfs<span class="w"> </span>/secure<span class="w"> </span>/secure
+</pre></div>
+</div>
+</section>
+<section id="access-control-and-permissions">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Access Control and Permissions</a><a class="headerlink" href="#access-control-and-permissions" title="Link to this heading"></a></h3>
+<p><strong>Principle of Least Privilege:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set restrictive default permissions</span>
+<span class="nb">umask</span><span class="w"> </span><span class="m">027</span>
+
+<span class="c1"># Use groups for shared access</span>
+sudo<span class="w"> </span>groupadd<span class="w"> </span>storage-users
+sudo<span class="w"> </span>usermod<span class="w"> </span>-a<span class="w"> </span>-G<span class="w"> </span>storage-users<span class="w"> </span>username
+
+<span class="c1"># Set group ownership and permissions</span>
+sudo<span class="w"> </span>chgrp<span class="w"> </span>-R<span class="w"> </span>storage-users<span class="w"> </span>/shared/storage
+sudo<span class="w"> </span>chmod<span class="w"> </span>-R<span class="w"> </span><span class="m">750</span><span class="w"> </span>/shared/storage
+</pre></div>
+</div>
+<p><strong>File System Extended Attributes:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable ACLs on filesystem</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>remount,acl<span class="w"> </span>/dev/sdX1
+
+<span class="c1"># Set Access Control Lists</span>
+setfacl<span class="w"> </span>-m<span class="w"> </span>u:username:rw<span class="w"> </span>/secure/file.txt
+setfacl<span class="w"> </span>-m<span class="w"> </span>g:groupname:r<span class="w"> </span>/secure/directory
+
+<span class="c1"># View ACLs</span>
+getfacl<span class="w"> </span>/secure/file.txt
+</pre></div>
+</div>
+<p><strong>Immutable Files:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make file immutable</span>
+sudo<span class="w"> </span>chattr<span class="w"> </span>+i<span class="w"> </span>/critical/config.file
+
+<span class="c1"># Make file append-only</span>
+sudo<span class="w"> </span>chattr<span class="w"> </span>+a<span class="w"> </span>/var/log/audit.log
+
+<span class="c1"># View attributes</span>
+lsattr<span class="w"> </span>/critical/config.file
+</pre></div>
+</div>
+</section>
+</section>
+<section id="backup-and-recovery-strategies">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Backup and Recovery Strategies</a><a class="headerlink" href="#backup-and-recovery-strategies" title="Link to this heading"></a></h2>
+<section id="backup-strategy-framework">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Backup Strategy Framework</a><a class="headerlink" href="#backup-strategy-framework" title="Link to this heading"></a></h3>
+<p><strong>3-2-1 Rule Implementation:</strong></p>
+<ul class="simple">
+<li><p><strong>3</strong> copies of important data</p></li>
+<li><p><strong>2</strong> different storage media types</p></li>
+<li><p><strong>1</strong> copy stored off-site</p></li>
+</ul>
+<p><strong>Backup Types and Schedule:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full backup (weekly)</span>
+tar<span class="w"> </span>-czf<span class="w"> </span>/backup/full-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.gz<span class="w"> </span>/home<span class="w"> </span>/etc<span class="w"> </span>/var/log
+
+<span class="c1"># Incremental backup (daily)</span>
+rsync<span class="w"> </span>-av<span class="w"> </span>--link-dest<span class="o">=</span>/backup/last-backup<span class="w"> </span>/home/<span class="w"> </span>/backup/incremental-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>/
+
+<span class="c1"># Differential backup (daily)</span>
+tar<span class="w"> </span>-czf<span class="w"> </span>/backup/diff-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.gz<span class="w"> </span>--newer-mtime<span class="o">=</span><span class="s2">&quot;1 day ago&quot;</span><span class="w"> </span>/home
+</pre></div>
+</div>
+<p><strong>Automated Backup Script:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># /usr/local/bin/backup-manager.sh</span>
+
+<span class="nv">BACKUP_ROOT</span><span class="o">=</span><span class="s2">&quot;/backup&quot;</span>
+<span class="nv">SOURCE_DIRS</span><span class="o">=</span><span class="s2">&quot;/home /etc /var/log&quot;</span>
+<span class="nv">RETENTION_DAYS</span><span class="o">=</span><span class="m">30</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/var/log/backup.log&quot;</span>
+
+log_message<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2"> - </span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+perform_backup<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">backup_type</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">backup_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$BACKUP_ROOT</span><span class="s2">/</span><span class="nv">$backup_type</span><span class="s2">-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_type</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">        </span><span class="s2">&quot;full&quot;</span><span class="o">)</span>
+<span class="w">            </span>tar<span class="w"> </span>-czf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">/system.tar.gz&quot;</span><span class="w"> </span><span class="nv">$SOURCE_DIRS</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;incremental&quot;</span><span class="o">)</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">last_backup</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_ROOT</span><span class="s2">&quot;</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;incremental-*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1<span class="k">)</span>
+<span class="w">            </span>rsync<span class="w"> </span>-av<span class="w"> </span>--link-dest<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$last_backup</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$SOURCE_DIRS</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">/&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">    </span><span class="k">esac</span>
+
+<span class="w">    </span><span class="c1"># Create checksum</span>
+<span class="w">    </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">&quot;</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-exec<span class="w"> </span>sha256sum<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">/checksums.sha256&quot;</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Backup completed: </span><span class="nv">$backup_dir</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+cleanup_old_backups<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_ROOT</span><span class="s2">&quot;</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$RETENTION_DAYS</span><span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Cleaned up backups older than </span><span class="nv">$RETENTION_DAYS</span><span class="s2"> days&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Run backup based on day of week</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span>+%u<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>perform_backup<span class="w"> </span><span class="s2">&quot;full&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>perform_backup<span class="w"> </span><span class="s2">&quot;incremental&quot;</span>
+<span class="k">fi</span>
+
+cleanup_old_backups
+</pre></div>
+</div>
+<p><strong>Backup Verification:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify backup integrity</span>
+<span class="c1">#!/bin/bash</span>
+verify_backup<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">backup_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="c1"># Check checksums</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">&quot;</span>
+<span class="w">    </span>sha256sum<span class="w"> </span>-c<span class="w"> </span>checksums.sha256
+
+<span class="w">    </span><span class="c1"># Test archive extraction</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span>system.tar.gz<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>tar<span class="w"> </span>-tzf<span class="w"> </span>system.tar.gz<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Archive OK&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Archive CORRUPTED&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Check file count</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">file_count</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Files in backup: </span><span class="nv">$file_count</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="recovery-planning">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Recovery Planning</a><a class="headerlink" href="#recovery-planning" title="Link to this heading"></a></h3>
+<p><strong>Recovery Time Objective (RTO) and Recovery Point Objective (RPO):</strong></p>
+<ul class="simple">
+<li><p><strong>Critical Systems:</strong> RTO &lt; 4 hours, RPO &lt; 1 hour</p></li>
+<li><p><strong>Important Systems:</strong> RTO &lt; 24 hours, RPO &lt; 4 hours</p></li>
+<li><p><strong>Standard Systems:</strong> RTO &lt; 72 hours, RPO &lt; 24 hours</p></li>
+</ul>
+<p><strong>Disaster Recovery Procedures:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create disaster recovery documentation</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/disaster-recovery.md<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s"># Disaster Recovery Procedures</span>
+
+<span class="s">## Critical Information</span>
+<span class="s">- Backup Location: /backup and remote://backup-server/</span>
+<span class="s">- Recovery Media: Ubuntu 22.04 Live USB</span>
+<span class="s">- Key Personnel: admin@company.com, +1-555-0123</span>
+
+<span class="s">## Recovery Steps</span>
+<span class="s">1. Boot from recovery media</span>
+<span class="s">2. Identify storage devices: `lsblk`</span>
+<span class="s">3. Mount backup location</span>
+<span class="s">4. Restore from most recent backup</span>
+<span class="s">5. Verify system integrity</span>
+<span class="s">6. Update disaster recovery log</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-optimization">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Performance Optimization</a><a class="headerlink" href="#performance-optimization" title="Link to this heading"></a></h2>
+<section id="i-o-optimization">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">I/O Optimization</a><a class="headerlink" href="#i-o-optimization" title="Link to this heading"></a></h3>
+<p><strong>I/O Scheduler Tuning:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check current scheduler</span>
+cat<span class="w"> </span>/sys/block/sdX/queue/scheduler
+
+<span class="c1"># Set optimal scheduler per device type</span>
+<span class="c1"># For SSDs</span>
+<span class="nb">echo</span><span class="w"> </span>none<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/nvme0n1/queue/scheduler
+
+<span class="c1"># For HDDs</span>
+<span class="nb">echo</span><span class="w"> </span>mq-deadline<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Make permanent</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;ACTION==&quot;add|change&quot;, KERNEL==&quot;sd[a-z]*&quot;, ATTR{queue/rotational}==&quot;0&quot;, ATTR{queue/scheduler}=&quot;none&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/udev/rules.d/60-ssd-scheduler.rules
+</pre></div>
+</div>
+<p><strong>Read-ahead Optimization:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check current read-ahead</span>
+sudo<span class="w"> </span>blockdev<span class="w"> </span>--getra<span class="w"> </span>/dev/sdX
+
+<span class="c1"># Set read-ahead for sequential workloads</span>
+sudo<span class="w"> </span>blockdev<span class="w"> </span>--setra<span class="w"> </span><span class="m">4096</span><span class="w"> </span>/dev/sdX<span class="w">  </span><span class="c1"># For large files</span>
+sudo<span class="w"> </span>blockdev<span class="w"> </span>--setra<span class="w"> </span><span class="m">256</span><span class="w"> </span>/dev/sdX<span class="w">   </span><span class="c1"># For random access</span>
+</pre></div>
+</div>
+<p><strong>Mount Options for Performance:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># High-performance mount options</span>
+<span class="c1"># /etc/fstab entries:</span>
+
+<span class="c1"># For databases (ext4)</span>
+/dev/mapper/db-data<span class="w"> </span>/var/lib/mysql<span class="w"> </span>ext4<span class="w"> </span>noatime,nodiratime,data<span class="o">=</span>writeback,barrier<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">2</span>
+
+<span class="c1"># For web servers (ext4)</span>
+/dev/mapper/web-data<span class="w"> </span>/var/www<span class="w"> </span>ext4<span class="w"> </span>noatime,nodiratime,data<span class="o">=</span>ordered<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">2</span>
+
+<span class="c1"># For temporary files</span>
+tmpfs<span class="w"> </span>/tmp<span class="w"> </span>tmpfs<span class="w"> </span>defaults,noatime,size<span class="o">=</span>2G<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-and-cache-optimization">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Memory and Cache Optimization</a><a class="headerlink" href="#memory-and-cache-optimization" title="Link to this heading"></a></h3>
+<p><strong>File System Cache Tuning:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Adjust dirty page writeback</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/proc/sys/vm/dirty_ratio
+<span class="nb">echo</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/proc/sys/vm/dirty_background_ratio
+
+<span class="c1"># Reduce swappiness for database servers</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/proc/sys/vm/swappiness
+
+<span class="c1"># Make changes permanent</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;vm.dirty_ratio = 5&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/sysctl.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;vm.dirty_background_ratio = 2&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/sysctl.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;vm.swappiness = 1&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/sysctl.conf
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-and-alerting">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Monitoring and Alerting</a><a class="headerlink" href="#monitoring-and-alerting" title="Link to this heading"></a></h2>
+<section id="proactive-monitoring">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Proactive Monitoring</a><a class="headerlink" href="#proactive-monitoring" title="Link to this heading"></a></h3>
+<p><strong>Key Metrics to Monitor:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Storage Capacity:</strong> Disk usage, inode usage, growth trends</p></li>
+<li><p><strong>Performance:</strong> IOPS, throughput, latency, queue depth</p></li>
+<li><p><strong>Health:</strong> SMART status, error rates, temperature</p></li>
+<li><p><strong>Availability:</strong> Mount status, filesystem errors, RAID status</p></li>
+</ol>
+<p><strong>Monitoring Script:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># /usr/local/bin/storage-monitor.sh</span>
+
+<span class="nv">ALERT_EMAIL</span><span class="o">=</span><span class="s2">&quot;admin@company.com&quot;</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/var/log/storage-monitor.log&quot;</span>
+
+<span class="c1"># Thresholds</span>
+<span class="nv">DISK_USAGE_WARN</span><span class="o">=</span><span class="m">80</span>
+<span class="nv">DISK_USAGE_CRIT</span><span class="o">=</span><span class="m">90</span>
+<span class="nv">INODE_USAGE_WARN</span><span class="o">=</span><span class="m">80</span>
+<span class="nv">LOAD_WARN</span><span class="o">=</span><span class="m">2</span>.0
+
+send_alert<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">subject</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$message</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$subject</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ALERT_EMAIL</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: ALERT - </span><span class="nv">$subject</span><span class="s2"> - </span><span class="nv">$message</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+check_disk_usage<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>filesystem<span class="w"> </span>size<span class="w"> </span>used<span class="w"> </span>avail<span class="w"> </span>percent<span class="w"> </span>mountpoint<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$percent</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span><span class="o">([</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">)</span>%<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nv">usage</span><span class="o">=</span><span class="si">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="si">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$usage</span><span class="s2">&quot;</span><span class="w"> </span>-gt<span class="w"> </span><span class="nv">$DISK_USAGE_CRIT</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span>send_alert<span class="w"> </span><span class="s2">&quot;CRITICAL: Disk Usage&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mountpoint</span><span class="s2"> is </span><span class="si">${</span><span class="nv">usage</span><span class="si">}</span><span class="s2">% full&quot;</span>
+<span class="w">            </span><span class="k">elif</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$usage</span><span class="s2">&quot;</span><span class="w"> </span>-gt<span class="w"> </span><span class="nv">$DISK_USAGE_WARN</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span>send_alert<span class="w"> </span><span class="s2">&quot;WARNING: Disk Usage&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mountpoint</span><span class="s2"> is </span><span class="si">${</span><span class="nv">usage</span><span class="si">}</span><span class="s2">% full&quot;</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+check_smart_status<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>device<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev/sd<span class="o">[</span>a-z<span class="o">]</span><span class="w"> </span>/dev/nvme<span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>n<span class="o">[</span><span class="m">0</span>-9<span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>smartctl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;PASSED&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span>send_alert<span class="w"> </span><span class="s2">&quot;CRITICAL: SMART Failure&quot;</span><span class="w"> </span><span class="s2">&quot;Device </span><span class="nv">$device</span><span class="s2"> failed SMART test&quot;</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+check_raid_status<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span>/proc/mdstat<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;_&quot;</span><span class="w"> </span>/proc/mdstat<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span>send_alert<span class="w"> </span><span class="s2">&quot;WARNING: RAID Degraded&quot;</span><span class="w"> </span><span class="s2">&quot;Software RAID array is degraded&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Run checks</span>
+check_disk_usage
+check_smart_status
+check_raid_status
+</pre></div>
+</div>
+<p><strong>Automated Health Reports:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Daily storage health report</span>
+
+<span class="nv">REPORT_FILE</span><span class="o">=</span><span class="s2">&quot;/tmp/daily-storage-report.txt&quot;</span>
+
+<span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Daily Storage Health Report - </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;===========================================&quot;</span>
+<span class="w">    </span><span class="nb">echo</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;DISK USAGE:&quot;</span>
+<span class="w">    </span>df<span class="w"> </span>-h
+<span class="w">    </span><span class="nb">echo</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;INODE USAGE:&quot;</span>
+<span class="w">    </span>df<span class="w"> </span>-i
+<span class="w">    </span><span class="nb">echo</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SYSTEM LOAD:&quot;</span>
+<span class="w">    </span>uptime
+<span class="w">    </span><span class="nb">echo</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;I/O STATISTICS (last hour):&quot;</span>
+<span class="w">    </span>sar<span class="w"> </span>-d<span class="w"> </span>-s<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;1 hour ago&#39;</span><span class="w"> </span><span class="s1">&#39;+%H:%M:%S&#39;</span><span class="k">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20
+<span class="w">    </span><span class="nb">echo</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;RAID STATUS:&quot;</span>
+<span class="w">    </span>cat<span class="w"> </span>/proc/mdstat<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No software RAID detected&quot;</span>
+<span class="w">    </span><span class="nb">echo</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SMART STATUS:&quot;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>device<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev/sd<span class="o">[</span>a-z<span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">: </span><span class="k">$(</span>smartctl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>overall<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="o">}</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPORT_FILE</span><span class="s2">&quot;</span>
+
+<span class="c1"># Email report</span>
+mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Daily Storage Report - </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>admin@company.com<span class="w"> </span>&lt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPORT_FILE</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="maintenance-procedures">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Maintenance Procedures</a><a class="headerlink" href="#maintenance-procedures" title="Link to this heading"></a></h2>
+<section id="regular-maintenance-tasks">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Regular Maintenance Tasks</a><a class="headerlink" href="#regular-maintenance-tasks" title="Link to this heading"></a></h3>
+<p><strong>Weekly Tasks:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Weekly maintenance script</span>
+
+<span class="c1"># SMART tests</span>
+<span class="k">for</span><span class="w"> </span>device<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev/sd<span class="o">[</span>a-z<span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>smartctl<span class="w"> </span>-t<span class="w"> </span>long<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">done</span>
+
+<span class="c1"># Filesystem checks</span>
+find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span>-size<span class="w"> </span>+100M<span class="w"> </span>-exec<span class="w"> </span>logrotate<span class="w"> </span>-f<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+
+<span class="c1"># Clean temporary files</span>
+find<span class="w"> </span>/tmp<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-atime<span class="w"> </span>+7<span class="w"> </span>-delete
+find<span class="w"> </span>/var/tmp<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-atime<span class="w"> </span>+30<span class="w"> </span>-delete
+
+<span class="c1"># Update package cache</span>
+apt<span class="w"> </span>update
+apt<span class="w"> </span>list<span class="w"> </span>--upgradable
+</pre></div>
+</div>
+<p><strong>Monthly Tasks:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Monthly maintenance script</span>
+
+<span class="c1"># Full system backup verification</span>
+/usr/local/bin/verify-backups.sh
+
+<span class="c1"># Storage capacity planning</span>
+/usr/local/bin/capacity-report.sh
+
+<span class="c1"># Security updates</span>
+apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+
+<span class="c1"># Performance baseline</span>
+/usr/local/bin/performance-benchmark.sh
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation-and-change-management">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Documentation and Change Management</a><a class="headerlink" href="#documentation-and-change-management" title="Link to this heading"></a></h2>
+<section id="documentation-standards">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Documentation Standards</a><a class="headerlink" href="#documentation-standards" title="Link to this heading"></a></h3>
+<p><strong>Storage Configuration Documentation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create storage inventory</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/storage-inventory.yaml<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">storage_systems:</span>
+<span class="s">  - name: &quot;Primary Storage&quot;</span>
+<span class="s">    type: &quot;LVM on RAID1&quot;</span>
+<span class="s">    devices: [&quot;/dev/sda&quot;, &quot;/dev/sdb&quot;]</span>
+<span class="s">    capacity: &quot;2TB&quot;</span>
+<span class="s">    filesystem: &quot;ext4&quot;</span>
+<span class="s">    mount_points:</span>
+<span class="s">      - &quot;/&quot;: &quot;50GB&quot;</span>
+<span class="s">      - &quot;/home&quot;: &quot;1.5TB&quot;</span>
+<span class="s">      - &quot;/var&quot;: &quot;200GB&quot;</span>
+<span class="s">    backup_schedule: &quot;Daily incremental, Weekly full&quot;</span>
+
+<span class="s">  - name: &quot;Database Storage&quot;</span>
+<span class="s">    type: &quot;Direct attach NVMe&quot;</span>
+<span class="s">    devices: [&quot;/dev/nvme0n1&quot;]</span>
+<span class="s">    capacity: &quot;1TB&quot;</span>
+<span class="s">    filesystem: &quot;xfs&quot;</span>
+<span class="s">    mount_points:</span>
+<span class="s">      - &quot;/var/lib/mysql&quot;: &quot;800GB&quot;</span>
+<span class="s">    backup_schedule: &quot;Hourly snapshots, Daily backup&quot;</span>
+
+<span class="s">network_storage:</span>
+<span class="s">  - name: &quot;Archive NFS&quot;</span>
+<span class="s">    server: &quot;nas.company.local&quot;</span>
+<span class="s">    export: &quot;/export/archive&quot;</span>
+<span class="s">    mount_point: &quot;/mnt/archive&quot;</span>
+<span class="s">    options: &quot;rw,soft,intr&quot;</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p><strong>Change Management Process:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Document all changes</strong> in <cite>/var/log/storage-changes.log</cite></p></li>
+<li><p><strong>Test changes</strong> in development environment first</p></li>
+<li><p><strong>Create rollback plan</strong> before implementing</p></li>
+<li><p><strong>Monitor system</strong> after changes for 24-48 hours</p></li>
+</ol>
+<p>These best practices provide a solid foundation for reliable, secure, and high-performing storage systems on Ubuntu 22.04. Regular review and updates of these practices ensure continued effectiveness as technology and requirements evolve.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="troubleshooting.html" class="btn btn-neutral float-left" title="Troubleshooting Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Rameshkumar T S.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

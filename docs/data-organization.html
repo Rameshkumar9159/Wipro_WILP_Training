@@ -1,0 +1,1262 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Organization &mdash; Storage Systems and Data Management Guide 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="RAID Systems" href="raid-systems.html" />
+    <link rel="prev" title="File Systems" href="file-systems.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Storage Systems and Data Management Guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Storage Fundamentals:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="storage-overview.html">Storage Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk-management.html">Disk Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file-systems.html">File Systems</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Organization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-data-organization">Understanding Data Organization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-organization-fundamentals">Data Organization Fundamentals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-data-organization">What is Data Organization?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-classification-types">Data Classification Types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#by-access-frequency">By Access Frequency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#by-data-type">By Data Type</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#by-criticality">By Criticality</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ubuntu-22-04-data-organization-tools">Ubuntu 22.04 Data Organization Tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#directory-structure-best-practices">Directory Structure Best Practices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-organization-commands">File Organization Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-backup-and-archival">Data Backup and Archival</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#backup-strategies">Backup Strategies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automated-data-organization">Automated Data Organization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-compression-and-deduplication">Data Compression and Deduplication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#file-compression-techniques">File Compression Techniques</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#duplicate-file-management">Duplicate File Management</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-monitoring-and-analysis">Data Monitoring and Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#storage-usage-analysis">Storage Usage Analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-system-metadata-analysis">File System Metadata Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#frequently-asked-questions">Frequently Asked Questions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#q-how-should-i-organize-my-home-directory-in-ubuntu-22-04">Q: How should I organize my home directory in Ubuntu 22.04?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q-what-s-the-best-way-to-handle-duplicate-files">Q: What’s the best way to handle duplicate files?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q-how-can-i-automate-file-organization">Q: How can I automate file organization?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q-how-do-i-implement-a-data-retention-policy">Q: How do I implement a data retention policy?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#coding-examples">Coding Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python-data-organization-manager">Python Data Organization Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bash-file-organization-system">Bash File Organization System</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#best-practices-for-data-organization">Best Practices for Data Organization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#strategic-planning">Strategic Planning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automation-and-maintenance">Automation and Maintenance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#security-and-compliance">Security and Compliance</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Storage Concepts:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="raid-systems.html">RAID Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-storage.html">Network Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="volume-management.html">Volume Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage-devices.html">Storage Devices</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Practical Implementation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu-setup.html">Ubuntu 22.04 Setup and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-examples.html">Coding Examples and Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Best Practices and Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#common-command-abbreviations">Common Command Abbreviations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#storage-unit-definitions">Storage Unit Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#raid-levels-reference">RAID Levels Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#network-storage-protocols">Network Storage Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#file-system-features">File System Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads and Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Storage Systems and Data Management Guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Organization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/data-organization.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-organization">
+<h1>Data Organization<a class="headerlink" href="#data-organization" title="Link to this heading"></a></h1>
+<section id="understanding-data-organization">
+<h2>Understanding Data Organization<a class="headerlink" href="#understanding-data-organization" title="Link to this heading"></a></h2>
+<p>Data organization refers to the systematic arrangement and structuring of data to optimize storage efficiency, access speed, and management ease. Proper data organization is crucial for system performance and data integrity.</p>
+<section id="data-organization-fundamentals">
+<h3>Data Organization Fundamentals<a class="headerlink" href="#data-organization-fundamentals" title="Link to this heading"></a></h3>
+<section id="what-is-data-organization">
+<h4>What is Data Organization?<a class="headerlink" href="#what-is-data-organization" title="Link to this heading"></a></h4>
+<p>Data organization encompasses:</p>
+<ul class="simple">
+<li><p><strong>Data Structure</strong>: How data is arranged and stored</p></li>
+<li><p><strong>Data Classification</strong>: Categorizing data by type, importance, and access patterns</p></li>
+<li><p><strong>Data Hierarchy</strong>: Organizing data in logical levels and relationships</p></li>
+<li><p><strong>Data Access Patterns</strong>: Understanding how data is accessed and used</p></li>
+<li><p><strong>Data Lifecycle</strong>: Managing data from creation to deletion</p></li>
+</ul>
+</section>
+</section>
+<section id="data-classification-types">
+<h3>Data Classification Types<a class="headerlink" href="#data-classification-types" title="Link to this heading"></a></h3>
+<section id="by-access-frequency">
+<h4>By Access Frequency<a class="headerlink" href="#by-access-frequency" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Hot Data</strong>: Frequently accessed, requires fast storage (SSD)</p></li>
+<li><p><strong>Warm Data</strong>: Occasionally accessed, standard performance storage</p></li>
+<li><p><strong>Cold Data</strong>: Rarely accessed, slower but cost-effective storage</p></li>
+<li><p><strong>Archival Data</strong>: Long-term retention, very infrequent access</p></li>
+</ol>
+</section>
+<section id="by-data-type">
+<h4>By Data Type<a class="headerlink" href="#by-data-type" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Structured Data</strong>: Databases, spreadsheets, organized formats</p></li>
+<li><p><strong>Semi-structured Data</strong>: JSON, XML, log files</p></li>
+<li><p><strong>Unstructured Data</strong>: Documents, images, videos, emails</p></li>
+</ol>
+</section>
+<section id="by-criticality">
+<h4>By Criticality<a class="headerlink" href="#by-criticality" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Critical Data</strong>: Business-essential, requires high availability</p></li>
+<li><p><strong>Important Data</strong>: Significant but not critical</p></li>
+<li><p><strong>Standard Data</strong>: Regular business data</p></li>
+<li><p><strong>Temporary Data</strong>: Short-term, disposable data</p></li>
+</ol>
+</section>
+</section>
+<section id="ubuntu-22-04-data-organization-tools">
+<h3>Ubuntu 22.04 Data Organization Tools<a class="headerlink" href="#ubuntu-22-04-data-organization-tools" title="Link to this heading"></a></h3>
+<section id="directory-structure-best-practices">
+<h4>Directory Structure Best Practices<a class="headerlink" href="#directory-structure-best-practices" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standard Ubuntu directory structure</span>
+/
+├──<span class="w"> </span>home/<span class="w">           </span><span class="c1"># User data</span>
+├──<span class="w"> </span>var/<span class="w">            </span><span class="c1"># Variable data (logs, databases)</span>
+├──<span class="w"> </span>usr/<span class="w">            </span><span class="c1"># User programs and libraries</span>
+├──<span class="w"> </span>opt/<span class="w">            </span><span class="c1"># Optional software packages</span>
+├──<span class="w"> </span>srv/<span class="w">            </span><span class="c1"># Service data</span>
+├──<span class="w"> </span>tmp/<span class="w">            </span><span class="c1"># Temporary files</span>
+└──<span class="w"> </span>mnt/<span class="w">            </span><span class="c1"># Mount points for external storage</span>
+
+<span class="c1"># Recommended user data organization</span>
+/home/username/
+├──<span class="w"> </span>Documents/<span class="w">      </span><span class="c1"># Personal documents</span>
+├──<span class="w"> </span>Projects/<span class="w">       </span><span class="c1"># Development projects</span>
+├──<span class="w"> </span>Media/<span class="w">          </span><span class="c1"># Photos, videos, music</span>
+├──<span class="w"> </span>Archive/<span class="w">        </span><span class="c1"># Old/archived files</span>
+├──<span class="w"> </span>Backup/<span class="w">         </span><span class="c1"># Local backups</span>
+└──<span class="w"> </span>Work/<span class="w">           </span><span class="c1"># Work-related files</span>
+</pre></div>
+</div>
+</section>
+<section id="file-organization-commands">
+<h4>File Organization Commands<a class="headerlink" href="#file-organization-commands" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create organized directory structure</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/Documents/<span class="o">{</span>Personal,Work<span class="o">}</span>/<span class="o">{</span><span class="m">2024</span>,2023,Archive<span class="o">}</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/Projects/<span class="o">{</span>Active,Completed,Archive<span class="o">}</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/Media/<span class="o">{</span>Photos,Videos,Music<span class="o">}</span>/<span class="o">{</span><span class="m">2024</span>,2023,Archive<span class="o">}</span>
+
+<span class="c1"># File organization by date</span>
+find<span class="w"> </span>~/Downloads<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-newermt<span class="w"> </span><span class="s2">&quot;2024-01-01&quot;</span><span class="w"> </span>!<span class="w"> </span>-newermt<span class="w"> </span><span class="s2">&quot;2024-12-31&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-exec<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Archive/2024/<span class="w"> </span><span class="se">\;</span><span class="w"> </span>-exec<span class="w"> </span>mv<span class="w"> </span><span class="o">{}</span><span class="w"> </span>~/Archive/2024/<span class="w"> </span><span class="se">\;</span>
+
+<span class="c1"># Organize files by extension</span>
+<span class="nb">cd</span><span class="w"> </span>~/Downloads
+<span class="k">for</span><span class="w"> </span>ext<span class="w"> </span><span class="k">in</span><span class="w"> </span>pdf<span class="w"> </span>doc<span class="w"> </span>docx<span class="w"> </span>txt<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Documents/<span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$ext</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="k">)</span>
+<span class="w">    </span>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.</span><span class="nv">$ext</span><span class="s2">&quot;</span><span class="w"> </span>-exec<span class="w"> </span>mv<span class="w"> </span><span class="o">{}</span><span class="w"> </span>~/Documents/<span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$ext</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="k">)</span>/<span class="w"> </span><span class="se">\;</span>
+<span class="k">done</span>
+
+<span class="c1"># Find and organize duplicate files</span>
+fdupes<span class="w"> </span>-r<span class="w"> </span>~/Documents<span class="w"> </span>-d
+</pre></div>
+</div>
+</section>
+</section>
+<section id="data-backup-and-archival">
+<h3>Data Backup and Archival<a class="headerlink" href="#data-backup-and-archival" title="Link to this heading"></a></h3>
+<section id="backup-strategies">
+<h4>Backup Strategies<a class="headerlink" href="#backup-strategies" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3-2-1 Backup Rule Implementation</span>
+<span class="c1"># 3 copies, 2 different media types, 1 offsite</span>
+
+<span class="c1"># Local backup (rsync)</span>
+rsync<span class="w"> </span>-avH<span class="w"> </span>--delete<span class="w"> </span>~/Documents/<span class="w"> </span>/backup/documents/
+
+<span class="c1"># External drive backup</span>
+rsync<span class="w"> </span>-avH<span class="w"> </span>--delete<span class="w"> </span>~/Documents/<span class="w"> </span>/media/external/backup/documents/
+
+<span class="c1"># Cloud backup (rclone)</span>
+rclone<span class="w"> </span>sync<span class="w"> </span>~/Documents/<span class="w"> </span>cloud:backup/documents/
+
+<span class="c1"># Compressed archive backup</span>
+tar<span class="w"> </span>-czf<span class="w"> </span>/backup/documents_<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.gz<span class="w"> </span>~/Documents/
+</pre></div>
+</div>
+</section>
+<section id="automated-data-organization">
+<h4>Automated Data Organization<a class="headerlink" href="#automated-data-organization" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create organization script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>~/bin/organize_data.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+
+<span class="s"># Organize downloads by file type</span>
+<span class="s">organize_downloads() {</span>
+<span class="s">    cd ~/Downloads</span>
+
+<span class="s">    # Create directories</span>
+<span class="s">    mkdir -p {Documents,Images,Videos,Music,Archives,Software}</span>
+
+<span class="s">    # Move files by type</span>
+<span class="s">    find . -maxdepth 1 -type f \( -iname &quot;*.pdf&quot; -o -iname &quot;*.doc&quot; -o -iname &quot;*.docx&quot; -o -iname &quot;*.txt&quot; \) -exec mv {} Documents/ \;</span>
+<span class="s">    find . -maxdepth 1 -type f \( -iname &quot;*.jpg&quot; -o -iname &quot;*.png&quot; -o -iname &quot;*.gif&quot; -o -iname &quot;*.jpeg&quot; \) -exec mv {} Images/ \;</span>
+<span class="s">    find . -maxdepth 1 -type f \( -iname &quot;*.mp4&quot; -o -iname &quot;*.avi&quot; -o -iname &quot;*.mkv&quot; \) -exec mv {} Videos/ \;</span>
+<span class="s">    find . -maxdepth 1 -type f \( -iname &quot;*.mp3&quot; -o -iname &quot;*.flac&quot; -o -iname &quot;*.wav&quot; \) -exec mv {} Music/ \;</span>
+<span class="s">    find . -maxdepth 1 -type f \( -iname &quot;*.zip&quot; -o -iname &quot;*.tar.gz&quot; -o -iname &quot;*.rar&quot; \) -exec mv {} Archives/ \;</span>
+<span class="s">    find . -maxdepth 1 -type f \( -iname &quot;*.deb&quot; -o -iname &quot;*.appimage&quot; \) -exec mv {} Software/ \;</span>
+<span class="s">}</span>
+
+<span class="s"># Clean old temporary files</span>
+<span class="s">clean_temp() {</span>
+<span class="s">    find ~/Downloads -type f -mtime +30 -delete</span>
+<span class="s">    find ~/.cache -type f -mtime +7 -delete</span>
+<span class="s">    find /tmp -user $USER -type f -mtime +1 -delete 2&gt;/dev/null</span>
+<span class="s">}</span>
+
+<span class="s"># Archive old files</span>
+<span class="s">archive_old() {</span>
+<span class="s">    find ~/Documents -type f -mtime +365 -exec mkdir -p ~/Archive/$(date +%Y) \; -exec mv {} ~/Archive/$(date +%Y)/ \;</span>
+<span class="s">}</span>
+
+<span class="s"># Execute functions</span>
+<span class="s">organize_downloads</span>
+<span class="s">clean_temp</span>
+<span class="s">archive_old</span>
+
+<span class="s">echo &quot;Data organization completed: $(date)&quot;</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span>~/bin/organize_data.sh
+
+<span class="c1"># Schedule with cron</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0 2 * * * ~/bin/organize_data.sh&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>crontab<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
+</section>
+<section id="data-compression-and-deduplication">
+<h3>Data Compression and Deduplication<a class="headerlink" href="#data-compression-and-deduplication" title="Link to this heading"></a></h3>
+<section id="file-compression-techniques">
+<h4>File Compression Techniques<a class="headerlink" href="#file-compression-techniques" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install compression tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>p7zip-full<span class="w"> </span>rar<span class="w"> </span>unrar<span class="w"> </span>gzip<span class="w"> </span>bzip2<span class="w"> </span>xz-utils
+
+<span class="c1"># Create compressed archives</span>
+<span class="c1"># gzip (fast, good compression)</span>
+tar<span class="w"> </span>-czf<span class="w"> </span>archive.tar.gz<span class="w"> </span>/path/to/data
+
+<span class="c1"># bzip2 (better compression, slower)</span>
+tar<span class="w"> </span>-cjf<span class="w"> </span>archive.tar.bz2<span class="w"> </span>/path/to/data
+
+<span class="c1"># xz (best compression, slowest)</span>
+tar<span class="w"> </span>-cJf<span class="w"> </span>archive.tar.xz<span class="w"> </span>/path/to/data
+
+<span class="c1"># 7zip (excellent compression)</span>
+7z<span class="w"> </span>a<span class="w"> </span>-t7z<span class="w"> </span>-mx<span class="o">=</span><span class="m">9</span><span class="w"> </span>archive.7z<span class="w"> </span>/path/to/data
+
+<span class="c1"># Compare compression ratios</span>
+<span class="k">for</span><span class="w"> </span>method<span class="w"> </span><span class="k">in</span><span class="w"> </span>gz<span class="w"> </span>bz2<span class="w"> </span>xz<span class="w"> </span>7z<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Compressing with </span><span class="nv">$method</span><span class="s2">...&quot;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nv">$method</span><span class="w"> </span><span class="k">in</span>
+<span class="w">        </span>gz<span class="o">)</span><span class="w"> </span>tar<span class="w"> </span>-czf<span class="w"> </span>test.tar.gz<span class="w"> </span>~/Documents<span class="w"> </span><span class="p">;;</span>
+<span class="w">        </span>bz2<span class="o">)</span><span class="w"> </span>tar<span class="w"> </span>-cjf<span class="w"> </span>test.tar.bz2<span class="w"> </span>~/Documents<span class="w"> </span><span class="p">;;</span>
+<span class="w">        </span>xz<span class="o">)</span><span class="w"> </span>tar<span class="w"> </span>-cJf<span class="w"> </span>test.tar.xz<span class="w"> </span>~/Documents<span class="w"> </span><span class="p">;;</span>
+<span class="w">        </span>7z<span class="o">)</span><span class="w"> </span>7z<span class="w"> </span>a<span class="w"> </span>test.7z<span class="w"> </span>~/Documents<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span><span class="k">esac</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">: </span><span class="k">$(</span>ls<span class="w"> </span>-lh<span class="w"> </span>test.*<span class="nv">$method</span>*<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $5}&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+<section id="duplicate-file-management">
+<h4>Duplicate File Management<a class="headerlink" href="#duplicate-file-management" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install deduplication tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>fdupes<span class="w"> </span>rdfind
+
+<span class="c1"># Find duplicates with fdupes</span>
+fdupes<span class="w"> </span>-r<span class="w"> </span>~/Documents
+
+<span class="c1"># Find and delete duplicates interactively</span>
+fdupes<span class="w"> </span>-r<span class="w"> </span>-d<span class="w"> </span>~/Documents
+
+<span class="c1"># Find duplicates with rdfind</span>
+rdfind<span class="w"> </span>~/Documents
+
+<span class="c1"># Advanced duplicate handling with rdfind</span>
+rdfind<span class="w"> </span>-makehardlinks<span class="w"> </span><span class="nb">true</span><span class="w"> </span>~/Documents
+rdfind<span class="w"> </span>-makeresultsfile<span class="w"> </span><span class="nb">false</span><span class="w"> </span>-makehardlinks<span class="w"> </span><span class="nb">true</span><span class="w"> </span>~/Documents
+</pre></div>
+</div>
+</section>
+</section>
+<section id="data-monitoring-and-analysis">
+<h3>Data Monitoring and Analysis<a class="headerlink" href="#data-monitoring-and-analysis" title="Link to this heading"></a></h3>
+<section id="storage-usage-analysis">
+<h4>Storage Usage Analysis<a class="headerlink" href="#storage-usage-analysis" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze disk usage by directory</span>
+ncdu<span class="w"> </span>/home
+
+<span class="c1"># Find largest files</span>
+find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-exec<span class="w"> </span>du<span class="w"> </span>-h<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rh<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+
+<span class="c1"># Analyze file types and sizes</span>
+find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/.*\\.//&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn
+
+<span class="c1"># Monitor storage usage trends</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>~/bin/storage_trend.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+
+<span class="s">LOGFILE=&quot;/var/log/storage_usage.log&quot;</span>
+
+<span class="s">echo &quot;$(date): $(df -h / | tail -1 | awk &#39;{print $5}&#39;)&quot; &gt;&gt; $LOGFILE</span>
+
+<span class="s"># Generate weekly report</span>
+<span class="s">if [ &quot;$(date +%u)&quot; -eq 1 ]; then</span>
+<span class="s">    echo &quot;Weekly Storage Report - $(date)&quot; &gt; /tmp/storage_report.txt</span>
+<span class="s">    tail -7 $LOGFILE &gt;&gt; /tmp/storage_report.txt</span>
+<span class="s">    mail -s &quot;Storage Usage Report&quot; admin@example.com &lt; /tmp/storage_report.txt</span>
+<span class="s">fi</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span>~/bin/storage_trend.sh
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0 0 * * * ~/bin/storage_trend.sh&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>crontab<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
+<section id="file-system-metadata-analysis">
+<h4>File System Metadata Analysis<a class="headerlink" href="#file-system-metadata-analysis" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze inode usage</span>
+df<span class="w"> </span>-i
+
+<span class="c1"># Find directories with most files</span>
+find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-exec<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo &quot;$(find &quot;$1&quot; -maxdepth 1 | wc -l) $1&quot;&#39;</span><span class="w"> </span>_<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
+
+<span class="c1"># Analyze file access patterns</span>
+find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-atime<span class="w"> </span>-7<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="w">  </span><span class="c1"># Files accessed in last 7 days</span>
+find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>-7<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="w">  </span><span class="c1"># Files modified in last 7 days</span>
+find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-atime<span class="w"> </span>+365<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="w">  </span><span class="c1"># Files not accessed in over a year</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="frequently-asked-questions">
+<h3>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading"></a></h3>
+<section id="q-how-should-i-organize-my-home-directory-in-ubuntu-22-04">
+<h4>Q: How should I organize my home directory in Ubuntu 22.04?<a class="headerlink" href="#q-how-should-i-organize-my-home-directory-in-ubuntu-22-04" title="Link to this heading"></a></h4>
+<p><strong>A:</strong> Follow this recommended structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/
+├──<span class="w"> </span>Documents/
+│<span class="w">   </span>├──<span class="w"> </span>Personal/
+│<span class="w">   </span>├──<span class="w"> </span>Work/
+│<span class="w">   </span>└──<span class="w"> </span>Archive/
+├──<span class="w"> </span>Projects/
+│<span class="w">   </span>├──<span class="w"> </span>Active/
+│<span class="w">   </span>├──<span class="w"> </span>Completed/
+│<span class="w">   </span>└──<span class="w"> </span>Learning/
+├──<span class="w"> </span>Media/
+│<span class="w">   </span>├──<span class="w"> </span>Photos/
+│<span class="w">   </span>├──<span class="w"> </span>Videos/
+│<span class="w">   </span>└──<span class="w"> </span>Music/
+├──<span class="w"> </span>Downloads/
+│<span class="w">   </span>└──<span class="w"> </span><span class="o">(</span>temporary,<span class="w"> </span>clean<span class="w"> </span>regularly<span class="o">)</span>
+├──<span class="w"> </span>Backup/
+│<span class="w">   </span>└──<span class="w"> </span><span class="o">(</span><span class="nb">local</span><span class="w"> </span>backup<span class="w"> </span>copies<span class="o">)</span>
+└──<span class="w"> </span>Scripts/
+<span class="w">    </span>└──<span class="w"> </span><span class="o">(</span>personal<span class="w"> </span>automation<span class="w"> </span>scripts<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<section id="q-what-s-the-best-way-to-handle-duplicate-files">
+<h4>Q: What’s the best way to handle duplicate files?<a class="headerlink" href="#q-what-s-the-best-way-to-handle-duplicate-files" title="Link to this heading"></a></h4>
+<p><strong>A:</strong> Use these strategies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Find duplicates without deleting</span>
+fdupes<span class="w"> </span>-r<span class="w"> </span>~/Documents
+
+<span class="c1"># 2. Interactive deletion</span>
+fdupes<span class="w"> </span>-r<span class="w"> </span>-d<span class="w"> </span>~/Documents
+
+<span class="c1"># 3. Automatic deletion (keep first occurrence)</span>
+fdupes<span class="w"> </span>-r<span class="w"> </span>-f<span class="w"> </span>~/Documents<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^$&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm
+
+<span class="c1"># 4. Convert to hard links (saves space)</span>
+rdfind<span class="w"> </span>-makehardlinks<span class="w"> </span><span class="nb">true</span><span class="w"> </span>~/Documents
+</pre></div>
+</div>
+</section>
+<section id="q-how-can-i-automate-file-organization">
+<h4>Q: How can I automate file organization?<a class="headerlink" href="#q-how-can-i-automate-file-organization" title="Link to this heading"></a></h4>
+<p><strong>A:</strong> Create automated organization scripts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># File organizer by extension</span>
+<span class="c1">#!/bin/bash</span>
+organize_by_extension<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">source_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">target_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$source_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.*<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nv">ext</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="nv">ext_upper</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ext</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="k">)</span>
+<span class="w">            </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">/</span><span class="nv">$ext_upper</span><span class="s2">&quot;</span>
+<span class="w">            </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">/</span><span class="nv">$ext_upper</span><span class="s2">/&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c1"># Usage</span>
+organize_by_extension<span class="w"> </span>~/Downloads<span class="w"> </span>~/Downloads/Organized
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-implement-a-data-retention-policy">
+<h4>Q: How do I implement a data retention policy?<a class="headerlink" href="#q-how-do-i-implement-a-data-retention-policy" title="Link to this heading"></a></h4>
+<p><strong>A:</strong> Create a retention management system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># data_retention.sh</span>
+
+<span class="c1"># Define retention periods (days)</span>
+<span class="nv">TEMP_RETENTION</span><span class="o">=</span><span class="m">7</span>
+<span class="nv">LOG_RETENTION</span><span class="o">=</span><span class="m">90</span>
+<span class="nv">BACKUP_RETENTION</span><span class="o">=</span><span class="m">365</span>
+<span class="nv">ARCHIVE_RETENTION</span><span class="o">=</span><span class="m">2555</span><span class="w">  </span><span class="c1"># 7 years</span>
+
+<span class="c1"># Clean temporary files</span>
+find<span class="w"> </span>/tmp<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$TEMP_RETENTION</span><span class="w"> </span>-delete
+find<span class="w"> </span>~/.cache<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$TEMP_RETENTION</span><span class="w"> </span>-delete
+
+<span class="c1"># Archive old logs</span>
+find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$LOG_RETENTION</span><span class="w"> </span>-gzip
+
+<span class="c1"># Remove old backups</span>
+find<span class="w"> </span>/backup<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.tar.gz&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$BACKUP_RETENTION</span><span class="w"> </span>-delete
+
+<span class="c1"># Alert for very old archives</span>
+find<span class="w"> </span>/archive<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$ARCHIVE_RETENTION</span><span class="w"> </span>-ls<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Files exceeding retention policy&quot;</span><span class="w"> </span>admin@example.com
+</pre></div>
+</div>
+</section>
+</section>
+<section id="coding-examples">
+<h3>Coding Examples<a class="headerlink" href="#coding-examples" title="Link to this heading"></a></h3>
+<section id="python-data-organization-manager">
+<h4>Python Data Organization Manager<a class="headerlink" href="#python-data-organization-manager" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Advanced data organization manager for Ubuntu 22.04</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">mimetypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DataOrganizer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">base_path</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_types</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;documents&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;.doc&#39;</span><span class="p">,</span> <span class="s1">&#39;.docx&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.rtf&#39;</span><span class="p">,</span> <span class="s1">&#39;.odt&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;.png&#39;</span><span class="p">,</span> <span class="s1">&#39;.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;.bmp&#39;</span><span class="p">,</span> <span class="s1">&#39;.tiff&#39;</span><span class="p">,</span> <span class="s1">&#39;.svg&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;videos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;.avi&#39;</span><span class="p">,</span> <span class="s1">&#39;.mkv&#39;</span><span class="p">,</span> <span class="s1">&#39;.mov&#39;</span><span class="p">,</span> <span class="s1">&#39;.wmv&#39;</span><span class="p">,</span> <span class="s1">&#39;.flv&#39;</span><span class="p">,</span> <span class="s1">&#39;.webm&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;music&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.mp3&#39;</span><span class="p">,</span> <span class="s1">&#39;.flac&#39;</span><span class="p">,</span> <span class="s1">&#39;.wav&#39;</span><span class="p">,</span> <span class="s1">&#39;.ogg&#39;</span><span class="p">,</span> <span class="s1">&#39;.m4a&#39;</span><span class="p">,</span> <span class="s1">&#39;.aac&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;archives&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;.tar&#39;</span><span class="p">,</span> <span class="s1">&#39;.gz&#39;</span><span class="p">,</span> <span class="s1">&#39;.bz2&#39;</span><span class="p">,</span> <span class="s1">&#39;.xz&#39;</span><span class="p">,</span> <span class="s1">&#39;.rar&#39;</span><span class="p">,</span> <span class="s1">&#39;.7z&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.py&#39;</span><span class="p">,</span> <span class="s1">&#39;.js&#39;</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">,</span> <span class="s1">&#39;.css&#39;</span><span class="p">,</span> <span class="s1">&#39;.java&#39;</span><span class="p">,</span> <span class="s1">&#39;.cpp&#39;</span><span class="p">,</span> <span class="s1">&#39;.c&#39;</span><span class="p">,</span> <span class="s1">&#39;.php&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;.json&#39;</span><span class="p">,</span> <span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;.sql&#39;</span><span class="p">,</span> <span class="s1">&#39;.db&#39;</span><span class="p">,</span> <span class="s1">&#39;.sqlite&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_file_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate MD5 hash of a file&quot;&quot;&quot;</span>
+        <span class="n">hash_md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4096</span><span class="p">),</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+                    <span class="n">hash_md5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">hash_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find duplicate files in a directory&quot;&quot;&quot;</span>
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">/</span> <span class="n">file</span>
+                <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                    <span class="n">file_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_file_hash</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">file_hash</span><span class="p">:</span>
+                        <span class="n">duplicates</span><span class="p">[</span><span class="n">file_hash</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+        <span class="c1"># Filter out unique files</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">organize_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Organize files by type&quot;&quot;&quot;</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">source_dir</span><span class="p">)</span>
+        <span class="n">target_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">target_dir</span> <span class="k">else</span> <span class="n">source_path</span> <span class="o">/</span> <span class="s2">&quot;Organized&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">source_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Source directory </span><span class="si">{</span><span class="n">source_path</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
+
+        <span class="n">target_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">source_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">and</span> <span class="n">file_path</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">source_path</span><span class="p">:</span>
+                <span class="n">file_ext</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+                <span class="c1"># Determine file category</span>
+                <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;misc&#39;</span>
+                <span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">extensions</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">file_ext</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
+                        <span class="n">category</span> <span class="o">=</span> <span class="n">cat</span>
+                        <span class="k">break</span>
+
+                <span class="c1"># Create category directory</span>
+                <span class="n">category_dir</span> <span class="o">=</span> <span class="n">target_path</span> <span class="o">/</span> <span class="n">category</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                <span class="n">category_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># Move file</span>
+                <span class="n">new_path</span> <span class="o">=</span> <span class="n">category_dir</span> <span class="o">/</span> <span class="n">file_path</span><span class="o">.</span><span class="n">name</span>
+
+                <span class="c1"># Handle naming conflicts</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">original_name</span> <span class="o">=</span> <span class="n">new_path</span><span class="o">.</span><span class="n">stem</span>
+                <span class="k">while</span> <span class="n">new_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">new_path</span> <span class="o">=</span> <span class="n">category_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">original_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">counter</span><span class="si">}{</span><span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_path</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;moved_</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Moved </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">category</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error moving </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">organize_by_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">target_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Organize files by modification date&quot;&quot;&quot;</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">source_dir</span><span class="p">)</span>
+        <span class="n">target_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">target_dir</span> <span class="k">else</span> <span class="n">source_path</span> <span class="o">/</span> <span class="s2">&quot;ByDate&quot;</span>
+
+        <span class="n">target_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">source_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                <span class="c1"># Get modification time</span>
+                <span class="n">mtime</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span>
+                <span class="n">date_str</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">mtime</span><span class="p">))</span>
+
+                <span class="c1"># Create date directory</span>
+                <span class="n">date_dir</span> <span class="o">=</span> <span class="n">target_path</span> <span class="o">/</span> <span class="n">date_str</span>
+                <span class="n">date_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># Move file</span>
+                <span class="n">new_path</span> <span class="o">=</span> <span class="n">date_dir</span> <span class="o">/</span> <span class="n">file_path</span><span class="o">.</span><span class="n">name</span>
+
+                <span class="c1"># Handle naming conflicts</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">original_name</span> <span class="o">=</span> <span class="n">new_path</span><span class="o">.</span><span class="n">stem</span>
+                <span class="k">while</span> <span class="n">new_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">new_path</span> <span class="o">=</span> <span class="n">date_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">original_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">counter</span><span class="si">}{</span><span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_path</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;moved_by_date&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error moving </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean_empty_directories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove empty directories&quot;&quot;&quot;</span>
+        <span class="n">removed_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">topdown</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">dir_name</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+                <span class="n">dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">/</span> <span class="n">dir_name</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">dir_path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()):</span>
+                        <span class="n">dir_path</span><span class="o">.</span><span class="n">rmdir</span><span class="p">()</span>
+                        <span class="n">removed_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed empty directory: </span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># Directory not empty or permission denied</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;removed_empty_dirs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">removed_count</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze directory structure and file distribution&quot;&quot;&quot;</span>
+        <span class="n">analysis</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;total_files&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;total_size&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;file_types&#39;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+            <span class="s1">&#39;size_by_type&#39;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+            <span class="s1">&#39;largest_files&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;oldest_files&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;newest_files&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+
+        <span class="n">files_with_info</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">/</span> <span class="n">file</span>
+                <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">stat_info</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span>
+                        <span class="n">file_size</span> <span class="o">=</span> <span class="n">stat_info</span><span class="o">.</span><span class="n">st_size</span>
+                        <span class="n">file_ext</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+                        <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;total_files&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;total_size&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">file_size</span>
+                        <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;file_types&#39;</span><span class="p">][</span><span class="n">file_ext</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;size_by_type&#39;</span><span class="p">][</span><span class="n">file_ext</span><span class="p">]</span> <span class="o">+=</span> <span class="n">file_size</span>
+
+                        <span class="n">files_with_info</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                            <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+                            <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">file_size</span><span class="p">,</span>
+                            <span class="s1">&#39;mtime&#39;</span><span class="p">:</span> <span class="n">stat_info</span><span class="o">.</span><span class="n">st_mtime</span>
+                        <span class="p">})</span>
+                    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+        <span class="c1"># Sort files for top lists</span>
+        <span class="n">files_with_info</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;largest_files&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]),</span> <span class="s1">&#39;size_mb&#39;</span><span class="p">:</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">)}</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files_with_info</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+        <span class="p">]</span>
+
+        <span class="n">files_with_info</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;mtime&#39;</span><span class="p">])</span>
+        <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;oldest_files&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]),</span> <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;mtime&#39;</span><span class="p">]))}</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files_with_info</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+        <span class="p">]</span>
+
+        <span class="n">files_with_info</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;mtime&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;newest_files&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]),</span> <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;mtime&#39;</span><span class="p">]))}</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files_with_info</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">analysis</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_backup_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">backup_dir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create organized backup structure&quot;&quot;&quot;</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">source_dir</span><span class="p">)</span>
+        <span class="n">backup_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">backup_dir</span><span class="p">)</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M%S&#39;</span><span class="p">)</span>
+        <span class="n">backup_target</span> <span class="o">=</span> <span class="n">backup_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;backup_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">backup_target</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Copy files with organization</span>
+        <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">extensions</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">category_backup</span> <span class="o">=</span> <span class="n">backup_target</span> <span class="o">/</span> <span class="n">category</span>
+            <span class="n">category_backup</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">source_path</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                    <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">/</span> <span class="n">file</span>
+                    <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">category_backup</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;backed_up_</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error backing up </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate organization report&quot;&quot;&quot;</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;statistics&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">),</span>
+            <span class="s1">&#39;summary&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Processed </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="si">}</span><span class="s2"> operations&quot;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Data Organization Manager&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;command&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;organize&#39;</span><span class="p">,</span> <span class="s1">&#39;analyze&#39;</span><span class="p">,</span> <span class="s1">&#39;duplicates&#39;</span><span class="p">,</span> <span class="s1">&#39;backup&#39;</span><span class="p">,</span> <span class="s1">&#39;clean&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Source directory&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--target&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Target directory&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--by-type&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Organize by file type&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--by-date&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Organize by date&#39;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">organizer</span> <span class="o">=</span> <span class="n">DataOrganizer</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s1">&#39;organize&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">by_type</span><span class="p">:</span>
+            <span class="n">organizer</span><span class="o">.</span><span class="n">organize_by_type</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">by_date</span><span class="p">:</span>
+            <span class="n">organizer</span><span class="o">.</span><span class="n">organize_by_date</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">organizer</span><span class="o">.</span><span class="n">organize_by_type</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s1">&#39;analyze&#39;</span><span class="p">:</span>
+        <span class="n">analysis</span> <span class="o">=</span> <span class="n">organizer</span><span class="o">.</span><span class="n">analyze_directory</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">analysis</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s1">&#39;duplicates&#39;</span><span class="p">:</span>
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="n">organizer</span><span class="o">.</span><span class="n">find_duplicates</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">duplicates</span><span class="p">)</span><span class="si">}</span><span class="s2"> sets of duplicate files:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">hash_val</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hash </span><span class="si">{</span><span class="n">hash_val</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s1">&#39;backup&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">target</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Target directory required for backup&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">organizer</span><span class="o">.</span><span class="n">create_backup_structure</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s1">&#39;clean&#39;</span><span class="p">:</span>
+        <span class="n">organizer</span><span class="o">.</span><span class="n">clean_empty_directories</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">organizer</span><span class="o">.</span><span class="n">generate_report</span><span class="p">())</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="bash-file-organization-system">
+<h4>Bash File Organization System<a class="headerlink" href="#bash-file-organization-system" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># advanced_file_organizer.sh - Advanced file organization system for Ubuntu 22.04</span>
+
+<span class="c1"># Configuration</span>
+<span class="nv">CONFIG_FILE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.file_organizer.conf&quot;</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.file_organizer.log&quot;</span>
+
+<span class="c1"># Default configuration</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s"># File Organization Configuration</span>
+<span class="s">ORGANIZE_DOWNLOADS=true</span>
+<span class="s">ORGANIZE_DESKTOP=true</span>
+<span class="s">AUTO_ARCHIVE_DAYS=365</span>
+<span class="s">DUPLICATE_ACTION=ask  # ask, delete, link</span>
+<span class="s">BACKUP_ENABLED=true</span>
+<span class="s">BACKUP_DIR=&quot;$HOME/Backup&quot;</span>
+
+<span class="s"># File type definitions</span>
+<span class="s">DOCUMENTS=&quot;pdf doc docx txt rtf odt&quot;</span>
+<span class="s">IMAGES=&quot;jpg jpeg png gif bmp tiff svg&quot;</span>
+<span class="s">VIDEOS=&quot;mp4 avi mkv mov wmv flv webm&quot;</span>
+<span class="s">MUSIC=&quot;mp3 flac wav ogg m4a aac&quot;</span>
+<span class="s">ARCHIVES=&quot;zip tar gz bz2 xz rar 7z&quot;</span>
+<span class="s">CODE=&quot;py js html css java cpp c php&quot;</span>
+<span class="s">DATA=&quot;csv json xml sql db sqlite&quot;</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Load configuration</span>
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span>
+
+<span class="c1"># Logging function</span>
+log_message<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2"> - </span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Create directory structure</span>
+create_structure<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">base_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Creating directory structure in </span><span class="nv">$base_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$base_dir</span><span class="s2">&quot;</span>/<span class="o">{</span>Documents,Images,Videos,Music,Archives,Code,Data,Misc<span class="o">}</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$base_dir</span><span class="s2">&quot;</span>/Archive/<span class="o">{</span><span class="k">$(</span>date<span class="w"> </span>+%Y<span class="k">)</span>,<span class="k">$(</span>date<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;last year&#39;</span><span class="w"> </span>+%Y<span class="k">)</span><span class="o">}</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$base_dir</span><span class="s2">&quot;</span>/Backup
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Directory structure created&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Get file category</span>
+get_file_category<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">file</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">extension</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nv">extension</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$extension</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="k">)</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot; </span><span class="nv">$DOCUMENTS</span><span class="s2"> &quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot; </span><span class="nv">$extension</span><span class="s2"> &quot;</span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Documents&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="k">esac</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot; </span><span class="nv">$IMAGES</span><span class="s2"> &quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot; </span><span class="nv">$extension</span><span class="s2"> &quot;</span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Images&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="k">esac</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot; </span><span class="nv">$VIDEOS</span><span class="s2"> &quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot; </span><span class="nv">$extension</span><span class="s2"> &quot;</span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Videos&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="k">esac</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot; </span><span class="nv">$MUSIC</span><span class="s2"> &quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot; </span><span class="nv">$extension</span><span class="s2"> &quot;</span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Music&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="k">esac</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot; </span><span class="nv">$ARCHIVES</span><span class="s2"> &quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot; </span><span class="nv">$extension</span><span class="s2"> &quot;</span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Archives&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="k">esac</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot; </span><span class="nv">$CODE</span><span class="s2"> &quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot; </span><span class="nv">$extension</span><span class="s2"> &quot;</span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Code&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="k">esac</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot; </span><span class="nv">$DATA</span><span class="s2"> &quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot; </span><span class="nv">$extension</span><span class="s2"> &quot;</span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Data&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="k">esac</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Misc&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Organize files by type</span>
+organize_by_type<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">source_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">target_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Organizing files from </span><span class="nv">$source_dir</span><span class="s2"> to </span><span class="nv">$target_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>create_structure<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">moved_count</span><span class="o">=</span><span class="m">0</span>
+
+<span class="w">    </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$source_dir</span><span class="s2">&quot;</span><span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>file<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">filename</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">category</span><span class="o">=</span><span class="k">$(</span>get_file_category<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">target_file</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">/</span><span class="nv">$category</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2">&quot;</span>
+
+<span class="w">            </span><span class="c1"># Handle name conflicts</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">counter</span><span class="o">=</span><span class="m">1</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">base_name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">filename</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">extension</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">filename</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$extension</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                    </span><span class="nv">target_file</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">/</span><span class="nv">$category</span><span class="s2">/</span><span class="si">${</span><span class="nv">base_name</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">counter</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">extension</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="w">                    </span><span class="nv">target_file</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">/</span><span class="nv">$category</span><span class="s2">/</span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">counter</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">                </span><span class="k">fi</span>
+<span class="w">                </span><span class="o">((</span>counter++<span class="o">))</span>
+<span class="w">            </span><span class="k">done</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_file</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span>log_message<span class="w"> </span><span class="s2">&quot;Moved </span><span class="nv">$filename</span><span class="s2"> to </span><span class="nv">$category</span><span class="s2">/&quot;</span>
+<span class="w">                </span><span class="o">((</span>moved_count++<span class="o">))</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span>log_message<span class="w"> </span><span class="s2">&quot;Failed to move </span><span class="nv">$filename</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Organized </span><span class="nv">$moved_count</span><span class="s2"> files&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Find and handle duplicates</span>
+handle_duplicates<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">directory</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">action</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$DUPLICATE_ACTION</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Finding duplicates in </span><span class="nv">$directory</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>fdupes<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>log_message<span class="w"> </span><span class="s2">&quot;Installing fdupes for duplicate detection&quot;</span>
+<span class="w">        </span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>fdupes
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">duplicates_file</span><span class="o">=</span><span class="s2">&quot;/tmp/duplicates_</span><span class="nv">$$</span><span class="s2">&quot;</span>
+<span class="w">    </span>fdupes<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$directory</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$duplicates_file</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">duplicate_sets</span><span class="o">=</span><span class="m">0</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">files_processed</span><span class="o">=</span><span class="m">0</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>line<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="o">((</span>duplicate_sets++<span class="o">))</span>
+<span class="w">        </span><span class="k">elif</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$action</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">                </span><span class="s2">&quot;delete&quot;</span><span class="o">)</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$files_processed</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                        </span>rm<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                        </span>log_message<span class="w"> </span><span class="s2">&quot;Deleted duplicate: </span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                    </span><span class="k">fi</span>
+<span class="w">                    </span><span class="p">;;</span>
+<span class="w">                </span><span class="s2">&quot;link&quot;</span><span class="o">)</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$files_processed</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                        </span><span class="nb">local</span><span class="w"> </span><span class="nv">first_file</span><span class="o">=</span><span class="k">$(</span>head<span class="w"> </span>-1<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$duplicates_file</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">                        </span>rm<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                        </span>ln<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$first_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                        </span>log_message<span class="w"> </span><span class="s2">&quot;Linked duplicate: </span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                    </span><span class="k">fi</span>
+<span class="w">                    </span><span class="p">;;</span>
+<span class="w">                </span><span class="s2">&quot;ask&quot;</span><span class="o">)</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$files_processed</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Duplicate found: </span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                        </span><span class="nb">read</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;Delete this file? (y/N): &quot;</span><span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>-r
+<span class="w">                        </span><span class="nb">echo</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$REPLY</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^<span class="o">[</span>Yy<span class="o">]</span>$<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                            </span>rm<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                            </span>log_message<span class="w"> </span><span class="s2">&quot;User deleted duplicate: </span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">                        </span><span class="k">fi</span>
+<span class="w">                    </span><span class="k">fi</span>
+<span class="w">                    </span><span class="p">;;</span>
+<span class="w">            </span><span class="k">esac</span>
+<span class="w">            </span><span class="o">((</span>files_processed++<span class="o">))</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span><span class="w"> </span>&lt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$duplicates_file</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>rm<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$duplicates_file</span><span class="s2">&quot;</span>
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Processed </span><span class="nv">$duplicate_sets</span><span class="s2"> sets of duplicates&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Archive old files</span>
+archive_old_files<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">source_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">days</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$AUTO_ARCHIVE_DAYS</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Archiving files older than </span><span class="nv">$days</span><span class="s2"> days from </span><span class="nv">$source_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">archive_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$source_dir</span><span class="s2">/Archive/</span><span class="k">$(</span>date<span class="w"> </span>+%Y<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$archive_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">archived_count</span><span class="o">=</span><span class="m">0</span>
+
+<span class="w">    </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$source_dir</span><span class="s2">&quot;</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$days</span><span class="w"> </span>!<span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/Archive/*&quot;</span><span class="w"> </span>!<span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/Backup/*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>file<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="nb">local</span><span class="w"> </span><span class="nv">relative_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">#</span><span class="nv">$source_dir</span><span class="p">/</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">local</span><span class="w"> </span><span class="nv">archive_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$archive_dir</span><span class="s2">/</span><span class="nv">$relative_path</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">local</span><span class="w"> </span><span class="nv">archive_parent</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$archive_path</span><span class="s2">&quot;</span><span class="k">)</span>
+
+<span class="w">        </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$archive_parent</span><span class="s2">&quot;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$archive_path</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span>log_message<span class="w"> </span><span class="s2">&quot;Archived: </span><span class="nv">$relative_path</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="o">((</span>archived_count++<span class="o">))</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Archived </span><span class="nv">$archived_count</span><span class="s2"> files&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Create backup</span>
+create_backup<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">source_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">backup_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$BACKUP_DIR</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_ENABLED</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>log_message<span class="w"> </span><span class="s2">&quot;Backup disabled in configuration&quot;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span>log_message<span class="w"> </span><span class="s2">&quot;Creating backup of </span><span class="nv">$source_dir</span><span class="s2"> to </span><span class="nv">$backup_dir</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">timestamp</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">backup_target</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">/backup_</span><span class="nv">$timestamp</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_target</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>--progress<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$source_dir</span><span class="s2">/&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_target</span><span class="s2">/&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>log_message<span class="w"> </span><span class="s2">&quot;Backup created successfully: </span><span class="nv">$backup_target</span><span class="s2">&quot;</span>
+
+<span class="w">        </span><span class="c1"># Compress backup</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>tar<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span>tar<span class="w"> </span>-czf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_target</span><span class="s2">.tar.gz&quot;</span><span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;backup_</span><span class="nv">$timestamp</span><span class="s2">&quot;</span>
+<span class="w">            </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_target</span><span class="s2">&quot;</span>
+<span class="w">            </span>log_message<span class="w"> </span><span class="s2">&quot;Backup compressed: </span><span class="nv">$backup_target</span><span class="s2">.tar.gz&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span>log_message<span class="w"> </span><span class="s2">&quot;Backup failed&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Generate organization report</span>
+generate_report<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">directory</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">report_file</span><span class="o">=</span><span class="s2">&quot;/tmp/organization_report_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.txt&quot;</span>
+
+<span class="w">    </span><span class="o">{</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;File Organization Report&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;========================&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Generated: </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Directory: </span><span class="nv">$directory</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Directory Structure:&quot;</span>
+<span class="w">        </span>tree<span class="w"> </span>-d<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$directory</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$directory</span><span class="s2">&quot;</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;File Count by Type:&quot;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>Documents<span class="w"> </span>Images<span class="w"> </span>Videos<span class="w"> </span>Music<span class="w"> </span>Archives<span class="w"> </span>Code<span class="w"> </span>Data<span class="w"> </span>Misc<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$directory</span><span class="s2">/</span><span class="nv">$type</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span><span class="nv">count</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$directory</span><span class="s2">/</span><span class="nv">$type</span><span class="s2">&quot;</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<span class="w">                </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$type</span><span class="s2">: </span><span class="nv">$count</span><span class="s2"> files&quot;</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">done</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Storage Usage:&quot;</span>
+<span class="w">        </span>du<span class="w"> </span>-sh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$directory</span><span class="s2">&quot;</span>/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-hr
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Recent Activity (from log):&quot;</span>
+<span class="w">        </span>tail<span class="w"> </span>-20<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="o">}</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_file</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Report generated: </span><span class="nv">$report_file</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="c1"># Email report if mail is configured</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>mail<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>cat<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;File Organization Report&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2">@localhost&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Main execution</span>
+main<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">help</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">        </span><span class="s2">&quot;organize&quot;</span><span class="o">)</span>
+<span class="w">            </span>organize_by_type<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/Downloads</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">3</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/Organized</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;duplicates&quot;</span><span class="o">)</span>
+<span class="w">            </span>handle_duplicates<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$HOME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">3</span><span class="k">:-</span><span class="nv">ask</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;archive&quot;</span><span class="o">)</span>
+<span class="w">            </span>archive_old_files<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$HOME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">3</span><span class="k">:-</span><span class="nv">365</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;backup&quot;</span><span class="o">)</span>
+<span class="w">            </span>create_backup<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$HOME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">3</span><span class="k">:-</span><span class="nv">$BACKUP_DIR</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;report&quot;</span><span class="o">)</span>
+<span class="w">            </span>generate_report<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$HOME</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;full&quot;</span><span class="o">)</span>
+<span class="w">            </span><span class="c1"># Full organization workflow</span>
+<span class="w">            </span><span class="nb">local</span><span class="w"> </span><span class="nv">target_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/Organized</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">            </span>log_message<span class="w"> </span><span class="s2">&quot;Starting full organization workflow&quot;</span>
+
+<span class="w">            </span>create_backup<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/Downloads&quot;</span>
+<span class="w">            </span>organize_by_type<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/Downloads&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">&quot;</span>
+<span class="w">            </span>handle_duplicates<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;ask&quot;</span>
+<span class="w">            </span>archive_old_files<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">&quot;</span>
+<span class="w">            </span>generate_report<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_dir</span><span class="s2">&quot;</span>
+
+<span class="w">            </span>log_message<span class="w"> </span><span class="s2">&quot;Full organization workflow completed&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;config&quot;</span><span class="o">)</span>
+<span class="w">            </span>nano<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span><span class="s2">&quot;help&quot;</span><span class="p">|</span>*<span class="o">)</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Advanced File Organizer for Ubuntu 22.04&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> [command] [options]&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Commands:&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  organize [source] [target]    - Organize files by type&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  duplicates [dir] [action]     - Handle duplicate files (ask/delete/link)&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  archive [dir] [days]          - Archive old files&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  backup [source] [target]      - Create backup&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  report [directory]            - Generate organization report&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  full [target]                 - Run complete organization workflow&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  config                        - Edit configuration&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Examples:&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  </span><span class="nv">$0</span><span class="s2"> organize ~/Downloads ~/Organized&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  </span><span class="nv">$0</span><span class="s2"> duplicates ~/Documents delete&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  </span><span class="nv">$0</span><span class="s2"> archive ~/Documents 180&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  </span><span class="nv">$0</span><span class="s2"> full ~/MyFiles&quot;</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">    </span><span class="k">esac</span>
+<span class="o">}</span>
+
+<span class="c1"># Run main function with all arguments</span>
+main<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices-for-data-organization">
+<h3>Best Practices for Data Organization<a class="headerlink" href="#best-practices-for-data-organization" title="Link to this heading"></a></h3>
+<section id="strategic-planning">
+<h4>Strategic Planning<a class="headerlink" href="#strategic-planning" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Data Classification Strategy</strong>:</p>
+<ul class="simple">
+<li><p>Identify data types and access patterns</p></li>
+<li><p>Define retention policies</p></li>
+<li><p>Establish backup requirements</p></li>
+<li><p>Plan for data growth</p></li>
+</ul>
+</li>
+<li><p><strong>Directory Structure Design</strong>:</p>
+<ul class="simple">
+<li><p>Use consistent naming conventions</p></li>
+<li><p>Implement logical hierarchies</p></li>
+<li><p>Plan for scalability</p></li>
+<li><p>Document organization rules</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="automation-and-maintenance">
+<h4>Automation and Maintenance<a class="headerlink" href="#automation-and-maintenance" title="Link to this heading"></a></h4>
+<ol class="arabic">
+<li><p><strong>Automated Organization</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Daily organization cron job</span>
+<span class="m">0</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/home/user/bin/organize_data.sh
+
+<span class="c1"># Weekly duplicate cleanup</span>
+<span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">0</span><span class="w"> </span>fdupes<span class="w"> </span>-r<span class="w"> </span>-d<span class="w"> </span>/home/user/Documents
+
+<span class="c1"># Monthly archival</span>
+<span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/home/user/bin/archive_old_files.sh
+</pre></div>
+</div>
+</li>
+<li><p><strong>Monitoring and Alerts</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Storage usage monitoring</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">$(</span>df<span class="w"> </span>/<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $5}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/%//&#39;</span><span class="k">)</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">85</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Disk usage critical&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Storage Alert&quot;</span><span class="w"> </span>admin
+<span class="k">fi</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="security-and-compliance">
+<h4>Security and Compliance<a class="headerlink" href="#security-and-compliance" title="Link to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p><strong>Data Protection</strong>:</p>
+<ul class="simple">
+<li><p>Implement access controls</p></li>
+<li><p>Use encryption for sensitive data</p></li>
+<li><p>Regular security audits</p></li>
+<li><p>Backup verification</p></li>
+</ul>
+</li>
+<li><p><strong>Compliance Requirements</strong>:</p>
+<ul class="simple">
+<li><p>Document data handling procedures</p></li>
+<li><p>Implement retention policies</p></li>
+<li><p>Audit trail maintenance</p></li>
+<li><p>Regular compliance reviews</p></li>
+</ul>
+</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up secure data handling</span>
+<span class="c1"># Encrypt sensitive directories</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ecryptfs-utils
+ecryptfs-migrate-home<span class="w"> </span>-u<span class="w"> </span>username
+
+<span class="c1"># Set appropriate permissions</span>
+find<span class="w"> </span>/home/user/Documents<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-exec<span class="w"> </span>chmod<span class="w"> </span><span class="m">640</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+find<span class="w"> </span>/home/user/Documents<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-exec<span class="w"> </span>chmod<span class="w"> </span><span class="m">750</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="file-systems.html" class="btn btn-neutral float-left" title="File Systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="raid-systems.html" class="btn btn-neutral float-right" title="RAID Systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Rameshkumar T S.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
