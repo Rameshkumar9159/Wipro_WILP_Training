@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Glossary</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/epub.css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <section id="glossary">
+<h1>Glossary</h1>
+<p>This glossary provides definitions for storage-related terms and concepts used throughout this documentation.</p>
+<dl class="simple glossary">
+<dt id="term-AHCI">AHCI</dt><dd><p>Advanced Host Controller Interface - A technical standard for SATA host controllers that allows software to communicate with storage devices.</p>
+</dd>
+<dt id="term-Block-Device">Block Device</dt><dd><p>A type of device that provides buffered access to hardware devices, allowing data to be read and written in fixed-size blocks (typically 512 bytes or 4096 bytes).</p>
+</dd>
+<dt id="term-Block-Size">Block Size</dt><dd><p>The minimum unit of data that a filesystem can allocate. Common block sizes are 4KB, 8KB, and 64KB. Larger block sizes are better for sequential access, while smaller block sizes are more efficient for random access.</p>
+</dd>
+<dt id="term-BTRFS">BTRFS</dt><dd><p>B-Tree File System - A modern filesystem for Linux that features snapshots, checksums, compression, and advanced volume management capabilities.</p>
+</dd>
+<dt id="term-Cache">Cache</dt><dd><p>High-speed storage used to temporarily store frequently accessed data to improve performance. Can be implemented in hardware (disk cache) or software (filesystem cache).</p>
+</dd>
+<dt id="term-CIFS">CIFS</dt><dd><p>Common Internet File System - A network protocol used for sharing files, printers, and other resources between systems, primarily used with Windows networks.</p>
+</dd>
+<dt id="term-DAS">DAS</dt><dd><p>Direct-Attached Storage - Storage devices directly connected to a single computer without a network connection, such as internal hard drives or external USB drives.</p>
+</dd>
+<dt id="term-Defragmentation">Defragmentation</dt><dd><p>The process of reorganizing data on a storage device to reduce fragmentation and improve performance. Less relevant for modern filesystems and SSDs.</p>
+</dd>
+<dt id="term-Device-Mapper">Device Mapper</dt><dd><p>A Linux kernel framework that provides a generic way to create virtual layers on top of block devices, used by LVM and device encryption.</p>
+</dd>
+<dt id="term-Dirty-Pages">Dirty Pages</dt><dd><p>Memory pages that have been modified but not yet written to storage. The kernel manages when these pages are flushed to disk.</p>
+</dd>
+<dt id="term-DM-Crypt">DM-Crypt</dt><dd><p>Device-mapper crypt target - A Linux kernel module that provides transparent encryption of block devices using the device mapper infrastructure.</p>
+</dd>
+<dt id="term-ECC">ECC</dt><dd><p>Error-Correcting Code - Technology that detects and corrects data corruption errors in memory and storage systems.</p>
+</dd>
+<dt id="term-Ext4">Ext4</dt><dd><p>Fourth Extended Filesystem - The default filesystem for many Linux distributions, offering journaling, large file support, and backward compatibility.</p>
+</dd>
+<dt id="term-Filesystem">Filesystem</dt><dd><p>A method of organizing and storing data on storage devices. Examples include ext4, XFS, NTFS, and APFS.</p>
+</dd>
+<dt id="term-FSTAB">FSTAB</dt><dd><p>File Systems Table - A configuration file (/etc/fstab) that defines how disk partitions and storage devices should be mounted at boot time.</p>
+</dd>
+<dt id="term-GPT">GPT</dt><dd><p>GUID Partition Table - A modern partitioning scheme that replaces MBR, supporting larger disks and more partitions.</p>
+</dd>
+<dt id="term-HDD">HDD</dt><dd><p>Hard Disk Drive - Traditional storage device using spinning magnetic disks and mechanical read/write heads.</p>
+</dd>
+<dt id="term-Hot-Spare">Hot Spare</dt><dd><p>A standby disk in a RAID array that automatically replaces a failed disk without manual intervention.</p>
+</dd>
+<dt id="term-I-O">I/O</dt><dd><p>Input/Output - Operations that transfer data between the computer and storage devices or other external systems.</p>
+</dd>
+<dt id="term-Inode">Inode</dt><dd><p>Index node - A data structure that stores metadata about files and directories in Unix-like filesystems, including permissions, timestamps, and pointers to data blocks.</p>
+</dd>
+<dt id="term-IOPS">IOPS</dt><dd><p>Input/Output Operations Per Second - A performance measurement indicating how many read/write operations a storage device can perform per second.</p>
+</dd>
+<dt id="term-iSCSI">iSCSI</dt><dd><p>Internet Small Computer Systems Interface - A protocol that allows SCSI commands to be sent over IP networks, enabling network-attached storage.</p>
+</dd>
+<dt id="term-Journal">Journal</dt><dd><p>A log of filesystem changes used for crash recovery. Journaling filesystems can quickly recover from unexpected shutdowns by replaying the journal.</p>
+</dd>
+<dt id="term-JBOD">JBOD</dt><dd><p>Just a Bunch of Disks - A storage configuration where multiple disks are used independently without RAID redundancy.</p>
+</dd>
+<dt id="term-LBA">LBA</dt><dd><p>Logical Block Addressing - A method of addressing data blocks on storage devices using a linear sequence of block numbers.</p>
+</dd>
+<dt id="term-Logical-Volume">Logical Volume</dt><dd><p>A virtual storage device created by LVM that can span multiple physical devices and be resized dynamically.</p>
+</dd>
+<dt id="term-LUKS">LUKS</dt><dd><p>Linux Unified Key Setup - A disk encryption specification and reference implementation for Linux that provides a standard format for encrypted storage.</p>
+</dd>
+<dt id="term-LUN">LUN</dt><dd><p>Logical Unit Number - A number used to identify individual devices or logical units within a SCSI target.</p>
+</dd>
+<dt id="term-LVM">LVM</dt><dd><p>Logical Volume Manager - A system for managing disk space that provides volume management capabilities including resizing, snapshots, and spanning multiple devices.</p>
+</dd>
+<dt id="term-MBR">MBR</dt><dd><p>Master Boot Record - An older partitioning scheme limited to 2TB disks and 4 primary partitions.</p>
+</dd>
+<dt id="term-mdadm">mdadm</dt><dd><p>Multiple Device Administration - A Linux utility for managing software RAID arrays.</p>
+</dd>
+<dt id="term-Mount-Point">Mount Point</dt><dd><p>A directory in the filesystem hierarchy where a storage device or filesystem is attached and made accessible.</p>
+</dd>
+<dt id="term-NAS">NAS</dt><dd><p>Network-Attached Storage - File-level storage accessible over a network, typically using protocols like NFS or SMB/CIFS.</p>
+</dd>
+<dt id="term-NFS">NFS</dt><dd><p>Network File System - A protocol for sharing files over a network, allowing remote directories to be mounted as if they were local.</p>
+</dd>
+<dt id="term-NVME">NVME</dt><dd><p>Non-Volatile Memory Express - A high-performance interface for SSDs that connects directly to the CPU via PCIe lanes.</p>
+</dd>
+<dt id="term-Partition">Partition</dt><dd><p>A logical division of a storage device that appears to the operating system as a separate device.</p>
+</dd>
+<dt id="term-Physical-Extent">Physical Extent</dt><dd><p>The smallest unit of space allocation in LVM, typically 4MB in size.</p>
+</dd>
+<dt id="term-Physical-Volume">Physical Volume</dt><dd><p>A storage device or partition that has been initialized for use with LVM.</p>
+</dd>
+<dt id="term-RAID">RAID</dt><dd><p>Redundant Array of Independent Disks - A technology that combines multiple physical disks into logical units for redundancy, performance, or both.</p>
+</dd>
+<dt id="term-RAID-0">RAID 0</dt><dd><p>Disk striping without redundancy - improves performance but provides no fault tolerance.</p>
+</dd>
+<dt id="term-RAID-1">RAID 1</dt><dd><p>Disk mirroring - provides redundancy by maintaining identical copies of data on multiple disks.</p>
+</dd>
+<dt id="term-RAID-5">RAID 5</dt><dd><p>Distributed parity - requires minimum 3 disks, provides redundancy and improved read performance.</p>
+</dd>
+<dt id="term-RAID-6">RAID 6</dt><dd><p>Double distributed parity - requires minimum 4 disks, can tolerate failure of any two disks.</p>
+</dd>
+<dt id="term-RAID-10">RAID 10</dt><dd><p>Combination of RAID 1 and RAID 0 - provides both redundancy and performance improvements.</p>
+</dd>
+<dt id="term-RPO">RPO</dt><dd><p>Recovery Point Objective - The maximum acceptable amount of data loss measured in time (e.g., 1 hour RPO means losing at most 1 hour of data).</p>
+</dd>
+<dt id="term-RTO">RTO</dt><dd><p>Recovery Time Objective - The maximum acceptable time to restore service after a failure (e.g., 4 hour RTO means service must be restored within 4 hours).</p>
+</dd>
+<dt id="term-SAN">SAN</dt><dd><p>Storage Area Network - A dedicated high-speed network that provides block-level access to storage devices.</p>
+</dd>
+<dt id="term-SATA">SATA</dt><dd><p>Serial Advanced Technology Attachment - A computer bus interface for connecting storage devices like hard drives and SSDs.</p>
+</dd>
+<dt id="term-SCSI">SCSI</dt><dd><p>Small Computer System Interface - A set of standards for connecting and transferring data between computers and storage devices.</p>
+</dd>
+<dt id="term-Sector">Sector</dt><dd><p>The smallest addressable unit on a storage device, traditionally 512 bytes but increasingly 4096 bytes (4K sectors).</p>
+</dd>
+<dt id="term-SMART">SMART</dt><dd><p>Self-Monitoring, Analysis and Reporting Technology - A monitoring system for storage devices that detects and reports various reliability indicators.</p>
+</dd>
+<dt id="term-Snapshot">Snapshot</dt><dd><p>A point-in-time copy of a filesystem or volume that captures the state of data at a specific moment, useful for backups and recovery.</p>
+</dd>
+<dt id="term-SSD">SSD</dt><dd><p>Solid State Drive - Storage device using NAND flash memory with no moving parts, offering better performance and reliability than HDDs.</p>
+</dd>
+<dt id="term-Swap">Swap</dt><dd><p>Virtual memory space on storage devices used when physical RAM is insufficient. Also called a page file.</p>
+</dd>
+<dt id="term-Throughput">Throughput</dt><dd><p>The amount of data transferred per unit of time, typically measured in MB/s or GB/s.</p>
+</dd>
+<dt id="term-TRIM">TRIM</dt><dd><p>A command that informs SSDs which data blocks are no longer needed, allowing the drive to optimize performance and wear leveling.</p>
+</dd>
+<dt id="term-UUID">UUID</dt><dd><p>Universally Unique Identifier - A 128-bit identifier used to uniquely identify storage devices and filesystems.</p>
+</dd>
+<dt id="term-Volume-Group">Volume Group</dt><dd><p>A collection of physical volumes in LVM that provides a pool of storage space for creating logical volumes.</p>
+</dd>
+<dt id="term-Wear-Leveling">Wear Leveling</dt><dd><p>A technique used in SSDs to distribute write operations evenly across memory cells to maximize device lifespan.</p>
+</dd>
+<dt id="term-XFS">XFS</dt><dd><p>A high-performance journaling filesystem originally developed for IRIX, known for excellent scalability and large file support.</p>
+</dd>
+<dt id="term-ZFS">ZFS</dt><dd><p>Zettabyte File System - An advanced filesystem and volume manager that provides features like checksums, compression, snapshots, and data deduplication.</p>
+</dd>
+</dl>
+</section>
+<section id="common-command-abbreviations">
+<h1>Common Command Abbreviations</h1>
+<dl class="simple glossary">
+<dt id="term-blkid">blkid</dt><dd><p>Block device identifier - Command to display information about block devices and their attributes.</p>
+</dd>
+<dt id="term-dd">dd</dt><dd><p>Data duplicator (historically “disk dump”) - Command for copying and converting raw data between devices.</p>
+</dd>
+<dt id="term-df">df</dt><dd><p>Disk free - Command to display filesystem disk space usage.</p>
+</dd>
+<dt id="term-du">du</dt><dd><p>Disk usage - Command to display directory space usage.</p>
+</dd>
+<dt id="term-fdisk">fdisk</dt><dd><p>Fixed disk - Partition table manipulator for MBR partitions.</p>
+</dd>
+<dt id="term-fsck">fsck</dt><dd><p>File system check - Command to check and repair filesystem errors.</p>
+</dd>
+<dt id="term-gdisk">gdisk</dt><dd><p>GPT fdisk - Partition table manipulator for GPT partitions.</p>
+</dd>
+<dt id="term-lsblk">lsblk</dt><dd><p>List block devices - Command to display block device information in tree format.</p>
+</dd>
+<dt id="term-mount">mount</dt><dd><p>Mount filesystem - Command to attach filesystems to the directory tree.</p>
+</dd>
+<dt id="term-parted">parted</dt><dd><p>Partition editor - Command-line tool for creating and manipulating partition tables.</p>
+</dd>
+<dt id="term-rsync">rsync</dt><dd><p>Remote sync - Command for efficiently synchronizing files and directories.</p>
+</dd>
+<dt id="term-umount">umount</dt><dd><p>Unmount filesystem - Command to detach filesystems from the directory tree.</p>
+</dd>
+</dl>
+</section>
+<section id="storage-unit-definitions">
+<h1>Storage Unit Definitions</h1>
+<dl class="simple glossary">
+<dt id="term-Byte">Byte</dt><dd><p>The basic unit of digital information, consisting of 8 bits.</p>
+</dd>
+<dt id="term-KB-Kilobyte">KB (Kilobyte)</dt><dd><p>1,000 bytes (decimal) or 1,024 bytes (binary, more precisely called KiB).</p>
+</dd>
+<dt id="term-MB-Megabyte">MB (Megabyte)</dt><dd><p>1,000,000 bytes (decimal) or 1,048,576 bytes (binary, more precisely called MiB).</p>
+</dd>
+<dt id="term-GB-Gigabyte">GB (Gigabyte)</dt><dd><p>1,000,000,000 bytes (decimal) or 1,073,741,824 bytes (binary, more precisely called GiB).</p>
+</dd>
+<dt id="term-TB-Terabyte">TB (Terabyte)</dt><dd><p>1,000,000,000,000 bytes (decimal) or 1,099,511,627,776 bytes (binary, more precisely called TiB).</p>
+</dd>
+<dt id="term-PB-Petabyte">PB (Petabyte)</dt><dd><p>1,000,000,000,000,000 bytes (decimal) or 1,125,899,906,842,624 bytes (binary, more precisely called PiB).</p>
+</dd>
+</dl>
+</section>
+<section id="performance-metrics">
+<h1>Performance Metrics</h1>
+<dl class="simple glossary">
+<dt id="term-Bandwidth">Bandwidth</dt><dd><p>The maximum data transfer rate of a storage system, typically measured in MB/s or GB/s.</p>
+</dd>
+<dt id="term-Latency">Latency</dt><dd><p>The time delay between when a storage operation is requested and when it begins, typically measured in milliseconds.</p>
+</dd>
+<dt id="term-Queue-Depth">Queue Depth</dt><dd><p>The number of pending I/O operations that can be queued for processing by a storage device.</p>
+</dd>
+<dt id="term-Random-I-O">Random I/O</dt><dd><p>Storage operations that access data at non-sequential locations, typically slower than sequential I/O.</p>
+</dd>
+<dt id="term-Sequential-I-O">Sequential I/O</dt><dd><p>Storage operations that access data in a continuous, ordered manner, typically faster than random I/O.</p>
+</dd>
+<dt id="term-Sustained-Transfer-Rate">Sustained Transfer Rate</dt><dd><p>The average data transfer rate over an extended period, excluding burst performance.</p>
+</dd>
+</dl>
+</section>
+<section id="raid-levels-reference">
+<h1>RAID Levels Reference</h1>
+<dl class="simple glossary">
+<dt id="term-0">RAID 0</dt><dd><p>Striping - Data is split across multiple drives for improved performance. No redundancy. Minimum 2 drives.</p>
+</dd>
+<dt id="term-1">RAID 1</dt><dd><p>Mirroring - Data is duplicated across drives for redundancy. 50% storage efficiency. Minimum 2 drives.</p>
+</dd>
+<dt id="term-2">RAID 5</dt><dd><p>Distributed parity - Data and parity information spread across all drives. Can lose 1 drive. Minimum 3 drives.</p>
+</dd>
+<dt id="term-3">RAID 6</dt><dd><p>Double parity - Two parity blocks per stripe. Can lose 2 drives. Minimum 4 drives.</p>
+</dd>
+<dt id="term-4">RAID 10</dt><dd><p>Mirror of stripes - Combines RAID 1 and RAID 0. High performance and redundancy. Minimum 4 drives.</p>
+</dd>
+<dt id="term-RAID-50">RAID 50</dt><dd><p>Striped RAID 5 - Multiple RAID 5 arrays striped together. Minimum 6 drives.</p>
+</dd>
+<dt id="term-RAID-60">RAID 60</dt><dd><p>Striped RAID 6 - Multiple RAID 6 arrays striped together. Minimum 8 drives.</p>
+</dd>
+</dl>
+</section>
+<section id="network-storage-protocols">
+<h1>Network Storage Protocols</h1>
+<dl class="simple glossary">
+<dt id="term-AFP">AFP</dt><dd><p>Apple Filing Protocol - Network protocol for file sharing used primarily by Apple devices.</p>
+</dd>
+<dt id="term-FTP">FTP</dt><dd><p>File Transfer Protocol - Standard protocol for transferring files over networks.</p>
+</dd>
+<dt id="term-HTTP-HTTPS">HTTP/HTTPS</dt><dd><p>Hypertext Transfer Protocol - Web protocol that can also be used for file access via WebDAV.</p>
+</dd>
+<dt id="term-NFS-v3">NFS v3</dt><dd><p>Network File System version 3 - Stateless file sharing protocol, widely supported.</p>
+</dd>
+<dt id="term-NFS-v4">NFS v4</dt><dd><p>Network File System version 4 - Stateful protocol with improved security and features.</p>
+</dd>
+<dt id="term-SFTP">SFTP</dt><dd><p>SSH File Transfer Protocol - Secure file transfer protocol that operates over SSH.</p>
+</dd>
+<dt id="term-SMB-CIFS">SMB/CIFS</dt><dd><p>Server Message Block / Common Internet File System - File sharing protocol used primarily in Windows environments.</p>
+</dd>
+<dt id="term-WebDAV">WebDAV</dt><dd><p>Web Distributed Authoring and Versioning - Extension to HTTP for collaborative file management.</p>
+</dd>
+</dl>
+</section>
+<section id="file-system-features">
+<h1>File System Features</h1>
+<dl class="simple glossary">
+<dt id="term-Compression">Compression</dt><dd><p>Feature that reduces file size by encoding data more efficiently, saving storage space at the cost of CPU overhead.</p>
+</dd>
+<dt id="term-Copy-on-Write">Copy-on-Write</dt><dd><p>Technique where data is not physically copied until it is modified, used in snapshots and some filesystems.</p>
+</dd>
+<dt id="term-Deduplication">Deduplication</dt><dd><p>Process of eliminating duplicate data to reduce storage requirements.</p>
+</dd>
+<dt id="term-Encryption">Encryption</dt><dd><p>Process of encoding data to prevent unauthorized access, can be implemented at filesystem or block device level.</p>
+</dd>
+<dt id="term-Journaling">Journaling</dt><dd><p>Technique that logs filesystem changes before committing them, enabling fast recovery after crashes.</p>
+</dd>
+<dt id="term-Quotas">Quotas</dt><dd><p>Limits placed on storage usage by users or groups to prevent overconsumption of disk space.</p>
+</dd>
+<dt id="term-Snapshots">Snapshots</dt><dd><p>Point-in-time copies of filesystem state that can be used for backups or recovery.</p>
+</dd>
+<dt id="term-Sparse-Files">Sparse Files</dt><dd><p>Files that contain large blocks of zero bytes that are not actually stored on disk, saving space.</p>
+</dd>
+</dl>
+<p>This glossary provides essential terminology for understanding storage concepts in Ubuntu 22.04 and serves as a quick reference for technical terms used throughout the documentation.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

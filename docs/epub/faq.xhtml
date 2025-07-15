@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Frequently Asked Questions</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/epub.css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <section id="frequently-asked-questions">
+<h1>Frequently Asked Questions</h1>
+<section id="storage-fundamentals">
+<h2>Storage Fundamentals</h2>
+<section id="q-what-s-the-difference-between-storage-and-memory">
+<h3>Q: What’s the difference between storage and memory?</h3>
+<p><strong>A:</strong> Memory (RAM) is volatile storage that loses data when power is removed, while storage is non-volatile and retains data permanently. Memory provides temporary workspace for active programs, while storage provides long-term data retention.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check memory usage</span>
+free<span class="w"> </span>-h
+
+<span class="c1"># Check storage usage</span>
+df<span class="w"> </span>-h
+
+<span class="c1"># Show memory and storage together</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Memory:&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>free<span class="w"> </span>-h<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\\nStorage:&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>df<span class="w"> </span>-h
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-determine-what-type-of-storage-device-i-have">
+<h3>Q: How do I determine what type of storage device I have?</h3>
+<p><strong>A:</strong> Use these commands to identify your storage devices:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all block devices</span>
+lsblk
+
+<span class="c1"># Check if SSD or HDD</span>
+cat<span class="w"> </span>/sys/block/sda/queue/rotational
+<span class="c1"># 0 = SSD, 1 = HDD</span>
+
+<span class="c1"># Get detailed device information</span>
+sudo<span class="w"> </span>lshw<span class="w"> </span>-class<span class="w"> </span>disk
+
+<span class="c1"># Check device specifications</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-I<span class="w"> </span>/dev/sda<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(Model|Serial|LBA)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="q-what-filesystem-should-i-use-for-different-purposes">
+<h3>Q: What filesystem should I use for different purposes?</h3>
+<p><strong>A:</strong> Choose based on your specific needs:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Purpose                | Recommended Filesystem | Reason
+-----------------------|------------------------|------------------
+Ubuntu root partition | ext4                   | Stable, well-tested
+Large files (&gt;4GB)    | XFS or ext4           | Better large file support
+Snapshots needed       | Btrfs                 | Built-in snapshot capability
+Windows compatibility  | NTFS                  | Cross-platform support
+USB drives            | exFAT                 | Universal compatibility
+Network shares        | ext4 or XFS           | Good network performance
+</pre></div>
+</div>
+</section>
+</section>
+<section id="file-system-management">
+<h2>File System Management</h2>
+<section id="q-how-do-i-safely-resize-a-partition-without-losing-data">
+<h3>Q: How do I safely resize a partition without losing data?</h3>
+<p><strong>A:</strong> Follow these steps (ALWAYS backup first):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. BACKUP YOUR DATA FIRST!</span>
+
+<span class="c1"># 2. Unmount the partition</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/dev/sda2
+
+<span class="c1"># 3. Check filesystem integrity</span>
+sudo<span class="w"> </span>fsck<span class="w"> </span>-f<span class="w"> </span>/dev/sda2
+
+<span class="c1"># 4. Resize partition (using parted)</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sda<span class="w"> </span>resizepart<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># 5. Resize filesystem to match partition</span>
+sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/sda2
+
+<span class="c1"># 6. Mount and verify</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sda2<span class="w"> </span>/mnt/test
+df<span class="w"> </span>-h<span class="w"> </span>/mnt/test
+</pre></div>
+</div>
+</section>
+<section id="q-how-can-i-recover-deleted-files">
+<h3>Q: How can I recover deleted files?</h3>
+<p><strong>A:</strong> Recovery depends on how quickly you act and the filesystem type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install recovery tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>testdisk<span class="w"> </span>photorec<span class="w"> </span>extundelete
+
+<span class="c1"># For ext4 filesystems (must act quickly)</span>
+sudo<span class="w"> </span>extundelete<span class="w"> </span>/dev/sda1<span class="w"> </span>--restore-file<span class="w"> </span>/path/to/deleted/file
+
+<span class="c1"># For general file recovery</span>
+sudo<span class="w"> </span>photorec<span class="w"> </span>/dev/sda1
+
+<span class="c1"># For partition recovery</span>
+sudo<span class="w"> </span>testdisk<span class="w"> </span>/dev/sda
+
+<span class="c1"># Emergency: Stop using the drive immediately</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>remount,ro<span class="w"> </span>/dev/sda1
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-check-and-repair-filesystem-errors">
+<h3>Q: How do I check and repair filesystem errors?</h3>
+<p><strong>A:</strong> Use appropriate tools for each filesystem type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For ext4 filesystems</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>-f<span class="w"> </span>/dev/sda1<span class="w">     </span><span class="c1"># Force check</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>-p<span class="w"> </span>/dev/sda1<span class="w">     </span><span class="c1"># Automatic repair</span>
+
+<span class="c1"># For XFS filesystems</span>
+sudo<span class="w"> </span>xfs_check<span class="w"> </span>/dev/sda1<span class="w">        </span><span class="c1"># Check only</span>
+sudo<span class="w"> </span>xfs_repair<span class="w"> </span>/dev/sda1<span class="w">       </span><span class="c1"># Repair</span>
+
+<span class="c1"># For Btrfs filesystems</span>
+sudo<span class="w"> </span>btrfs<span class="w"> </span>check<span class="w"> </span>/dev/sda1<span class="w">      </span><span class="c1"># Check</span>
+sudo<span class="w"> </span>btrfs<span class="w"> </span>check<span class="w"> </span>--repair<span class="w"> </span>/dev/sda1<span class="w">  </span><span class="c1"># Repair</span>
+
+<span class="c1"># Check all filesystems in fstab</span>
+sudo<span class="w"> </span>fsck<span class="w"> </span>-A<span class="w"> </span>-f
+</pre></div>
+</div>
+</section>
+</section>
+<section id="disk-management">
+<h2>Disk Management</h2>
+<section id="q-how-do-i-add-a-new-hard-drive-to-my-ubuntu-system">
+<h3>Q: How do I add a new hard drive to my Ubuntu system?</h3>
+<p><strong>A:</strong> Follow this complete process:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Identify the new drive</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>-l
+lsblk
+
+<span class="c1"># 2. Create partition table</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mklabel<span class="w"> </span>gpt
+
+<span class="c1"># 3. Create partition</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span><span class="m">0</span>%<span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># 4. Format the partition</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># 5. Create mount point</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/newdrive
+
+<span class="c1"># 6. Mount temporarily</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/newdrive
+
+<span class="c1"># 7. Add to fstab for permanent mounting</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UUID=</span><span class="k">$(</span>sudo<span class="w"> </span>blkid<span class="w"> </span>-s<span class="w"> </span>UUID<span class="w"> </span>-o<span class="w"> </span>value<span class="w"> </span>/dev/sdb1<span class="k">)</span><span class="s2"> /mnt/newdrive ext4 defaults 0 2&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+
+<span class="c1"># 8. Test fstab entry</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/newdrive
+sudo<span class="w"> </span>mount<span class="w"> </span>-a
+</pre></div>
+</div>
+</section>
+<section id="q-how-can-i-improve-disk-performance">
+<h3>Q: How can I improve disk performance?</h3>
+<p><strong>A:</strong> Several optimization techniques:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable TRIM for SSDs</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>fstrim.timer
+
+<span class="c1"># Optimize I/O scheduler</span>
+<span class="c1"># For SSDs</span>
+<span class="nb">echo</span><span class="w"> </span>none<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># For HDDs</span>
+<span class="nb">echo</span><span class="w"> </span>mq-deadline<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Optimize mount options</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>remount,noatime,discard<span class="w"> </span>/dev/sda1
+
+<span class="c1"># Disable swap if you have enough RAM</span>
+sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
+<span class="c1"># Comment out swap in /etc/fstab</span>
+
+<span class="c1"># Optimize filesystem</span>
+sudo<span class="w"> </span>tune2fs<span class="w"> </span>-o<span class="w"> </span>discard<span class="w"> </span>/dev/sda1
+</pre></div>
+</div>
+</section>
+<section id="q-what-should-i-do-if-my-disk-is-failing">
+<h3>Q: What should I do if my disk is failing?</h3>
+<p><strong>A:</strong> Take immediate action to protect your data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Check SMART status</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-a<span class="w"> </span>/dev/sda
+
+<span class="c1"># 2. If drive is still accessible, backup immediately</span>
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/sda<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/backup/disk_image.img<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+
+<span class="c1"># 3. Or use ddrescue for damaged drives</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gddrescue
+sudo<span class="w"> </span>ddrescue<span class="w"> </span>/dev/sda<span class="w"> </span>/backup/disk_image.img<span class="w"> </span>/backup/rescue.log
+
+<span class="c1"># 4. Stop using the drive immediately</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/dev/sda1
+
+<span class="c1"># 5. Replace the drive and restore from backup</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="raid-configuration">
+<h2>RAID Configuration</h2>
+<section id="q-which-raid-level-should-i-choose">
+<h3>Q: Which RAID level should I choose?</h3>
+<p><strong>A:</strong> Choose based on your priorities:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Priority              | RAID Level | Min Disks | Capacity Loss | Performance
+----------------------|------------|-----------|---------------|-------------
+Performance Only      | RAID 0     | 2         | None          | Excellent
+Basic Redundancy      | RAID 1     | 2         | 50%           | Good Read
+Balanced Performance  | RAID 5     | 3         | 1 disk        | Good
+High Fault Tolerance  | RAID 6     | 4         | 2 disks       | Moderate
+Performance + Safety  | RAID 10    | 4         | 50%           | Excellent
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-replace-a-failed-disk-in-a-raid-array">
+<h3>Q: How do I replace a failed disk in a RAID array?</h3>
+<p><strong>A:</strong> Steps for replacing a failed RAID disk:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Identify failed disk</span>
+cat<span class="w"> </span>/proc/mdstat
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--detail<span class="w"> </span>/dev/md0
+
+<span class="c1"># 2. Mark disk as failed (if not auto-detected)</span>
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--fail<span class="w"> </span>/dev/md0<span class="w"> </span>/dev/sdb
+
+<span class="c1"># 3. Remove failed disk from array</span>
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--remove<span class="w"> </span>/dev/md0<span class="w"> </span>/dev/sdb
+
+<span class="c1"># 4. Physically replace the disk</span>
+<span class="c1"># Power down system if hot-swap not supported</span>
+
+<span class="c1"># 5. Add new disk to array</span>
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--add<span class="w"> </span>/dev/md0<span class="w"> </span>/dev/sdb
+
+<span class="c1"># 6. Monitor rebuild progress</span>
+watch<span class="w"> </span>cat<span class="w"> </span>/proc/mdstat
+</pre></div>
+</div>
+</section>
+<section id="q-can-i-convert-between-raid-levels">
+<h3>Q: Can I convert between RAID levels?</h3>
+<p><strong>A:</strong> Yes, but with limitations and requirements:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># RAID 1 to RAID 5 (requires adding a disk first)</span>
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--add<span class="w"> </span>/dev/md0<span class="w"> </span>/dev/sdd
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--grow<span class="w"> </span>/dev/md0<span class="w"> </span>--level<span class="o">=</span><span class="m">5</span><span class="w"> </span>--raid-devices<span class="o">=</span><span class="m">3</span>
+
+<span class="c1"># RAID 5 to RAID 6 (requires adding a disk)</span>
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--add<span class="w"> </span>/dev/md0<span class="w"> </span>/dev/sde
+sudo<span class="w"> </span>mdadm<span class="w"> </span>--grow<span class="w"> </span>/dev/md0<span class="w"> </span>--level<span class="o">=</span><span class="m">6</span><span class="w"> </span>--raid-devices<span class="o">=</span><span class="m">4</span>
+
+<span class="c1"># Note: ALWAYS backup data before conversion</span>
+<span class="c1"># Some conversions may not be possible</span>
+
+<span class="c1"># Check conversion progress</span>
+cat<span class="w"> </span>/proc/mdstat
+</pre></div>
+</div>
+</section>
+</section>
+<section id="network-storage">
+<h2>Network Storage</h2>
+<section id="q-should-i-use-nfs-or-smb-for-file-sharing">
+<h3>Q: Should I use NFS or SMB for file sharing?</h3>
+<p><strong>A:</strong> Choose based on your environment:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Scenario                    | Recommended | Reason
+----------------------------|-------------|------------------
+Linux-only environment     | NFS         | Better performance, native
+Mixed OS (Linux/Windows/Mac)| SMB/CIFS    | Universal compatibility
+High-performance computing  | NFS         | Lower overhead
+Simple file sharing         | SMB/CIFS    | Easier to configure
+Security-critical          | NFS + Kerberos | Better authentication
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-troubleshoot-slow-network-storage">
+<h3>Q: How do I troubleshoot slow network storage?</h3>
+<p><strong>A:</strong> Diagnose and optimize network storage performance:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check network connectivity</span>
+ping<span class="w"> </span>storage-server
+traceroute<span class="w"> </span>storage-server
+
+<span class="c1"># Test network bandwidth</span>
+iperf3<span class="w"> </span>-c<span class="w"> </span>storage-server
+
+<span class="c1"># Check mount options</span>
+mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(nfs|cifs)&quot;</span>
+
+<span class="c1"># Optimize NFS mount options</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>remount,rsize<span class="o">=</span><span class="m">32768</span>,wsize<span class="o">=</span><span class="m">32768</span>,hard,intr<span class="w"> </span>/mnt/nfs
+
+<span class="c1"># Monitor network I/O</span>
+iftop<span class="w"> </span>-i<span class="w"> </span>eth0
+nethogs
+
+<span class="c1"># Check for packet loss</span>
+mtr<span class="w"> </span>storage-server
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-set-up-automatic-mounting-for-network-drives">
+<h3>Q: How do I set up automatic mounting for network drives?</h3>
+<p><strong>A:</strong> Configure persistent network mounts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For NFS shares</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;nfs-server:/path/to/share /mnt/nfs nfs defaults,_netdev 0 0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+
+<span class="c1"># For SMB/CIFS shares with credentials</span>
+<span class="c1"># Create credentials file</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>~/.smbcredentials<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">username=myuser</span>
+<span class="s">password=mypassword</span>
+<span class="s">domain=mydomain</span>
+<span class="s">EOF</span>
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.smbcredentials
+
+<span class="c1"># Add to fstab</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;//server/share /mnt/smb cifs credentials=/home/user/.smbcredentials,uid=1000,gid=1000,_netdev 0 0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+
+<span class="c1"># Test automatic mounting</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-a
+</pre></div>
+</div>
+</section>
+</section>
+<section id="backup-and-recovery">
+<h2>Backup and Recovery</h2>
+<section id="q-what-s-the-best-backup-strategy-for-ubuntu">
+<h3>Q: What’s the best backup strategy for Ubuntu?</h3>
+<p><strong>A:</strong> Implement the 3-2-1 backup rule:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3-2-1 Rule: 3 copies, 2 different media types, 1 offsite</span>
+
+<span class="c1"># Local backup with rsync</span>
+rsync<span class="w"> </span>-av<span class="w"> </span>--delete<span class="w"> </span>/home/user/<span class="w"> </span>/backup/local/
+
+<span class="c1"># External drive backup</span>
+rsync<span class="w"> </span>-av<span class="w"> </span>--delete<span class="w"> </span>/home/user/<span class="w"> </span>/media/external/backup/
+
+<span class="c1"># Cloud backup with rclone</span>
+rclone<span class="w"> </span>sync<span class="w"> </span>/home/user/<span class="w"> </span>cloud:backup/
+
+<span class="c1"># System backup script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/usr/local/bin/backup.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+<span class="s"># Comprehensive backup script</span>
+
+<span class="s"># Backup user data</span>
+<span class="s">rsync -av /home/ /backup/home/</span>
+
+<span class="s"># Backup system configuration</span>
+<span class="s">tar -czf /backup/system-$(date +%Y%m%d).tar.gz /etc /var/lib/dpkg</span>
+
+<span class="s"># Create disk image of root partition</span>
+<span class="s">dd if=/dev/sda1 of=/backup/root-$(date +%Y%m%d).img bs=1M</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-restore-from-a-backup">
+<h3>Q: How do I restore from a backup?</h3>
+<p><strong>A:</strong> Restoration process depends on backup type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Restore from rsync backup</span>
+rsync<span class="w"> </span>-av<span class="w"> </span>/backup/home/<span class="w"> </span>/home/
+
+<span class="c1"># Restore from tar archive</span>
+<span class="nb">cd</span><span class="w"> </span>/
+sudo<span class="w"> </span>tar<span class="w"> </span>-xzf<span class="w"> </span>/backup/system-20240101.tar.gz
+
+<span class="c1"># Restore from disk image</span>
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/backup/root-20240101.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sda1<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+
+<span class="c1"># Restore specific files</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-xzf<span class="w"> </span>/backup/system.tar.gz<span class="w"> </span>-C<span class="w"> </span>/<span class="w"> </span>specific/file/path
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting</h2>
+<section id="q-my-system-won-t-boot-after-storage-changes-how-do-i-fix-it">
+<h3>Q: My system won’t boot after storage changes. How do I fix it?</h3>
+<p><strong>A:</strong> Boot from Ubuntu live USB and repair:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boot from Ubuntu live USB</span>
+
+<span class="c1"># Mount root partition</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sda2<span class="w"> </span>/mnt
+
+<span class="c1"># Mount other partitions</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sda1<span class="w"> </span>/mnt/boot/efi<span class="w">  </span><span class="c1"># EFI partition</span>
+
+<span class="c1"># Bind mount system directories</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/dev<span class="w"> </span>/mnt/dev
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/proc<span class="w"> </span>/mnt/proc
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/sys<span class="w"> </span>/mnt/sys
+
+<span class="c1"># Chroot into system</span>
+sudo<span class="w"> </span>chroot<span class="w"> </span>/mnt
+
+<span class="c1"># Repair GRUB</span>
+grub-install<span class="w"> </span>/dev/sda
+update-grub
+
+<span class="c1"># Fix fstab if needed</span>
+nano<span class="w"> </span>/etc/fstab
+
+<span class="c1"># Exit and reboot</span>
+<span class="nb">exit</span>
+sudo<span class="w"> </span>reboot
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-diagnose-storage-performance-issues">
+<h3>Q: How do I diagnose storage performance issues?</h3>
+<p><strong>A:</strong> Use these diagnostic tools:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor I/O in real-time</span>
+sudo<span class="w"> </span>iotop<span class="w"> </span>-o
+
+<span class="c1"># Check I/O statistics</span>
+iostat<span class="w"> </span>-x<span class="w"> </span><span class="m">1</span>
+
+<span class="c1"># Monitor disk usage</span>
+watch<span class="w"> </span>df<span class="w"> </span>-h
+
+<span class="c1"># Check for high I/O wait</span>
+top<span class="w">  </span><span class="c1"># Look for high %wa (I/O wait)</span>
+
+<span class="c1"># Test disk speed</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-Tt<span class="w"> </span>/dev/sda
+
+<span class="c1"># Check for filesystem errors</span>
+dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>error
+
+<span class="c1"># Monitor SMART attributes</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-A<span class="w"> </span>/dev/sda
+</pre></div>
+</div>
+</section>
+<section id="q-what-should-i-do-if-i-m-running-out-of-disk-space">
+<h3>Q: What should I do if I’m running out of disk space?</h3>
+<p><strong>A:</strong> Free up space systematically:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find large files</span>
+sudo<span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-size<span class="w"> </span>+100M<span class="w"> </span>-exec<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\\</span><span class="p">;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
+
+<span class="c1"># Check directory sizes</span>
+sudo<span class="w"> </span>du<span class="w"> </span>-h<span class="w"> </span>--max-depth<span class="o">=</span><span class="m">1</span><span class="w"> </span>/<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-hr
+
+<span class="c1"># Clean package cache</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>autoclean
+sudo<span class="w"> </span>apt<span class="w"> </span>autoremove
+
+<span class="c1"># Clean system logs</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>--vacuum-time<span class="o">=</span>3d
+
+<span class="c1"># Clean user caches</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/.cache/*
+rm<span class="w"> </span>-rf<span class="w"> </span>~/.thumbnails/*
+
+<span class="c1"># Find and remove duplicate files</span>
+fdupes<span class="w"> </span>-r<span class="w"> </span>/home/user<span class="w"> </span>-d
+
+<span class="c1"># Move large files to external storage</span>
+mv<span class="w"> </span>/home/user/large_files/<span class="w"> </span>/mnt/external/
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-optimization">
+<h2>Performance Optimization</h2>
+<section id="q-how-can-i-optimize-ubuntu-for-ssd-storage">
+<h3>Q: How can I optimize Ubuntu for SSD storage?</h3>
+<p><strong>A:</strong> Apply SSD-specific optimizations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable TRIM</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>fstrim.timer
+
+<span class="c1"># Set I/O scheduler to none</span>
+<span class="nb">echo</span><span class="w"> </span>none<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Update fstab with SSD-optimized options</span>
+<span class="c1"># Add noatime,discard to mount options</span>
+sudo<span class="w"> </span>nano<span class="w"> </span>/etc/fstab
+<span class="c1"># Example: UUID=xxx / ext4 defaults,noatime,discard 0 1</span>
+
+<span class="c1"># Reduce swappiness</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;vm.swappiness=1&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/sysctl.conf
+
+<span class="c1"># Move temporary files to RAM</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-monitor-storage-health-proactively">
+<h3>Q: How do I monitor storage health proactively?</h3>
+<p><strong>A:</strong> Set up comprehensive monitoring:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install monitoring tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>smartmontools<span class="w"> </span>sysstat
+
+<span class="c1"># Enable SMART monitoring</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>smartd
+
+<span class="c1"># Configure email alerts</span>
+sudo<span class="w"> </span>nano<span class="w"> </span>/etc/smartd.conf
+<span class="c1"># Add: /dev/sda -a -o on -S on -s (S/../.././02|L/../../6/03) -m admin@example.com</span>
+
+<span class="c1"># Create monitoring script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/usr/local/bin/storage_health.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+
+<span class="s"># Check disk usage</span>
+<span class="s">df -h | awk &#39;NR&gt;1 {if($5+0 &gt; 85) print $0}&#39; | mail -s &quot;Disk Usage Alert&quot; admin@example.com</span>
+
+<span class="s"># Check SMART status</span>
+<span class="s">for disk in /dev/sd[a-z]; do</span>
+<span class="s">    if [ -b &quot;$disk&quot; ]; then</span>
+<span class="s">        if ! smartctl -H &quot;$disk&quot; | grep -q PASSED; then</span>
+<span class="s">            echo &quot;SMART failure on $disk&quot; | mail -s &quot;SMART Alert&quot; admin@example.com</span>
+<span class="s">        fi</span>
+<span class="s">    fi</span>
+<span class="s">done</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/storage_health.sh
+
+<span class="c1"># Schedule regular checks</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0 6 * * * /usr/local/bin/storage_health.sh&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>crontab<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

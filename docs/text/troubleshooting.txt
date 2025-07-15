@@ -1,0 +1,757 @@
+Troubleshooting Guide
+*********************
+
+This comprehensive troubleshooting guide covers common storage-related
+issues on Ubuntu 22.04 and their solutions.
+
+* Disk and Partition Issues
+
+  * Disk Not Detected
+
+  * Partition Table Corruption
+
+  * Boot Issues
+
+* Filesystem Issues
+
+  * Filesystem Corruption
+
+  * Journal Issues
+
+  * Full Disk Issues
+
+* LVM Issues
+
+  * Physical Volume Problems
+
+  * Volume Group Issues
+
+  * Logical Volume Problems
+
+* RAID Issues
+
+  * Software RAID Problems
+
+  * Hardware RAID Issues
+
+* Network Storage Issues
+
+  * NFS Mount Problems
+
+  * Samba/CIFS Issues
+
+* Performance Issues
+
+  * Slow Disk Performance
+
+  * High I/O Wait
+
+  * Memory and Cache Issues
+
+* Recovery Procedures
+
+  * Data Recovery
+
+  * System Recovery
+
+* Emergency Procedures
+
+  * Read-Only Filesystem Recovery
+
+  * Disk Failure Emergency
+
+* Preventive Measures
+
+  * Regular Health Checks
+
+  * Backup Verification
+
+  * Log Monitoring
+
+* Advanced Debugging
+
+  * Kernel Debugging
+
+  * Hardware Diagnostics
+
+
+Disk and Partition Issues
+=========================
+
+
+Disk Not Detected
+-----------------
+
+**Symptoms:** - New disk not showing up in *lsblk* or *fdisk -l* -
+System doesn't recognize additional storage
+
+**Diagnosis Steps:**
+
+   # Check if disk is physically detected
+   sudo dmesg | grep -i "sd\|nvme\|ata"
+
+   # Check SATA/NVMe connections
+   lspci | grep -i "sata\|nvme"
+
+   # Rescan SCSI bus
+   echo "- - -" | sudo tee /sys/class/scsi_host/host*/scan
+
+   # Check disk health
+   sudo smartctl -a /dev/sdX
+
+**Solutions:**
+
+1. **Physical Connection Issues:**
+
+      # Power down and check connections
+      sudo shutdown -h now
+      # Check SATA/power cables
+      # Restart system
+
+2. **Driver Issues:**
+
+      # Update system
+      sudo apt update && sudo apt upgrade
+
+      # Install additional drivers if needed
+      sudo ubuntu-drivers autoinstall
+
+3. **BIOS/UEFI Settings:** - Enable AHCI mode - Check storage
+   controller settings - Verify disk is detected in BIOS
+
+
+Partition Table Corruption
+--------------------------
+
+**Symptoms:** - "Invalid partition table" errors - Disk shows as
+unallocated space - Boot issues
+
+**Diagnosis:**
+
+   # Check partition table
+   sudo fdisk -l /dev/sdX
+
+   # Check for backup GPT
+   sudo gdisk -l /dev/sdX
+
+   # Verify filesystem
+   sudo file -s /dev/sdX*
+
+**Recovery Steps:**
+
+   # Backup current state
+   sudo dd if=/dev/sdX of=/backup/disk-backup.img bs=512 count=2048
+
+   # Try to repair GPT
+   sudo gdisk /dev/sdX
+   # In gdisk: use 'r' for recovery menu, then 'b' to rebuild MBR
+
+   # For MBR partition tables
+   sudo fdisk /dev/sdX
+   # Use 'p' to print, 'w' to write if fixable
+
+   # Create new partition table if necessary
+   sudo parted /dev/sdX mklabel gpt
+
+
+Boot Issues
+-----------
+
+**GRUB Boot Loader Problems:**
+
+   # Boot from Ubuntu Live USB
+   # Mount root filesystem
+   sudo mount /dev/sdX1 /mnt
+   sudo mount /dev/sdX2 /mnt/boot  # if separate boot partition
+
+   # Bind mount system directories
+   sudo mount --bind /dev /mnt/dev
+   sudo mount --bind /proc /mnt/proc
+   sudo mount --bind /sys /mnt/sys
+
+   # Chroot into system
+   sudo chroot /mnt
+
+   # Reinstall GRUB
+   grub-install /dev/sdX
+   update-grub
+
+   # Exit and reboot
+   exit
+   sudo umount -R /mnt
+   sudo reboot
+
+**Missing Boot Partition:**
+
+   # Create new boot partition
+   sudo parted /dev/sdX mkpart primary ext4 1MiB 512MiB
+   sudo mkfs.ext4 /dev/sdX1
+
+   # Mount and restore boot files
+   sudo mount /dev/sdX1 /mnt
+   sudo cp -r /boot/* /mnt/
+
+   # Update fstab
+   echo "UUID=$(blkid -s UUID -o value /dev/sdX1) /boot ext4 defaults 0 2" | sudo tee -a /etc/fstab
+
+
+Filesystem Issues
+=================
+
+
+Filesystem Corruption
+---------------------
+
+**Symptoms:** - Read-only filesystem errors - "Input/output error"
+messages - Files disappearing or becoming inaccessible
+
+**Emergency Recovery:**
+
+   # Remount filesystem as read-only
+   sudo mount -o remount,ro /dev/sdX1
+
+   # Backup critical data immediately
+   sudo dd if=/dev/sdX1 of=/backup/corrupted-fs.img conv=noerror,sync
+
+   # Check filesystem
+   sudo fsck -f /dev/sdX1
+
+**Ext4 Filesystem Repair:**
+
+   # Unmount filesystem first
+   sudo umount /dev/sdX1
+
+   # Check and repair
+   sudo e2fsck -f -y /dev/sdX1
+
+   # If severely corrupted, try alternative superblock
+   sudo e2fsck -b 32768 /dev/sdX1
+
+   # Force repair if needed
+   sudo e2fsck -f -y -c /dev/sdX1
+
+**XFS Filesystem Repair:**
+
+   # XFS repair (filesystem must be unmounted)
+   sudo umount /dev/sdX1
+   sudo xfs_repair /dev/sdX1
+
+   # If metadata is corrupted
+   sudo xfs_repair -L /dev/sdX1  # This will clear the log
+
+**Btrfs Filesystem Repair:**
+
+   # Check Btrfs filesystem
+   sudo btrfs check /dev/sdX1
+
+   # Repair if needed (dangerous, backup first)
+   sudo btrfs check --repair /dev/sdX1
+
+   # Scrub for data integrity
+   sudo btrfs scrub start /mnt/btrfs-mount
+
+
+Journal Issues
+--------------
+
+**Ext4 Journal Problems:**
+
+   # Check journal status
+   sudo tune2fs -l /dev/sdX1 | grep -i journal
+
+   # Remove journal (converts to ext2)
+   sudo tune2fs -O ^has_journal /dev/sdX1
+
+   # Add journal back
+   sudo tune2fs -j /dev/sdX1
+
+   # Or recreate journal
+   sudo e2fsck -f /dev/sdX1
+   sudo tune2fs -J size=128 /dev/sdX1
+
+
+Full Disk Issues
+----------------
+
+**Disk Space Exhaustion:**
+
+   # Find large files
+   sudo find / -xdev -type f -size +100M -exec ls -lh {} \; 2>/dev/null
+
+   # Find large directories
+   sudo du -h --max-depth=1 / | sort -hr
+
+   # Clean package cache
+   sudo apt autoremove
+   sudo apt autoclean
+
+   # Clean journal logs
+   sudo journalctl --vacuum-time=3d
+
+   # Clean temporary files
+   sudo rm -rf /tmp/*
+   sudo rm -rf /var/tmp/*
+
+**Inode Exhaustion:**
+
+   # Check inode usage
+   df -i
+
+   # Find directories with many files
+   sudo find / -xdev -type d -exec sh -c 'echo "$(ls -1 "$1" | wc -l) $1"' _ {} \; | sort -n | tail -20
+
+   # Clean up small files
+   sudo find /var/log -name "*.log" -type f -size +100M -delete
+   sudo find /tmp -type f -atime +7 -delete
+
+
+LVM Issues
+==========
+
+
+Physical Volume Problems
+------------------------
+
+**PV Not Found:**
+
+   # Scan for PVs
+   sudo pvscan
+
+   # Force rescan
+   sudo pvscan --cache
+
+   # Check PV status
+   sudo pvdisplay -v
+
+   # Restore PV from backup
+   sudo pvcreate --restorefile /etc/lvm/backup/vg_name --uuid PV_UUID /dev/sdX1
+
+**Missing PV in VG:**
+
+   # Check VG status
+   sudo vgdisplay
+   sudo vgs -o +pv_missing
+
+   # Try to activate VG with missing PV
+   sudo vgchange -ay --partial volume_group_name
+
+   # Remove missing PV
+   sudo vgreduce --removemissing volume_group_name
+
+
+Volume Group Issues
+-------------------
+
+**VG Cannot Be Activated:**
+
+   # Check VG metadata
+   sudo vgck volume_group_name
+
+   # Restore VG from backup
+   sudo vgcfgrestore volume_group_name
+
+   # Manual metadata restore
+   sudo vgcfgrestore -f /etc/lvm/backup/volume_group_name volume_group_name
+
+
+Logical Volume Problems
+-----------------------
+
+**LV Won't Mount:**
+
+   # Check LV status
+   sudo lvdisplay
+   sudo lvs -a
+
+   # Activate LV
+   sudo lvchange -ay /dev/volume_group/logical_volume
+
+   # Check filesystem
+   sudo fsck /dev/volume_group/logical_volume
+
+**LV Resize Issues:**
+
+   # Check available space
+   sudo vgs
+
+   # Extend LV
+   sudo lvextend -L +1G /dev/volume_group/logical_volume
+
+   # Resize filesystem
+   sudo resize2fs /dev/volume_group/logical_volume  # for ext4
+   sudo xfs_growfs /mount/point                      # for XFS
+
+
+RAID Issues
+===========
+
+
+Software RAID Problems
+----------------------
+
+**Array Degraded:**
+
+   # Check RAID status
+   cat /proc/mdstat
+
+   # Check individual device status
+   sudo mdadm --detail /dev/md0
+
+   # Remove failed device
+   sudo mdadm --manage /dev/md0 --remove /dev/sdX1
+
+   # Add replacement device
+   sudo mdadm --manage /dev/md0 --add /dev/sdY1
+
+   # Monitor rebuild
+   watch cat /proc/mdstat
+
+**Array Won't Start:**
+
+   # Try to assemble array
+   sudo mdadm --assemble /dev/md0 /dev/sd[abc]1
+
+   # Force assembly with missing device
+   sudo mdadm --assemble --force /dev/md0 /dev/sd[ab]1
+
+   # Scan and assemble all arrays
+   sudo mdadm --assemble --scan
+
+**Superblock Issues:**
+
+   # Check superblock
+   sudo mdadm --examine /dev/sdX1
+
+   # Zero superblock if corrupted
+   sudo mdadm --zero-superblock /dev/sdX1
+
+   # Recreate array (data loss!)
+   sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
+
+
+Hardware RAID Issues
+--------------------
+
+**Controller Detection:**
+
+   # Check for RAID controllers
+   lspci | grep -i raid
+
+   # Install management tools
+   sudo apt install megacli hpacucli  # for MegaRAID and HP Smart Array
+
+   # Check controller status
+   sudo megacli -AdpAllInfo -aALL      # MegaRAID
+   sudo hpacucli ctrl all show         # HP Smart Array
+
+
+Network Storage Issues
+======================
+
+
+NFS Mount Problems
+------------------
+
+**Mount Fails:**
+
+   # Check NFS server availability
+   showmount -e nfs-server-ip
+
+   # Test network connectivity
+   ping nfs-server-ip
+   telnet nfs-server-ip 2049
+
+   # Check NFS services
+   sudo systemctl status nfs-client.target
+   sudo systemctl start nfs-client.target
+
+   # Debug mount
+   sudo mount -v -t nfs nfs-server:/export /mnt/nfs
+
+**Stale NFS Handles:**
+
+   # Force unmount
+   sudo umount -f /mnt/nfs
+
+   # Lazy unmount
+   sudo umount -l /mnt/nfs
+
+   # Clear stale handles
+   sudo mount -o remount /mnt/nfs
+
+
+Samba/CIFS Issues
+-----------------
+
+**Authentication Failures:**
+
+   # Test with different authentication
+   sudo mount -t cifs //server/share /mnt/cifs -o username=user,password=pass,vers=3.0
+
+   # Check supported protocols
+   sudo mount -t cifs //server/share /mnt/cifs -o username=user,vers=1.0
+
+   # Use credentials file
+   echo "username=user" | sudo tee /etc/cifs-credentials
+   echo "password=pass" | sudo tee -a /etc/cifs-credentials
+   sudo chmod 600 /etc/cifs-credentials
+   sudo mount -t cifs //server/share /mnt/cifs -o credentials=/etc/cifs-credentials
+
+
+Performance Issues
+==================
+
+
+Slow Disk Performance
+---------------------
+
+**Diagnosis:**
+
+   # Check I/O statistics
+   iostat -x 1 10
+
+   # Monitor disk activity
+   iotop
+
+   # Check for errors
+   dmesg | grep -i "error\|fail"
+
+   # SMART health check
+   sudo smartctl -a /dev/sdX
+
+**Optimization:**
+
+   # Check and optimize mount options
+   sudo mount -o remount,noatime,nodiratime /dev/sdX1
+
+   # Adjust I/O scheduler
+   echo deadline | sudo tee /sys/block/sdX/queue/scheduler
+
+   # Optimize for SSD
+   echo 0 | sudo tee /sys/block/sdX/queue/rotational
+   sudo fstrim -v /
+
+
+High I/O Wait
+-------------
+
+**Investigation:**
+
+   # Check system load
+   uptime
+
+   # Identify processes causing I/O
+   iotop -a -o
+
+   # Check for swap usage
+   free -h
+   swapon --show
+
+   # Monitor I/O per process
+   pidstat -d 1
+
+
+Memory and Cache Issues
+-----------------------
+
+**Clear Caches:**
+
+   # Drop caches safely
+   sync
+   echo 3 | sudo tee /proc/sys/vm/drop_caches
+
+   # Adjust swappiness
+   echo 10 | sudo tee /proc/sys/vm/swappiness
+
+**Check Memory Usage:**
+
+   # Detailed memory information
+   cat /proc/meminfo
+
+   # Check for memory leaks
+   ps aux --sort=-%mem | head -10
+
+
+Recovery Procedures
+===================
+
+
+Data Recovery
+-------------
+
+**File Recovery with TestDisk:**
+
+   # Install TestDisk
+   sudo apt install testdisk
+
+   # Run TestDisk for partition recovery
+   sudo testdisk
+
+   # Use PhotoRec for file recovery
+   sudo photorec
+
+**DD Rescue for Damaged Disks:**
+
+   # Install ddrescue
+   sudo apt install gddrescue
+
+   # Create image of damaged disk
+   sudo ddrescue -d -r3 /dev/sdX /path/to/rescue.img /path/to/rescue.log
+
+   # Continue rescue operation
+   sudo ddrescue -d -r3 /dev/sdX /path/to/rescue.img /path/to/rescue.log
+
+
+System Recovery
+---------------
+
+**Boot from Live USB:**
+
+   # Mount root filesystem
+   sudo mkdir /mnt/system
+   sudo mount /dev/sdX1 /mnt/system
+
+   # Mount other partitions
+   sudo mount /dev/sdX2 /mnt/system/boot
+   sudo mount /dev/sdX3 /mnt/system/home
+
+   # Chroot into system
+   sudo mount --bind /dev /mnt/system/dev
+   sudo mount --bind /proc /mnt/system/proc
+   sudo mount --bind /sys /mnt/system/sys
+   sudo chroot /mnt/system
+
+**Backup Before Recovery:**
+
+   # Create full system backup
+   sudo dd if=/dev/sdX of=/backup/full-disk.img bs=64K conv=noerror,sync
+
+   # Create compressed backup
+   sudo dd if=/dev/sdX bs=64K conv=noerror,sync | gzip > /backup/disk-backup.img.gz
+
+
+Emergency Procedures
+====================
+
+
+Read-Only Filesystem Recovery
+-----------------------------
+
+   # Check why filesystem is read-only
+   dmesg | tail -50
+
+   # Try to remount read-write
+   sudo mount -o remount,rw /
+
+   # If that fails, check filesystem
+   sudo fsck -f /dev/sdX1
+
+   # Force filesystem check on next boot
+   sudo touch /forcefsck
+
+
+Disk Failure Emergency
+----------------------
+
+   # Immediate data backup
+   sudo dd if=/dev/failing_disk of=/backup/emergency.img bs=4096 conv=noerror,sync
+
+   # Monitor SMART status
+   sudo smartctl -t short /dev/sdX
+   sudo smartctl -a /dev/sdX
+
+   # Prepare replacement
+   sudo fdisk -l /dev/new_disk
+   sudo dd if=/backup/emergency.img of=/dev/new_disk bs=4096
+
+
+Preventive Measures
+===================
+
+
+Regular Health Checks
+---------------------
+
+   # Create monitoring script
+   cat > /usr/local/bin/storage-health.sh << 'EOF'
+   #!/bin/bash
+
+   # Check disk usage
+   df -h | awk '$5+0 > 80 {print "WARNING: " $0}'
+
+   # Check SMART status
+   for disk in /dev/sd[a-z]; do
+       if [ -e "$disk" ]; then
+           smartctl -H "$disk" | grep -q "PASSED" || echo "SMART FAILURE: $disk"
+       fi
+   done
+
+   # Check RAID status
+   if [ -f /proc/mdstat ]; then
+       grep -q "_" /proc/mdstat && echo "RAID DEGRADED"
+   fi
+   EOF
+
+   chmod +x /usr/local/bin/storage-health.sh
+
+   # Add to crontab
+   echo "0 6 * * * root /usr/local/bin/storage-health.sh" >> /etc/crontab
+
+
+Backup Verification
+-------------------
+
+   # Verify backup integrity
+   md5sum /backup/important-data.tar.gz > /backup/checksums.md5
+
+   # Test restore procedure
+   tar -tzf /backup/important-data.tar.gz > /dev/null && echo "Backup OK" || echo "Backup CORRUPTED"
+
+
+Log Monitoring
+--------------
+
+   # Monitor for storage errors
+   tail -f /var/log/syslog | grep -i "error\|fail\|critical"
+
+   # Set up logwatch for storage events
+   sudo apt install logwatch
+   echo "storage" | sudo tee -a /etc/logwatch/conf/services/storage.conf
+
+
+Advanced Debugging
+==================
+
+
+Kernel Debugging
+----------------
+
+   # Enable kernel debugging
+   echo 1 | sudo tee /proc/sys/kernel/printk
+
+   # Check kernel ring buffer
+   dmesg -T | grep -i "storage\|disk\|ata\|scsi"
+
+   # Enable block device debugging
+   echo 1 | sudo tee /sys/block/sdX/queue/iostats
+
+
+Hardware Diagnostics
+--------------------
+
+   # Check hardware information
+   sudo lshw -class disk
+   sudo lspci -v | grep -A 10 -i storage
+
+   # Test memory
+   sudo apt install memtest86+
+   # Reboot and select memtest from GRUB menu
+
+   # CPU stress test
+   sudo apt install stress-ng
+   stress-ng --cpu 4 --timeout 60s
+
+This troubleshooting guide provides systematic approaches to diagnose
+and resolve storage issues on Ubuntu 22.04. Always backup critical
+data before attempting repairs, and consider professional data
+recovery services for valuable data on physically damaged drives.

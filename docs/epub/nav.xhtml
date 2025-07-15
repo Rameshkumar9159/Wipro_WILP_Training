@@ -1,0 +1,953 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:epub="http://www.idpf.org/2007/ops" lang="en" xml:lang="en">
+  <head>
+    <title>Table of Contents</title>
+  </head>
+  <body>
+    <nav epub:type="toc">
+      <h1>Table of Contents</h1>
+      <ol>
+        <li>
+          <a href="index.xhtml">Storage Systems and Data Management Guide</a>
+        </li>
+        <li>
+          <a href="storage-overview.xhtml">Storage Overview</a>
+          <ol>
+            <li>
+              <a href="storage-overview.xhtml#introduction-to-storage-systems">Introduction to Storage Systems</a>
+              <ol>
+                <li>
+                  <a href="storage-overview.xhtml#what-is-storage">What is Storage?</a>
+                </li>
+                <li>
+                  <a href="storage-overview.xhtml#types-of-storage">Types of Storage</a>
+                </li>
+                <li>
+                  <a href="storage-overview.xhtml#storage-hierarchy">Storage Hierarchy</a>
+                </li>
+                <li>
+                  <a href="storage-overview.xhtml#ubuntu-22-04-storage-commands">Ubuntu 22.04 Storage Commands</a>
+                </li>
+                <li>
+                  <a href="storage-overview.xhtml#frequently-asked-questions">Frequently Asked Questions</a>
+                </li>
+                <li>
+                  <a href="storage-overview.xhtml#coding-examples">Coding Examples</a>
+                </li>
+                <li>
+                  <a href="storage-overview.xhtml#best-practices">Best Practices</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="disk-management.xhtml">Disk Management</a>
+          <ol>
+            <li>
+              <a href="disk-management.xhtml#understanding-disk-management">Understanding Disk Management</a>
+              <ol>
+                <li>
+                  <a href="disk-management.xhtml#disk-management-fundamentals">Disk Management Fundamentals</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#disk-types-and-interfaces">Disk Types and Interfaces</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#ubuntu-22-04-disk-management-commands">Ubuntu 22.04 Disk Management Commands</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#partitioning-with-fdisk">Partitioning with fdisk</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#filesystem-creation-and-management">Filesystem Creation and Management</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#mounting-and-unmounting">Mounting and Unmounting</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#frequently-asked-questions">Frequently Asked Questions</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#coding-examples">Coding Examples</a>
+                </li>
+                <li>
+                  <a href="disk-management.xhtml#best-practices-for-disk-management">Best Practices for Disk Management</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="file-systems.xhtml">File Systems</a>
+          <ol>
+            <li>
+              <a href="file-systems.xhtml#understanding-file-systems">Understanding File Systems</a>
+              <ol>
+                <li>
+                  <a href="file-systems.xhtml#what-is-a-file-system">What is a File System?</a>
+                </li>
+                <li>
+                  <a href="file-systems.xhtml#file-system-components">File System Components</a>
+                </li>
+                <li>
+                  <a href="file-systems.xhtml#common-file-systems-in-ubuntu-22-04">Common File Systems in Ubuntu 22.04</a>
+                </li>
+                <li>
+                  <a href="file-systems.xhtml#file-system-operations-in-ubuntu-22-04">File System Operations in Ubuntu 22.04</a>
+                </li>
+                <li>
+                  <a href="file-systems.xhtml#file-system-monitoring">File System Monitoring</a>
+                </li>
+                <li>
+                  <a href="file-systems.xhtml#frequently-asked-questions">Frequently Asked Questions</a>
+                </li>
+                <li>
+                  <a href="file-systems.xhtml#coding-examples">Coding Examples</a>
+                </li>
+                <li>
+                  <a href="file-systems.xhtml#best-practices-for-file-systems">Best Practices for File Systems</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="data-organization.xhtml">Data Organization</a>
+          <ol>
+            <li>
+              <a href="data-organization.xhtml#understanding-data-organization">Understanding Data Organization</a>
+              <ol>
+                <li>
+                  <a href="data-organization.xhtml#data-organization-fundamentals">Data Organization Fundamentals</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#data-classification-types">Data Classification Types</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#ubuntu-22-04-data-organization-tools">Ubuntu 22.04 Data Organization Tools</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#data-backup-and-archival">Data Backup and Archival</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#data-compression-and-deduplication">Data Compression and Deduplication</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#data-monitoring-and-analysis">Data Monitoring and Analysis</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#frequently-asked-questions">Frequently Asked Questions</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#coding-examples">Coding Examples</a>
+                </li>
+                <li>
+                  <a href="data-organization.xhtml#best-practices-for-data-organization">Best Practices for Data Organization</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="raid-systems.xhtml">RAID Systems</a>
+          <ol>
+            <li>
+              <a href="raid-systems.xhtml#understanding-raid">Understanding RAID</a>
+              <ol>
+                <li>
+                  <a href="raid-systems.xhtml#what-is-raid">What is RAID?</a>
+                </li>
+                <li>
+                  <a href="raid-systems.xhtml#raid-levels-overview">RAID Levels Overview</a>
+                </li>
+                <li>
+                  <a href="raid-systems.xhtml#setting-up-raid-on-ubuntu-22-04">Setting Up RAID on Ubuntu 22.04</a>
+                </li>
+                <li>
+                  <a href="raid-systems.xhtml#raid-management-and-monitoring">RAID Management and Monitoring</a>
+                </li>
+                <li>
+                  <a href="raid-systems.xhtml#raid-performance-optimization">RAID Performance Optimization</a>
+                </li>
+                <li>
+                  <a href="raid-systems.xhtml#frequently-asked-questions">Frequently Asked Questions</a>
+                </li>
+                <li>
+                  <a href="raid-systems.xhtml#coding-examples">Coding Examples</a>
+                </li>
+                <li>
+                  <a href="raid-systems.xhtml#best-practices-for-raid-implementation">Best Practices for RAID Implementation</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="network-storage.xhtml">Network Storage</a>
+          <ol>
+            <li>
+              <a href="network-storage.xhtml#understanding-network-storage">Understanding Network Storage</a>
+              <ol>
+                <li>
+                  <a href="network-storage.xhtml#types-of-network-storage">Types of Network Storage</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#setting-up-nfs-on-ubuntu-22-04">Setting Up NFS on Ubuntu 22.04</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#setting-up-samba-smb-cifs-on-ubuntu-22-04">Setting Up Samba (SMB/CIFS) on Ubuntu 22.04</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#setting-up-iscsi-on-ubuntu-22-04">Setting Up iSCSI on Ubuntu 22.04</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#cloud-storage-integration">Cloud Storage Integration</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#network-storage-performance-optimization">Network Storage Performance Optimization</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#frequently-asked-questions">Frequently Asked Questions</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#coding-examples">Coding Examples</a>
+                </li>
+                <li>
+                  <a href="network-storage.xhtml#best-practices-for-network-storage">Best Practices for Network Storage</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="volume-management.xhtml">Volume Management</a>
+          <ol>
+            <li>
+              <a href="volume-management.xhtml#introduction-to-volume-management">Introduction to Volume Management</a>
+              <ol>
+                <li>
+                  <a href="volume-management.xhtml#key-concepts">Key Concepts</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="volume-management.xhtml#lvm-logical-volume-manager">LVM (Logical Volume Manager)</a>
+              <ol>
+                <li>
+                  <a href="volume-management.xhtml#installation-and-setup">Installation and Setup</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#creating-physical-volumes">Creating Physical Volumes</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#creating-volume-groups">Creating Volume Groups</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#creating-logical-volumes">Creating Logical Volumes</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#formatting-and-mounting-lvm-volumes">Formatting and Mounting LVM Volumes</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#resizing-lvm-volumes">Resizing LVM Volumes</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#lvm-snapshots">LVM Snapshots</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#advanced-lvm-features">Advanced LVM Features</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="volume-management.xhtml#zfs-volume-management">ZFS Volume Management</a>
+              <ol>
+                <li>
+                  <a href="volume-management.xhtml#installation-on-ubuntu-22-04">Installation on Ubuntu 22.04</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#creating-zfs-pools">Creating ZFS Pools</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#creating-zfs-datasets">Creating ZFS Datasets</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#zfs-snapshots-and-clones">ZFS Snapshots and Clones</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="volume-management.xhtml#btrfs-volume-management">Btrfs Volume Management</a>
+              <ol>
+                <li>
+                  <a href="volume-management.xhtml#creating-btrfs-volumes">Creating Btrfs Volumes</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#btrfs-subvolumes">Btrfs Subvolumes</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#btrfs-snapshots">Btrfs Snapshots</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="volume-management.xhtml#volume-management-scripts">Volume Management Scripts</a>
+              <ol>
+                <li>
+                  <a href="volume-management.xhtml#lvm-monitoring-script">LVM Monitoring Script</a>
+                </li>
+                <li>
+                  <a href="volume-management.xhtml#automated-backup-script">Automated Backup Script</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="volume-management.xhtml#common-tasks-and-q-a">Common Tasks and Q&amp;A</a>
+            </li>
+            <li>
+              <a href="volume-management.xhtml#best-practices">Best Practices</a>
+            </li>
+            <li>
+              <a href="volume-management.xhtml#see-also">See Also</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="storage-devices.xhtml">Storage Devices</a>
+          <ol>
+            <li>
+              <a href="storage-devices.xhtml#overview-of-storage-devices">Overview of Storage Devices</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#classification-by-technology">Classification by Technology</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#hard-disk-drives-hdds">Hard Disk Drives (HDDs)</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#technology-overview">Technology Overview</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#types-of-hdds">Types of HDDs</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#hdd-management-commands">HDD Management Commands</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#solid-state-drives-ssds">Solid State Drives (SSDs)</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#id1">Technology Overview</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#types-of-ssds">Types of SSDs</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#ssd-management-and-optimization">SSD Management and Optimization</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#nvme-management">NVMe Management</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#network-attached-storage-nas">Network Attached Storage (NAS)</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#types-of-nas-devices">Types of NAS Devices</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#storage-area-network-san">Storage Area Network (SAN)</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#iscsi-configuration">iSCSI Configuration</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#optical-storage">Optical Storage</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#cd-dvd-blu-ray-management">CD/DVD/Blu-ray Management</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#usb-storage-devices">USB Storage Devices</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#usb-drive-management">USB Drive Management</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#usb-performance-optimization">USB Performance Optimization</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#storage-device-monitoring">Storage Device Monitoring</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#health-monitoring-script">Health Monitoring Script</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#performance-benchmarking">Performance Benchmarking</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#device-selection-guidelines">Device Selection Guidelines</a>
+              <ol>
+                <li>
+                  <a href="storage-devices.xhtml#performance-considerations">Performance Considerations</a>
+                </li>
+                <li>
+                  <a href="storage-devices.xhtml#capacity-planning">Capacity Planning</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#common-issues-and-troubleshooting">Common Issues and Troubleshooting</a>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#best-practices">Best Practices</a>
+            </li>
+            <li>
+              <a href="storage-devices.xhtml#see-also">See Also</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="ubuntu-setup.xhtml">Ubuntu 22.04 Setup and Configuration</a>
+          <ol>
+            <li>
+              <a href="ubuntu-setup.xhtml#ubuntu-22-04-lts-storage-setup">Ubuntu 22.04 LTS Storage Setup</a>
+              <ol>
+                <li>
+                  <a href="ubuntu-setup.xhtml#system-requirements-and-preparation">System Requirements and Preparation</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#storage-focused-installation">Storage-Focused Installation</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#post-installation-storage-configuration">Post-Installation Storage Configuration</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#storage-security-configuration">Storage Security Configuration</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#backup-and-recovery-setup">Backup and Recovery Setup</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#storage-monitoring-and-alerts">Storage Monitoring and Alerts</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#performance-optimization">Performance Optimization</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#frequently-asked-questions">Frequently Asked Questions</a>
+                </li>
+                <li>
+                  <a href="ubuntu-setup.xhtml#troubleshooting-common-issues">Troubleshooting Common Issues</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="coding-examples.xhtml">Coding Examples and Scripts</a>
+          <ol>
+            <li>
+              <a href="coding-examples.xhtml#storage-monitoring-scripts">Storage Monitoring Scripts</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#system-storage-health-monitor">System Storage Health Monitor</a>
+                </li>
+                <li>
+                  <a href="coding-examples.xhtml#automated-backup-script">Automated Backup Script</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="coding-examples.xhtml#raid-management-tools">RAID Management Tools</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#raid-status-checker">RAID Status Checker</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="coding-examples.xhtml#lvm-automation-scripts">LVM Automation Scripts</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#dynamic-lv-resize-script">Dynamic LV Resize Script</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="coding-examples.xhtml#network-storage-utilities">Network Storage Utilities</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#nfs-mount-manager">NFS Mount Manager</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="coding-examples.xhtml#file-system-utilities">File System Utilities</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#filesystem-health-checker">Filesystem Health Checker</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="coding-examples.xhtml#performance-testing-scripts">Performance Testing Scripts</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#storage-benchmark-suite">Storage Benchmark Suite</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="coding-examples.xhtml#installation-and-usage-instructions">Installation and Usage Instructions</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#setting-up-the-environment">Setting Up the Environment</a>
+                </li>
+                <li>
+                  <a href="coding-examples.xhtml#script-configuration">Script Configuration</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="coding-examples.xhtml#integration-examples">Integration Examples</a>
+              <ol>
+                <li>
+                  <a href="coding-examples.xhtml#systemd-service-integration">Systemd Service Integration</a>
+                </li>
+                <li>
+                  <a href="coding-examples.xhtml#custom-alerts-integration">Custom Alerts Integration</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="troubleshooting.xhtml">Troubleshooting Guide</a>
+          <ol>
+            <li>
+              <a href="troubleshooting.xhtml#disk-and-partition-issues">Disk and Partition Issues</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#disk-not-detected">Disk Not Detected</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#partition-table-corruption">Partition Table Corruption</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#boot-issues">Boot Issues</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#filesystem-issues">Filesystem Issues</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#filesystem-corruption">Filesystem Corruption</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#journal-issues">Journal Issues</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#full-disk-issues">Full Disk Issues</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#lvm-issues">LVM Issues</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#physical-volume-problems">Physical Volume Problems</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#volume-group-issues">Volume Group Issues</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#logical-volume-problems">Logical Volume Problems</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#raid-issues">RAID Issues</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#software-raid-problems">Software RAID Problems</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#hardware-raid-issues">Hardware RAID Issues</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#network-storage-issues">Network Storage Issues</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#nfs-mount-problems">NFS Mount Problems</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#samba-cifs-issues">Samba/CIFS Issues</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#performance-issues">Performance Issues</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#slow-disk-performance">Slow Disk Performance</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#high-i-o-wait">High I/O Wait</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#memory-and-cache-issues">Memory and Cache Issues</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#recovery-procedures">Recovery Procedures</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#data-recovery">Data Recovery</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#system-recovery">System Recovery</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#emergency-procedures">Emergency Procedures</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#read-only-filesystem-recovery">Read-Only Filesystem Recovery</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#disk-failure-emergency">Disk Failure Emergency</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#preventive-measures">Preventive Measures</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#regular-health-checks">Regular Health Checks</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#backup-verification">Backup Verification</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#log-monitoring">Log Monitoring</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="troubleshooting.xhtml#advanced-debugging">Advanced Debugging</a>
+              <ol>
+                <li>
+                  <a href="troubleshooting.xhtml#kernel-debugging">Kernel Debugging</a>
+                </li>
+                <li>
+                  <a href="troubleshooting.xhtml#hardware-diagnostics">Hardware Diagnostics</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="best-practices.xhtml">Best Practices and Guidelines</a>
+          <ol>
+            <li>
+              <a href="best-practices.xhtml#storage-planning-and-design">Storage Planning and Design</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#capacity-planning">Capacity Planning</a>
+                </li>
+                <li>
+                  <a href="best-practices.xhtml#filesystem-selection-guidelines">Filesystem Selection Guidelines</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="best-practices.xhtml#partitioning-best-practices">Partitioning Best Practices</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#partition-layout-strategy">Partition Layout Strategy</a>
+                </li>
+                <li>
+                  <a href="best-practices.xhtml#alignment-and-performance">Alignment and Performance</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="best-practices.xhtml#security-best-practices">Security Best Practices</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#encryption-at-rest">Encryption at Rest</a>
+                </li>
+                <li>
+                  <a href="best-practices.xhtml#access-control-and-permissions">Access Control and Permissions</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="best-practices.xhtml#backup-and-recovery-strategies">Backup and Recovery Strategies</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#backup-strategy-framework">Backup Strategy Framework</a>
+                </li>
+                <li>
+                  <a href="best-practices.xhtml#recovery-planning">Recovery Planning</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="best-practices.xhtml#performance-optimization">Performance Optimization</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#i-o-optimization">I/O Optimization</a>
+                </li>
+                <li>
+                  <a href="best-practices.xhtml#memory-and-cache-optimization">Memory and Cache Optimization</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="best-practices.xhtml#monitoring-and-alerting">Monitoring and Alerting</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#proactive-monitoring">Proactive Monitoring</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="best-practices.xhtml#maintenance-procedures">Maintenance Procedures</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#regular-maintenance-tasks">Regular Maintenance Tasks</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="best-practices.xhtml#documentation-and-change-management">Documentation and Change Management</a>
+              <ol>
+                <li>
+                  <a href="best-practices.xhtml#documentation-standards">Documentation Standards</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="glossary.xhtml">Glossary</a>
+        </li>
+        <li>
+          <a href="glossary.xhtml#common-command-abbreviations">Common Command Abbreviations</a>
+        </li>
+        <li>
+          <a href="glossary.xhtml#storage-unit-definitions">Storage Unit Definitions</a>
+        </li>
+        <li>
+          <a href="glossary.xhtml#performance-metrics">Performance Metrics</a>
+        </li>
+        <li>
+          <a href="glossary.xhtml#raid-levels-reference">RAID Levels Reference</a>
+        </li>
+        <li>
+          <a href="glossary.xhtml#network-storage-protocols">Network Storage Protocols</a>
+        </li>
+        <li>
+          <a href="glossary.xhtml#file-system-features">File System Features</a>
+        </li>
+        <li>
+          <a href="faq.xhtml">Frequently Asked Questions</a>
+          <ol>
+            <li>
+              <a href="faq.xhtml#storage-fundamentals">Storage Fundamentals</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-what-s-the-difference-between-storage-and-memory">Q: What’s the difference between storage and memory?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-determine-what-type-of-storage-device-i-have">Q: How do I determine what type of storage device I have?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-what-filesystem-should-i-use-for-different-purposes">Q: What filesystem should I use for different purposes?</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="faq.xhtml#file-system-management">File System Management</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-safely-resize-a-partition-without-losing-data">Q: How do I safely resize a partition without losing data?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-can-i-recover-deleted-files">Q: How can I recover deleted files?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-check-and-repair-filesystem-errors">Q: How do I check and repair filesystem errors?</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="faq.xhtml#disk-management">Disk Management</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-add-a-new-hard-drive-to-my-ubuntu-system">Q: How do I add a new hard drive to my Ubuntu system?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-can-i-improve-disk-performance">Q: How can I improve disk performance?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-what-should-i-do-if-my-disk-is-failing">Q: What should I do if my disk is failing?</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="faq.xhtml#raid-configuration">RAID Configuration</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-which-raid-level-should-i-choose">Q: Which RAID level should I choose?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-replace-a-failed-disk-in-a-raid-array">Q: How do I replace a failed disk in a RAID array?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-can-i-convert-between-raid-levels">Q: Can I convert between RAID levels?</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="faq.xhtml#network-storage">Network Storage</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-should-i-use-nfs-or-smb-for-file-sharing">Q: Should I use NFS or SMB for file sharing?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-troubleshoot-slow-network-storage">Q: How do I troubleshoot slow network storage?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-set-up-automatic-mounting-for-network-drives">Q: How do I set up automatic mounting for network drives?</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="faq.xhtml#backup-and-recovery">Backup and Recovery</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-what-s-the-best-backup-strategy-for-ubuntu">Q: What’s the best backup strategy for Ubuntu?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-restore-from-a-backup">Q: How do I restore from a backup?</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="faq.xhtml#troubleshooting">Troubleshooting</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-my-system-won-t-boot-after-storage-changes-how-do-i-fix-it">Q: My system won’t boot after storage changes. How do I fix it?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-diagnose-storage-performance-issues">Q: How do I diagnose storage performance issues?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-what-should-i-do-if-i-m-running-out-of-disk-space">Q: What should I do if I’m running out of disk space?</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="faq.xhtml#performance-optimization">Performance Optimization</a>
+              <ol>
+                <li>
+                  <a href="faq.xhtml#q-how-can-i-optimize-ubuntu-for-ssd-storage">Q: How can I optimize Ubuntu for SSD storage?</a>
+                </li>
+                <li>
+                  <a href="faq.xhtml#q-how-do-i-monitor-storage-health-proactively">Q: How do I monitor storage health proactively?</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href="downloads.xhtml">Downloads and Resources</a>
+          <ol>
+            <li>
+              <a href="downloads.xhtml#documentation-formats">Documentation Formats</a>
+              <ol>
+                <li>
+                  <a href="downloads.xhtml#building-the-documentation">Building the Documentation</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#download-instructions">Download Instructions</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="downloads.xhtml#automation-scripts">Automation Scripts</a>
+              <ol>
+                <li>
+                  <a href="downloads.xhtml#automated-build-script">Automated Build Script</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#continuous-integration-script">Continuous Integration Script</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#docker-build-environment">Docker Build Environment</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="downloads.xhtml#additional-resources">Additional Resources</a>
+              <ol>
+                <li>
+                  <a href="downloads.xhtml#official-documentation-links">Official Documentation Links</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#useful-tools-and-utilities">Useful Tools and Utilities</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#scripts-and-templates">Scripts and Templates</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#community-resources">Community Resources</a>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a href="downloads.xhtml#getting-help-and-support">Getting Help and Support</a>
+              <ol>
+                <li>
+                  <a href="downloads.xhtml#issue-reporting">Issue Reporting</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#contributing-to-documentation">Contributing to Documentation</a>
+                </li>
+                <li>
+                  <a href="downloads.xhtml#contact-information">Contact Information</a>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </nav>
+  </body>
+</html>

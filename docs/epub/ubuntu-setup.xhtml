@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Ubuntu 22.04 Setup and Configuration</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/epub.css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <section id="ubuntu-22-04-setup-and-configuration">
+<h1>Ubuntu 22.04 Setup and Configuration</h1>
+<section id="ubuntu-22-04-lts-storage-setup">
+<h2>Ubuntu 22.04 LTS Storage Setup</h2>
+<p>Ubuntu 22.04 LTS (Jammy Jellyfish) provides excellent storage capabilities out of the box. This section covers the complete setup and configuration process for optimal storage management.</p>
+<section id="system-requirements-and-preparation">
+<h3>System Requirements and Preparation</h3>
+<section id="minimum-system-requirements">
+<h4>Minimum System Requirements</h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Component          | Minimum         | Recommended
+-------------------|-----------------|------------------
+RAM                | 4 GB           | 8 GB or more
+Storage            | 25 GB          | 100 GB or more
+CPU                | 2 GHz dual-core| 2 GHz quad-core
+Graphics           | VGA capable    | GPU with driver support
+</pre></div>
+</div>
+</section>
+<section id="pre-installation-planning">
+<h4>Pre-Installation Planning</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check hardware compatibility</span>
+lshw<span class="w"> </span>-short
+lscpu
+lsmem
+lsblk
+
+<span class="c1"># Check UEFI/BIOS mode</span>
+<span class="o">[</span><span class="w"> </span>-d<span class="w"> </span>/sys/firmware/efi<span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UEFI&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;BIOS&quot;</span>
+
+<span class="c1"># Verify secure boot status</span>
+mokutil<span class="w"> </span>--sb-state
+</pre></div>
+</div>
+</section>
+</section>
+<section id="storage-focused-installation">
+<h3>Storage-Focused Installation</h3>
+<section id="partitioning-strategies">
+<h4>Partitioning Strategies</h4>
+<p><strong>Option 1: Simple Layout (Recommended for most users)</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Device    | Mount Point | Size      | Filesystem | Purpose
+----------|-------------|-----------|------------|------------------
+/dev/sda1 | /boot/efi   | 512 MB    | FAT32      | EFI System
+/dev/sda2 | /           | 50-100 GB | ext4       | Root filesystem
+/dev/sda3 | /home       | Remaining | ext4       | User data
+/dev/sda4 | [SWAP]      | 2x RAM    | swap       | Virtual memory
+</pre></div>
+</div>
+<p><strong>Option 2: Advanced Layout (For servers/power users)</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Device    | Mount Point | Size      | Filesystem | Purpose
+----------|-------------|-----------|------------|------------------
+/dev/sda1 | /boot/efi   | 512 MB    | FAT32      | EFI System
+/dev/sda2 | /boot       | 1 GB      | ext4       | Boot files
+/dev/sda3 | /           | 20 GB     | ext4       | Root filesystem
+/dev/sda4 | /var        | 20 GB     | ext4       | Variable data
+/dev/sda5 | /tmp        | 5 GB      | ext4       | Temporary files
+/dev/sda6 | /home       | Remaining | ext4       | User data
+/dev/sda7 | [SWAP]      | 2x RAM    | swap       | Virtual memory
+</pre></div>
+</div>
+</section>
+<section id="manual-partitioning-with-fdisk">
+<h4>Manual Partitioning with fdisk</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start partitioning</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>/dev/sda
+
+<span class="c1"># Create GPT partition table</span>
+Command:<span class="w"> </span>g
+
+<span class="c1"># Create EFI partition</span>
+Command:<span class="w"> </span>n
+Partition<span class="w"> </span>number:<span class="w"> </span><span class="m">1</span>
+First<span class="w"> </span>sector:<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>
+Last<span class="w"> </span>sector:<span class="w"> </span>+512M
+Command:<span class="w"> </span>t
+Partition<span class="w"> </span>type:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>EFI<span class="w"> </span>System<span class="o">)</span>
+
+<span class="c1"># Create root partition</span>
+Command:<span class="w"> </span>n
+Partition<span class="w"> </span>number:<span class="w"> </span><span class="m">2</span>
+First<span class="w"> </span>sector:<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>
+Last<span class="w"> </span>sector:<span class="w"> </span>+50G
+<span class="c1"># (ext4 by default)</span>
+
+<span class="c1"># Create home partition</span>
+Command:<span class="w"> </span>n
+Partition<span class="w"> </span>number:<span class="w"> </span><span class="m">3</span>
+First<span class="w"> </span>sector:<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>
+Last<span class="w"> </span>sector:<span class="w"> </span><span class="o">(</span>default<span class="w"> </span>-<span class="w"> </span>use<span class="w"> </span>remaining<span class="w"> </span>space<span class="o">)</span>
+
+<span class="c1"># Write changes</span>
+Command:<span class="w"> </span>w
+</pre></div>
+</div>
+</section>
+<section id="lvm-setup-for-flexible-storage">
+<h4>LVM Setup for Flexible Storage</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install LVM tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>lvm2
+
+<span class="c1"># Create physical volume</span>
+sudo<span class="w"> </span>pvcreate<span class="w"> </span>/dev/sda3
+
+<span class="c1"># Create volume group</span>
+sudo<span class="w"> </span>vgcreate<span class="w"> </span>ubuntu-vg<span class="w"> </span>/dev/sda3
+
+<span class="c1"># Create logical volumes</span>
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>20G<span class="w"> </span>-n<span class="w"> </span>root<span class="w"> </span>ubuntu-vg
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>10G<span class="w"> </span>-n<span class="w"> </span>var<span class="w"> </span>ubuntu-vg
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>5G<span class="w"> </span>-n<span class="w"> </span>tmp<span class="w"> </span>ubuntu-vg
+sudo<span class="w"> </span>lvcreate<span class="w"> </span>-l<span class="w"> </span><span class="m">100</span>%FREE<span class="w"> </span>-n<span class="w"> </span>home<span class="w"> </span>ubuntu-vg
+
+<span class="c1"># Format logical volumes</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/ubuntu-vg/root
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/ubuntu-vg/var
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/ubuntu-vg/tmp
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/ubuntu-vg/home
+</pre></div>
+</div>
+</section>
+</section>
+<section id="post-installation-storage-configuration">
+<h3>Post-Installation Storage Configuration</h3>
+<section id="update-system-and-install-essential-tools">
+<h4>Update System and Install Essential Tools</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update package lists and system</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+
+<span class="c1"># Install essential storage tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>gdisk<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>parted<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>gparted<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>lvm2<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>mdadm<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>smartmontools<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>hdparm<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>iotop<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>htop<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>tree<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>ncdu<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>rsync<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>rclone<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>fdupes<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>testdisk<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>ddrescue<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>safecopy
+
+<span class="c1"># Install filesystem tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>xfsprogs<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>btrfs-progs<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>ntfs-3g<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>exfat-fuse<span class="w"> </span><span class="se">\\</span>
+<span class="w">    </span>exfat-utils
+</pre></div>
+</div>
+</section>
+<section id="configure-storage-monitoring">
+<h4>Configure Storage Monitoring</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable and configure SMART monitoring</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>smartmontools
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>smartmontools
+
+<span class="c1"># Configure smartd</span>
+sudo<span class="w"> </span>nano<span class="w"> </span>/etc/smartd.conf
+<span class="c1"># Add: /dev/sda -a -o on -S on -s (S/../.././02|L/../../6/03)</span>
+
+<span class="c1"># Enable automatic TRIM for SSDs</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>fstrim.timer
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>fstrim.timer
+
+<span class="c1"># Verify TRIM is working</span>
+sudo<span class="w"> </span>fstrim<span class="w"> </span>-v<span class="w"> </span>/
+</pre></div>
+</div>
+</section>
+<section id="optimize-storage-performance">
+<h4>Optimize Storage Performance</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check current I/O scheduler</span>
+cat<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Set optimal I/O scheduler for SSDs</span>
+<span class="nb">echo</span><span class="w"> </span>none<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Set optimal I/O scheduler for HDDs</span>
+<span class="nb">echo</span><span class="w"> </span>mq-deadline<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Make scheduler change permanent</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;ACTION==&quot;add|change&quot;, KERNEL==&quot;sd[a-z]&quot;, ATTR{queue/rotational}==&quot;0&quot;, ATTR{queue/scheduler}=&quot;none&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/udev/rules.d/60-ioschedulers.rules
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;ACTION==&quot;add|change&quot;, KERNEL==&quot;sd[a-z]&quot;, ATTR{queue/rotational}==&quot;1&quot;, ATTR{queue/scheduler}=&quot;mq-deadline&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/udev/rules.d/60-ioschedulers.rules
+</pre></div>
+</div>
+</section>
+</section>
+<section id="storage-security-configuration">
+<h3>Storage Security Configuration</h3>
+<section id="full-disk-encryption-with-luks">
+<h4>Full Disk Encryption with LUKS</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install cryptsetup</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>cryptsetup
+
+<span class="c1"># Encrypt a partition</span>
+sudo<span class="w"> </span>cryptsetup<span class="w"> </span>luksFormat<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># Open encrypted partition</span>
+sudo<span class="w"> </span>cryptsetup<span class="w"> </span>luksOpen<span class="w"> </span>/dev/sdb1<span class="w"> </span>encrypted_drive
+
+<span class="c1"># Create filesystem on encrypted partition</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/mapper/encrypted_drive
+
+<span class="c1"># Mount encrypted partition</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/encrypted
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/mapper/encrypted_drive<span class="w"> </span>/mnt/encrypted
+
+<span class="c1"># Add to /etc/crypttab for automatic mounting</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;encrypted_drive /dev/sdb1 none luks&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/crypttab
+
+<span class="c1"># Add to /etc/fstab</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;/dev/mapper/encrypted_drive /mnt/encrypted ext4 defaults 0 2&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+</pre></div>
+</div>
+</section>
+<section id="file-permissions-and-access-control">
+<h4>File Permissions and Access Control</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up secure permissions for user data</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">750</span><span class="w"> </span>/home/username
+sudo<span class="w"> </span>chown<span class="w"> </span>username:username<span class="w"> </span>/home/username
+
+<span class="c1"># Create shared directories with proper permissions</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/shared
+sudo<span class="w"> </span>chown<span class="w"> </span>root:users<span class="w"> </span>/shared
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">2775</span><span class="w"> </span>/shared
+
+<span class="c1"># Set up ACLs for fine-grained control</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>acl
+
+<span class="c1"># Example: Give user read/write access to specific directory</span>
+sudo<span class="w"> </span>setfacl<span class="w"> </span>-m<span class="w"> </span>u:username:rw<span class="w"> </span>/path/to/directory
+sudo<span class="w"> </span>setfacl<span class="w"> </span>-m<span class="w"> </span>g:groupname:r<span class="w"> </span>/path/to/directory
+</pre></div>
+</div>
+</section>
+</section>
+<section id="backup-and-recovery-setup">
+<h3>Backup and Recovery Setup</h3>
+<section id="automated-backup-configuration">
+<h4>Automated Backup Configuration</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create backup directories</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/backup/<span class="o">{</span>daily,weekly,monthly<span class="o">}</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/backup/system/<span class="o">{</span>etc,home,var<span class="o">}</span>
+
+<span class="c1"># Install backup tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>rsync<span class="w"> </span>borgbackup<span class="w"> </span>duplicity
+
+<span class="c1"># Create backup script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/usr/local/bin/backup_system.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+
+<span class="s">BACKUP_DIR=&quot;/backup&quot;</span>
+<span class="s">DATE=$(date +%Y%m%d_%H%M%S)</span>
+<span class="s">LOG_FILE=&quot;/var/log/backup.log&quot;</span>
+
+<span class="s">log_message() {</span>
+<span class="s">    echo &quot;$(date &#39;+%Y-%m-%d %H:%M:%S&#39;) - $1&quot; | tee -a &quot;$LOG_FILE&quot;</span>
+<span class="s">}</span>
+
+<span class="s"># Backup system configuration</span>
+<span class="s">backup_system() {</span>
+<span class="s">    log_message &quot;Starting system backup&quot;</span>
+
+<span class="s">    # Backup /etc</span>
+<span class="s">    rsync -av /etc/ &quot;$BACKUP_DIR/system/etc/&quot;</span>
+
+<span class="s">    # Backup user homes</span>
+<span class="s">    rsync -av /home/ &quot;$BACKUP_DIR/system/home/&quot; --exclude=&quot;.cache&quot;</span>
+
+<span class="s">    # Backup important /var directories</span>
+<span class="s">    rsync -av /var/log/ &quot;$BACKUP_DIR/system/var/log/&quot;</span>
+<span class="s">    rsync -av /var/lib/dpkg/ &quot;$BACKUP_DIR/system/var/lib/dpkg/&quot;</span>
+
+<span class="s">    log_message &quot;System backup completed&quot;</span>
+<span class="s">}</span>
+
+<span class="s"># Backup user data</span>
+<span class="s">backup_data() {</span>
+<span class="s">    log_message &quot;Starting data backup&quot;</span>
+
+<span class="s">    for user_dir in /home/*; do</span>
+<span class="s">        if [ -d &quot;$user_dir&quot; ]; then</span>
+<span class="s">            username=$(basename &quot;$user_dir&quot;)</span>
+<span class="s">            rsync -av &quot;$user_dir/&quot; &quot;$BACKUP_DIR/daily/$username/&quot; \\</span>
+<span class="s">                --exclude=&quot;.cache&quot; \\</span>
+<span class="s">                --exclude=&quot;.thumbnails&quot; \\</span>
+<span class="s">                --exclude=&quot;Downloads&quot;</span>
+<span class="s">        fi</span>
+<span class="s">    done</span>
+
+<span class="s">    log_message &quot;Data backup completed&quot;</span>
+<span class="s">}</span>
+
+<span class="s"># Create compressed archive</span>
+<span class="s">create_archive() {</span>
+<span class="s">    log_message &quot;Creating compressed archive&quot;</span>
+
+<span class="s">    tar -czf &quot;$BACKUP_DIR/archive/backup_$DATE.tar.gz&quot; \\</span>
+<span class="s">        -C &quot;$BACKUP_DIR&quot; daily system</span>
+
+<span class="s">    # Remove archives older than 30 days</span>
+<span class="s">    find &quot;$BACKUP_DIR/archive&quot; -name &quot;*.tar.gz&quot; -mtime +30 -delete</span>
+
+<span class="s">    log_message &quot;Archive created: backup_$DATE.tar.gz&quot;</span>
+<span class="s">}</span>
+
+<span class="s"># Main execution</span>
+<span class="s">mkdir -p &quot;$BACKUP_DIR/archive&quot;</span>
+<span class="s">backup_system</span>
+<span class="s">backup_data</span>
+<span class="s">create_archive</span>
+
+<span class="s"># Send notification</span>
+<span class="s">echo &quot;Backup completed on $(hostname) at $(date)&quot; | \\</span>
+<span class="s">    mail -s &quot;Backup Report&quot; admin@localhost 2&gt;/dev/null || true</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/backup_system.sh
+
+<span class="c1"># Schedule backup with cron</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0 2 * * * /usr/local/bin/backup_system.sh&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>crontab<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
+</section>
+<section id="storage-monitoring-and-alerts">
+<h3>Storage Monitoring and Alerts</h3>
+<section id="system-health-monitoring">
+<h4>System Health Monitoring</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create monitoring script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/usr/local/bin/storage_monitor.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+
+<span class="s">LOG_FILE=&quot;/var/log/storage_monitor.log&quot;</span>
+<span class="s">ALERT_THRESHOLD=85</span>
+<span class="s">SMART_LOG=&quot;/var/log/smart_check.log&quot;</span>
+
+<span class="s">log_message() {</span>
+<span class="s">    echo &quot;$(date &#39;+%Y-%m-%d %H:%M:%S&#39;) - $1&quot; | tee -a &quot;$LOG_FILE&quot;</span>
+<span class="s">}</span>
+
+<span class="s"># Check disk usage</span>
+<span class="s">check_disk_usage() {</span>
+<span class="s">    log_message &quot;Checking disk usage&quot;</span>
+
+<span class="s">    df -h | grep -vE &#39;^Filesystem|tmpfs|cdrom&#39; | awk &#39;{print $5 &quot; &quot; $1 &quot; &quot; $6}&#39; | while read usage device mount; do</span>
+<span class="s">        usage_percent=$(echo $usage | sed &#39;s/%//g&#39;)</span>
+
+<span class="s">        if [ $usage_percent -ge $ALERT_THRESHOLD ]; then</span>
+<span class="s">            log_message &quot;ALERT: $device ($mount) is ${usage_percent}% full&quot;</span>
+<span class="s">            echo &quot;Disk usage alert: $device ($mount) is ${usage_percent}% full&quot; | \\</span>
+<span class="s">                mail -s &quot;Disk Usage Alert - $(hostname)&quot; admin@localhost</span>
+<span class="s">        fi</span>
+<span class="s">    done</span>
+<span class="s">}</span>
+
+<span class="s"># Check SMART status</span>
+<span class="s">check_smart_status() {</span>
+<span class="s">    log_message &quot;Checking SMART status&quot;</span>
+
+<span class="s">    for device in /dev/sd[a-z]; do</span>
+<span class="s">        if [ -b &quot;$device&quot; ]; then</span>
+<span class="s">            smart_status=$(smartctl -H &quot;$device&quot; 2&gt;/dev/null | grep &quot;SMART overall-health&quot; | awk &#39;{print $6}&#39;)</span>
+
+<span class="s">            if [ &quot;$smart_status&quot; = &quot;PASSED&quot; ]; then</span>
+<span class="s">                log_message &quot;$device: SMART status OK&quot;</span>
+<span class="s">            elif [ &quot;$smart_status&quot; = &quot;FAILED&quot; ]; then</span>
+<span class="s">                log_message &quot;ALERT: $device SMART status FAILED&quot;</span>
+<span class="s">                echo &quot;SMART failure detected on $device&quot; | \\</span>
+<span class="s">                    mail -s &quot;SMART Failure Alert - $(hostname)&quot; admin@localhost</span>
+<span class="s">            fi</span>
+
+<span class="s">            # Log detailed SMART info</span>
+<span class="s">            smartctl -a &quot;$device&quot; &gt;&gt; &quot;$SMART_LOG&quot;</span>
+<span class="s">        fi</span>
+<span class="s">    done</span>
+<span class="s">}</span>
+
+<span class="s"># Check filesystem errors</span>
+<span class="s">check_filesystem_errors() {</span>
+<span class="s">    log_message &quot;Checking filesystem errors&quot;</span>
+
+<span class="s">    # Check dmesg for filesystem errors</span>
+<span class="s">    if dmesg | grep -i &quot;error\|fault\|fail&quot; | grep -i &quot;ext4\|xfs\|btrfs&quot; &gt; /dev/null; then</span>
+<span class="s">        log_message &quot;ALERT: Filesystem errors detected in dmesg&quot;</span>
+<span class="s">        dmesg | grep -i &quot;error\|fault\|fail&quot; | grep -i &quot;ext4\|xfs\|btrfs&quot; | \\</span>
+<span class="s">            mail -s &quot;Filesystem Error Alert - $(hostname)&quot; admin@localhost</span>
+<span class="s">    fi</span>
+<span class="s">}</span>
+
+<span class="s"># Check RAID status (if applicable)</span>
+<span class="s">check_raid_status() {</span>
+<span class="s">    if [ -f /proc/mdstat ]; then</span>
+<span class="s">        log_message &quot;Checking RAID status&quot;</span>
+
+<span class="s">        if grep -q &quot;_&quot; /proc/mdstat; then</span>
+<span class="s">            log_message &quot;ALERT: RAID degraded state detected&quot;</span>
+<span class="s">            cat /proc/mdstat | mail -s &quot;RAID Alert - $(hostname)&quot; admin@localhost</span>
+<span class="s">        fi</span>
+<span class="s">    fi</span>
+<span class="s">}</span>
+
+<span class="s"># Main execution</span>
+<span class="s">check_disk_usage</span>
+<span class="s">check_smart_status</span>
+<span class="s">check_filesystem_errors</span>
+<span class="s">check_raid_status</span>
+
+<span class="s">log_message &quot;Storage monitoring completed&quot;</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/storage_monitor.sh
+
+<span class="c1"># Schedule monitoring</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0 */6 * * * /usr/local/bin/storage_monitor.sh&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>crontab<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-optimization">
+<h3>Performance Optimization</h3>
+<section id="kernel-parameter-tuning">
+<h4>Kernel Parameter Tuning</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create performance tuning configuration</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/sysctl.d/99-storage-performance.conf<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s"># Storage performance optimizations</span>
+
+<span class="s"># Increase dirty page writeback interval</span>
+<span class="s">vm.dirty_writeback_centisecs = 500</span>
+
+<span class="s"># Increase dirty page ratio</span>
+<span class="s">vm.dirty_ratio = 20</span>
+<span class="s">vm.dirty_background_ratio = 10</span>
+
+<span class="s"># Optimize memory management</span>
+<span class="s">vm.swappiness = 10</span>
+<span class="s">vm.vfs_cache_pressure = 50</span>
+
+<span class="s"># Increase inotify limits</span>
+<span class="s">fs.inotify.max_user_watches = 524288</span>
+<span class="s">fs.inotify.max_user_instances = 256</span>
+
+<span class="s"># Optimize network buffer sizes (for network storage)</span>
+<span class="s">net.core.rmem_max = 134217728</span>
+<span class="s">net.core.wmem_max = 134217728</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Apply settings</span>
+sudo<span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/99-storage-performance.conf
+</pre></div>
+</div>
+</section>
+<section id="mount-options-optimization">
+<h4>Mount Options Optimization</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optimize /etc/fstab for performance</span>
+sudo<span class="w"> </span>cp<span class="w"> </span>/etc/fstab<span class="w"> </span>/etc/fstab.backup
+
+<span class="c1"># Example optimized fstab entries</span>
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/fstab<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s"># Optimized mount options</span>
+<span class="s"># SSD mounts with noatime and discard</span>
+<span class="s">UUID=your-ssd-uuid /home ext4 defaults,noatime,discard 0 2</span>
+
+<span class="s"># HDD mounts with relatime</span>
+<span class="s">UUID=your-hdd-uuid /data ext4 defaults,relatime 0 2</span>
+
+<span class="s"># Temporary filesystems in RAM</span>
+<span class="s">tmpfs /tmp tmpfs defaults,noatime,mode=1777,size=2G 0 0</span>
+<span class="s">tmpfs /var/tmp tmpfs defaults,noatime,mode=1777,size=1G 0 0</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="frequently-asked-questions">
+<h3>Frequently Asked Questions</h3>
+<section id="q-how-do-i-check-if-my-system-is-using-uefi-or-bios">
+<h4>Q: How do I check if my system is using UEFI or BIOS?</h4>
+<p><strong>A:</strong> Use these commands to determine your boot mode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check for UEFI</span>
+<span class="o">[</span><span class="w"> </span>-d<span class="w"> </span>/sys/firmware/efi<span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UEFI boot&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;BIOS boot&quot;</span>
+
+<span class="c1"># Check boot mode in more detail</span>
+bootctl<span class="w"> </span>status
+
+<span class="c1"># List EFI variables (UEFI only)</span>
+efibootmgr<span class="w"> </span>-v
+</pre></div>
+</div>
+</section>
+<section id="q-what-filesystem-should-i-use-for-different-use-cases">
+<h4>Q: What filesystem should I use for different use cases?</h4>
+<p><strong>A:</strong> Recommended filesystems by use case:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Use Case                | Recommended Filesystem | Reason
+------------------------|------------------------|------------------
+Root partition (/)      | ext4                  | Stable, well-tested
+Boot partition (/boot)  | ext4                  | Simple, reliable
+Home directories        | ext4                  | Good performance
+Large files/media       | XFS                   | Better large file handling
+Snapshots needed        | Btrfs                 | Built-in snapshots
+Windows compatibility   | NTFS                  | Cross-platform access
+USB drives             | exFAT                 | Universal compatibility
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-resize-partitions-safely-in-ubuntu-22-04">
+<h4>Q: How do I resize partitions safely in Ubuntu 22.04?</h4>
+<p><strong>A:</strong> Follow these steps for safe partition resizing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. BACKUP YOUR DATA FIRST!</span>
+
+<span class="c1"># 2. For ext4 filesystems:</span>
+<span class="c1"># Unmount the partition</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/dev/sda2
+
+<span class="c1"># Check filesystem</span>
+sudo<span class="w"> </span>fsck<span class="w"> </span>-f<span class="w"> </span>/dev/sda2
+
+<span class="c1"># Resize partition with parted</span>
+sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sda<span class="w"> </span>resizepart<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># Resize filesystem to match partition</span>
+sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/sda2
+
+<span class="c1"># 3. For LVM volumes:</span>
+<span class="c1"># Extend physical volume</span>
+sudo<span class="w"> </span>pvresize<span class="w"> </span>/dev/sda3
+
+<span class="c1"># Extend logical volume</span>
+sudo<span class="w"> </span>lvextend<span class="w"> </span>-l<span class="w"> </span>+100%FREE<span class="w"> </span>/dev/ubuntu-vg/home
+
+<span class="c1"># Resize filesystem</span>
+sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/ubuntu-vg/home
+</pre></div>
+</div>
+</section>
+<section id="q-how-do-i-set-up-automatic-mounting-for-external-drives">
+<h4>Q: How do I set up automatic mounting for external drives?</h4>
+<p><strong>A:</strong> Configure automatic mounting:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Get device UUID</span>
+sudo<span class="w"> </span>blkid<span class="w"> </span>/dev/sdb1
+
+<span class="c1"># 2. Create mount point</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/external
+
+<span class="c1"># 3. Add to fstab</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UUID=your-device-uuid /mnt/external ext4 defaults,user,noauto 0 0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+
+<span class="c1"># 4. Test mounting</span>
+mount<span class="w"> </span>/mnt/external
+
+<span class="c1"># 5. For auto-mount on insertion (using udev rules)</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/udev/rules.d/99-usb-mount.rules<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s"># Auto-mount USB drives</span>
+<span class="s">KERNEL==&quot;sd[a-z][0-9]&quot;, SUBSYSTEMS==&quot;usb&quot;, ACTION==&quot;add&quot;, RUN+=&quot;/usr/local/bin/usb-mount.sh %k&quot;</span>
+<span class="s">KERNEL==&quot;sd[a-z][0-9]&quot;, SUBSYSTEMS==&quot;usb&quot;, ACTION==&quot;remove&quot;, RUN+=&quot;/usr/local/bin/usb-unmount.sh %k&quot;</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting-common-issues">
+<h3>Troubleshooting Common Issues</h3>
+<section id="boot-issues">
+<h4>Boot Issues</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Repair GRUB bootloader</span>
+sudo<span class="w"> </span>grub-install<span class="w"> </span>/dev/sda
+sudo<span class="w"> </span>update-grub
+
+<span class="c1"># Boot from live USB and repair</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sda2<span class="w"> </span>/mnt
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sda1<span class="w"> </span>/mnt/boot/efi
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/dev<span class="w"> </span>/mnt/dev
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/proc<span class="w"> </span>/mnt/proc
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/sys<span class="w"> </span>/mnt/sys
+sudo<span class="w"> </span>chroot<span class="w"> </span>/mnt
+grub-install<span class="w"> </span>/dev/sda
+update-grub
+<span class="nb">exit</span>
+</pre></div>
+</div>
+</section>
+<section id="filesystem-corruption">
+<h4>Filesystem Corruption</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check and repair ext4 filesystem</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>-f<span class="w"> </span>/dev/sda2
+
+<span class="c1"># For automatic repair</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>-p<span class="w"> </span>/dev/sda2
+
+<span class="c1"># For interactive repair</span>
+sudo<span class="w"> </span>fsck.ext4<span class="w"> </span>/dev/sda2
+
+<span class="c1"># Check XFS filesystem</span>
+sudo<span class="w"> </span>xfs_check<span class="w"> </span>/dev/sda2
+
+<span class="c1"># Repair XFS filesystem</span>
+sudo<span class="w"> </span>xfs_repair<span class="w"> </span>/dev/sda2
+</pre></div>
+</div>
+</section>
+<section id="disk-space-issues">
+<h4>Disk Space Issues</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find large files</span>
+sudo<span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-size<span class="w"> </span>+100M<span class="w"> </span>-exec<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\\</span><span class="p">;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $9 &quot;: &quot; $5}&#39;</span>
+
+<span class="c1"># Clean package cache</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>autoclean
+sudo<span class="w"> </span>apt<span class="w"> </span>autoremove
+
+<span class="c1"># Clean logs</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>--vacuum-time<span class="o">=</span>7d
+
+<span class="c1"># Clean thumbnails and cache</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/.cache/thumbnails/*
+rm<span class="w"> </span>-rf<span class="w"> </span>~/.cache/*
+</pre></div>
+</div>
+</section>
+<section id="performance-issues">
+<h4>Performance Issues</h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check I/O wait</span>
+iostat<span class="w"> </span>-x<span class="w"> </span><span class="m">1</span>
+
+<span class="c1"># Monitor disk activity</span>
+sudo<span class="w"> </span>iotop
+
+<span class="c1"># Check for filesystem errors</span>
+dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>error
+
+<span class="c1"># Analyze slow queries (for databases)</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sysstat
+sar<span class="w"> </span>-d<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

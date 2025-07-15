@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Storage Devices</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/epub.css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <section id="storage-devices">
+<h1>Storage Devices</h1>
+<p>This comprehensive guide covers the various types of storage devices, their characteristics, selection criteria, and management on Ubuntu 22.04 LTS.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview-of-storage-devices" id="id2">Overview of Storage Devices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#classification-by-technology" id="id3">Classification by Technology</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#hard-disk-drives-hdds" id="id4">Hard Disk Drives (HDDs)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#technology-overview" id="id5">Technology Overview</a></p></li>
+<li><p><a class="reference internal" href="#types-of-hdds" id="id6">Types of HDDs</a></p></li>
+<li><p><a class="reference internal" href="#hdd-management-commands" id="id7">HDD Management Commands</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#solid-state-drives-ssds" id="id8">Solid State Drives (SSDs)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id9">Technology Overview</a></p></li>
+<li><p><a class="reference internal" href="#types-of-ssds" id="id10">Types of SSDs</a></p></li>
+<li><p><a class="reference internal" href="#ssd-management-and-optimization" id="id11">SSD Management and Optimization</a></p></li>
+<li><p><a class="reference internal" href="#nvme-management" id="id12">NVMe Management</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#network-attached-storage-nas" id="id13">Network Attached Storage (NAS)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#types-of-nas-devices" id="id14">Types of NAS Devices</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#storage-area-network-san" id="id15">Storage Area Network (SAN)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#iscsi-configuration" id="id16">iSCSI Configuration</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#optical-storage" id="id17">Optical Storage</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cd-dvd-blu-ray-management" id="id18">CD/DVD/Blu-ray Management</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#usb-storage-devices" id="id19">USB Storage Devices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#usb-drive-management" id="id20">USB Drive Management</a></p></li>
+<li><p><a class="reference internal" href="#usb-performance-optimization" id="id21">USB Performance Optimization</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#storage-device-monitoring" id="id22">Storage Device Monitoring</a></p>
+<ul>
+<li><p><a class="reference internal" href="#health-monitoring-script" id="id23">Health Monitoring Script</a></p></li>
+<li><p><a class="reference internal" href="#performance-benchmarking" id="id24">Performance Benchmarking</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#device-selection-guidelines" id="id25">Device Selection Guidelines</a></p>
+<ul>
+<li><p><a class="reference internal" href="#performance-considerations" id="id26">Performance Considerations</a></p></li>
+<li><p><a class="reference internal" href="#capacity-planning" id="id27">Capacity Planning</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#common-issues-and-troubleshooting" id="id28">Common Issues and Troubleshooting</a></p></li>
+<li><p><a class="reference internal" href="#best-practices" id="id29">Best Practices</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id30">See Also</a></p></li>
+</ul>
+</nav>
+<section id="overview-of-storage-devices">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Overview of Storage Devices</a></h2>
+<p>Storage devices are the physical components that store data persistently. Understanding different types helps in making informed decisions for system design, performance optimization, and capacity planning.</p>
+<section id="classification-by-technology">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Classification by Technology</a></h3>
+<dl class="simple">
+<dt><strong>Magnetic Storage</strong></dt><dd><p>Traditional hard disk drives (HDDs) using magnetic fields</p>
+</dd>
+<dt><strong>Solid State Storage</strong></dt><dd><p>Flash-based storage devices (SSDs) with no moving parts</p>
+</dd>
+<dt><strong>Optical Storage</strong></dt><dd><p>CD, DVD, Blu-ray discs using laser technology</p>
+</dd>
+<dt><strong>Tape Storage</strong></dt><dd><p>Sequential access magnetic tape for long-term archival</p>
+</dd>
+<dt><strong>Hybrid Storage</strong></dt><dd><p>Combination devices (SSHDs) with both magnetic and flash storage</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="hard-disk-drives-hdds">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Hard Disk Drives (HDDs)</a></h2>
+<section id="technology-overview">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Technology Overview</a></h3>
+<p>HDDs store data on rotating magnetic platters with read/write heads. They offer:</p>
+<ul class="simple">
+<li><p>High capacity at low cost</p></li>
+<li><p>Mechanical components subject to wear</p></li>
+<li><p>Sequential access performance</p></li>
+<li><p>Susceptible to physical shock</p></li>
+</ul>
+</section>
+<section id="types-of-hdds">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Types of HDDs</a></h3>
+<p><strong>Desktop HDDs (3.5”)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check 3.5&quot; HDD information</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-I<span class="w"> </span>/dev/sda<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(Model|Serial|Capacity)&quot;</span>
+
+<span class="c1"># Typical characteristics:</span>
+<span class="c1"># - Capacity: 500GB to 20TB+</span>
+<span class="c1"># - RPM: 5400, 7200 RPM</span>
+<span class="c1"># - Interface: SATA 6Gb/s</span>
+<span class="c1"># - Power: 5-10W</span>
+</pre></div>
+</div>
+<p><strong>Laptop HDDs (2.5”)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check 2.5&quot; HDD specifications</span>
+lsblk<span class="w"> </span>-d<span class="w"> </span>-o<span class="w"> </span>NAME,SIZE,MODEL,TRAN
+
+<span class="c1"># Typical characteristics:</span>
+<span class="c1"># - Capacity: 500GB to 5TB</span>
+<span class="c1"># - RPM: 5400 RPM (some 7200 RPM)</span>
+<span class="c1"># - Interface: SATA 6Gb/s</span>
+<span class="c1"># - Power: 1-3W</span>
+</pre></div>
+</div>
+<p><strong>Enterprise HDDs</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check enterprise HDD features</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-a<span class="w"> </span>/dev/sda<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(Model|Rotation|Power_Cycle)&quot;</span>
+
+<span class="c1"># Characteristics:</span>
+<span class="c1"># - High reliability (MTBF 2M+ hours)</span>
+<span class="c1"># - 7200-15000 RPM</span>
+<span class="c1"># - Advanced error correction</span>
+<span class="c1"># - Vibration resistance</span>
+</pre></div>
+</div>
+</section>
+<section id="hdd-management-commands">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">HDD Management Commands</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get detailed HDD information</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-I<span class="w"> </span>/dev/sda
+
+<span class="c1"># Check HDD health with SMART</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-H<span class="w"> </span>/dev/sda
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-a<span class="w"> </span>/dev/sda
+
+<span class="c1"># Test HDD performance</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-t<span class="w"> </span>/dev/sda<span class="w">    </span><span class="c1"># Buffered reads</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-T<span class="w"> </span>/dev/sda<span class="w">    </span><span class="c1"># Cached reads</span>
+
+<span class="c1"># Set HDD parameters</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-S<span class="w"> </span><span class="m">60</span><span class="w"> </span>/dev/sda<span class="w">    </span><span class="c1"># Set standby timeout</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-B<span class="w"> </span><span class="m">254</span><span class="w"> </span>/dev/sda<span class="w">   </span><span class="c1"># Disable power management</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="solid-state-drives-ssds">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Solid State Drives (SSDs)</a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Technology Overview</a></h3>
+<p>SSDs use NAND flash memory with no moving parts, providing:</p>
+<ul class="simple">
+<li><p>Fast random access</p></li>
+<li><p>Low latency</p></li>
+<li><p>High IOPS capability</p></li>
+<li><p>Limited write endurance</p></li>
+<li><p>Higher cost per GB</p></li>
+</ul>
+</section>
+<section id="types-of-ssds">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Types of SSDs</a></h3>
+<p><strong>SATA SSDs</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Identify SATA SSD</span>
+lsblk<span class="w"> </span>-d<span class="w"> </span>-o<span class="w"> </span>NAME,SIZE,MODEL,TRAN<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>sata
+
+<span class="c1"># Characteristics:</span>
+<span class="c1"># - Interface: SATA 6Gb/s (600MB/s max)</span>
+<span class="c1"># - Form factor: 2.5&quot; or mSATA</span>
+<span class="c1"># - Compatible with HDD infrastructure</span>
+</pre></div>
+</div>
+<p><strong>NVMe SSDs</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List NVMe devices</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>list
+
+<span class="c1"># Get NVMe device information</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>id-ctrl<span class="w"> </span>/dev/nvme0n1
+
+<span class="c1"># Characteristics:</span>
+<span class="c1"># - Interface: PCIe (up to 7GB/s)</span>
+<span class="c1"># - Form factors: M.2, PCIe card, U.2</span>
+<span class="c1"># - Lower latency than SATA</span>
+</pre></div>
+</div>
+<p><strong>M.2 SSDs</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check M.2 SSD details</span>
+sudo<span class="w"> </span>lshw<span class="w"> </span>-class<span class="w"> </span>disk<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="s2">&quot;product.*M.2&quot;</span>
+
+<span class="c1"># Types:</span>
+<span class="c1"># - M.2 SATA: Uses SATA protocol</span>
+<span class="c1"># - M.2 NVMe: Uses NVMe protocol</span>
+<span class="c1"># - Form factors: 2242, 2260, 2280, 22110</span>
+</pre></div>
+</div>
+</section>
+<section id="ssd-management-and-optimization">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">SSD Management and Optimization</a></h3>
+<p><strong>Enable TRIM Support</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check TRIM support</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-I<span class="w"> </span>/dev/sda<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>TRIM
+
+<span class="c1"># Enable TRIM (automatic)</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>fstrim.timer
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>fstrim.timer
+
+<span class="c1"># Manual TRIM</span>
+sudo<span class="w"> </span>fstrim<span class="w"> </span>-v<span class="w"> </span>/
+
+<span class="c1"># Add to fstab for continuous TRIM</span>
+<span class="c1"># /dev/sda1 / ext4 defaults,discard 0 1</span>
+</pre></div>
+</div>
+<p><strong>SSD Health Monitoring</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check SSD health with smartctl</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-A<span class="w"> </span>/dev/sda<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(Wear|Program|Erase|Health)&quot;</span>
+
+<span class="c1"># For NVMe SSDs</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>smart-log<span class="w"> </span>/dev/nvme0n1
+
+<span class="c1"># Monitor wear leveling</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-A<span class="w"> </span>/dev/sda<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Wear_Leveling_Count
+</pre></div>
+</div>
+<p><strong>SSD Performance Tuning</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check current I/O scheduler</span>
+cat<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Set optimal scheduler for SSD</span>
+<span class="nb">echo</span><span class="w"> </span>mq-deadline<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/block/sda/queue/scheduler
+
+<span class="c1"># Disable barriers for better performance (if using UPS)</span>
+<span class="c1"># mount -o nobarrier /dev/sda1 /mnt</span>
+</pre></div>
+</div>
+</section>
+<section id="nvme-management">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">NVMe Management</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install NVMe tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nvme-cli
+
+<span class="c1"># List NVMe devices</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>list
+
+<span class="c1"># Get device information</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>id-ctrl<span class="w"> </span>/dev/nvme0n1
+sudo<span class="w"> </span>nvme<span class="w"> </span>id-ns<span class="w"> </span>/dev/nvme0n1
+
+<span class="c1"># Check NVMe health</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>smart-log<span class="w"> </span>/dev/nvme0n1
+
+<span class="c1"># Format NVMe (careful!)</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>format<span class="w"> </span>/dev/nvme0n1<span class="w"> </span>--lbaf<span class="o">=</span><span class="m">0</span>
+
+<span class="c1"># Secure erase</span>
+sudo<span class="w"> </span>nvme<span class="w"> </span>format<span class="w"> </span>/dev/nvme0n1<span class="w"> </span>--ses<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="network-attached-storage-nas">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Network Attached Storage (NAS)</a></h2>
+<section id="types-of-nas-devices">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Types of NAS Devices</a></h3>
+<p><strong>Consumer NAS</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Typical consumer NAS specs:</span>
+<span class="c1"># - 1-8 drive bays</span>
+<span class="c1"># - ARM or low-power x86 CPU</span>
+<span class="c1"># - 512MB to 8GB RAM</span>
+<span class="c1"># - Gigabit Ethernet</span>
+
+<span class="c1"># Connect to NAS via SMB</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>//nas.local/share<span class="w"> </span>/mnt/nas<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">username</span><span class="o">=</span>user,password<span class="o">=</span>pass
+</pre></div>
+</div>
+<p><strong>Enterprise NAS</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enterprise NAS features:</span>
+<span class="c1"># - 8+ drive bays</span>
+<span class="c1"># - Redundant components</span>
+<span class="c1"># - 10GbE networking</span>
+<span class="c1"># - Advanced management</span>
+</pre></div>
+</div>
+<p><strong>Building DIY NAS with Ubuntu</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Samba for SMB/CIFS sharing</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>samba
+
+<span class="c1"># Configure Samba share</span>
+sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/samba/smb.conf<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">[storage]</span>
+<span class="s">path = /srv/storage</span>
+<span class="s">browseable = yes</span>
+<span class="s">read only = no</span>
+<span class="s">guest ok = no</span>
+<span class="s">valid users = @storage</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Restart Samba</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>smbd
+</pre></div>
+</div>
+</section>
+</section>
+<section id="storage-area-network-san">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">Storage Area Network (SAN)</a></h2>
+<section id="iscsi-configuration">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">iSCSI Configuration</a></h3>
+<p><strong>iSCSI Target (Server)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install iSCSI target</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>tgt
+
+<span class="c1"># Create target configuration</span>
+sudo<span class="w"> </span>tee<span class="w"> </span>/etc/tgt/conf.d/storage.conf<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">&lt;target iqn.2025-01.com.example:storage&gt;</span>
+<span class="s">    backing-store /dev/sdb</span>
+<span class="s">    incominguser iscsi-user password123</span>
+<span class="s">    outgoinguser iscsi-target secretpass</span>
+<span class="s">&lt;/target&gt;</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Restart target service</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>tgt
+
+<span class="c1"># Check target status</span>
+sudo<span class="w"> </span>tgtadm<span class="w"> </span>--mode<span class="w"> </span>target<span class="w"> </span>--op<span class="w"> </span>show
+</pre></div>
+</div>
+<p><strong>iSCSI Initiator (Client)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install iSCSI initiator</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>open-iscsi
+
+<span class="c1"># Configure authentication</span>
+sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/iscsi/iscsid.conf<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">node.session.auth.authmethod = CHAP</span>
+<span class="s">node.session.auth.username = iscsi-user</span>
+<span class="s">node.session.auth.password = password123</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Discover targets</span>
+sudo<span class="w"> </span>iscsiadm<span class="w"> </span>-m<span class="w"> </span>discovery<span class="w"> </span>-t<span class="w"> </span>st<span class="w"> </span>-p<span class="w"> </span><span class="m">192</span>.168.1.100
+
+<span class="c1"># Login to target</span>
+sudo<span class="w"> </span>iscsiadm<span class="w"> </span>-m<span class="w"> </span>node<span class="w"> </span>--login
+
+<span class="c1"># Check connected sessions</span>
+sudo<span class="w"> </span>iscsiadm<span class="w"> </span>-m<span class="w"> </span>session
+</pre></div>
+</div>
+</section>
+</section>
+<section id="optical-storage">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Optical Storage</a></h2>
+<section id="cd-dvd-blu-ray-management">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">CD/DVD/Blu-ray Management</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install optical drive tools</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>wodim<span class="w"> </span>genisoimage<span class="w"> </span>dvd+rw-tools
+
+<span class="c1"># Check optical drive capabilities</span>
+wodim<span class="w"> </span>--devices
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-I<span class="w"> </span>/dev/sr0
+
+<span class="c1"># Create ISO image</span>
+genisoimage<span class="w"> </span>-o<span class="w"> </span>backup.iso<span class="w"> </span>-J<span class="w"> </span>-R<span class="w"> </span>/home/user/documents
+
+<span class="c1"># Burn ISO to disc</span>
+wodim<span class="w"> </span>-v<span class="w"> </span><span class="nv">speed</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>backup.iso
+
+<span class="c1"># Mount optical disc</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sr0<span class="w"> </span>/mnt/cdrom
+
+<span class="c1"># Eject disc</span>
+eject<span class="w"> </span>/dev/sr0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="usb-storage-devices">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">USB Storage Devices</a></h2>
+<section id="usb-drive-management">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">USB Drive Management</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List USB storage devices</span>
+lsusb<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>storage
+lsblk<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(sd[b-z]|sr[0-9])&quot;</span>
+
+<span class="c1"># Get USB device information</span>
+sudo<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w"> </span>/dev/sdb
+sudo<span class="w"> </span>hdparm<span class="w"> </span>-I<span class="w"> </span>/dev/sdb
+
+<span class="c1"># Format USB drive (careful!)</span>
+sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/sdb1
+sudo<span class="w"> </span>mkfs.vfat<span class="w"> </span>-F<span class="w"> </span><span class="m">32</span><span class="w"> </span>/dev/sdb1<span class="w">  </span><span class="c1"># For Windows compatibility</span>
+
+<span class="c1"># Mount USB drive</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/usb
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/usb
+
+<span class="c1"># Safe removal</span>
+sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/usb
+sudo<span class="w"> </span>eject<span class="w"> </span>/dev/sdb
+</pre></div>
+</div>
+</section>
+<section id="usb-performance-optimization">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">USB Performance Optimization</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check USB version and speed</span>
+lsusb<span class="w"> </span>-t
+dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;usb.*high\|usb.*super&quot;</span>
+
+<span class="c1"># Optimize mount options for USB</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>async,noatime,nodiratime<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/usb
+
+<span class="c1"># Disable USB autosuspend for external drives</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;1234&quot;, ATTR{idProduct}==&quot;5678&quot;, ATTR{power/autosuspend}=&quot;-1&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/udev/rules.d/50-usb-power.rules
+</pre></div>
+</div>
+</section>
+</section>
+<section id="storage-device-monitoring">
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Storage Device Monitoring</a></h2>
+<section id="health-monitoring-script">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Health Monitoring Script</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Storage Device Health Monitoring Script</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute command and return output&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="mi">1</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_block_devices</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get list of block devices&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;lsblk -J -o NAME,TYPE,SIZE,MODEL,SERIAL&quot;</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)[</span><span class="s1">&#39;blockdevices&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_smart_health</span><span class="p">(</span><span class="n">device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check SMART health for device&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sudo smartctl -H /dev/</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;PASSED&quot;</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;HEALTHY&quot;</span>
+    <span class="k">elif</span> <span class="s2">&quot;FAILED&quot;</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;FAILED&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;UNKNOWN&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_temperature</span><span class="p">(</span><span class="n">device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get device temperature&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sudo smartctl -A /dev/</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2"> | grep -i temperature&quot;</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">temp_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d+)\s*\(.*Celsius&#39;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">temp_match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">temp_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_nvme_health</span><span class="p">(</span><span class="n">device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check NVMe specific health&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sudo nvme smart-log /dev/</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">health_info</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;temperature&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">temp_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">temp_match</span><span class="p">:</span>
+                    <span class="n">health_info</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">temp_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="s1">&#39;percentage_used&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">percent_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d+)%&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">percent_match</span><span class="p">:</span>
+                    <span class="n">health_info</span><span class="p">[</span><span class="s1">&#39;wear_level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">percent_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">health_info</span>
+    <span class="k">return</span> <span class="p">{}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Storage Device Health Report - </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+    <span class="n">devices</span> <span class="o">=</span> <span class="n">get_block_devices</span><span class="p">()</span>
+    <span class="n">alerts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">device</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;disk&#39;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">device</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">device</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Device: /dev/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model: </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Size: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Check SMART health</span>
+            <span class="n">health</span> <span class="o">=</span> <span class="n">check_smart_health</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Health: </span><span class="si">{</span><span class="n">health</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">health</span> <span class="o">==</span> <span class="s2">&quot;FAILED&quot;</span><span class="p">:</span>
+                <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CRITICAL: Device </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> SMART health failed!&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Check temperature</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">get_temperature</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">temp</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temperature: </span><span class="si">{</span><span class="n">temp</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">temp</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">:</span>
+                    <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: Device </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> temperature high: </span><span class="si">{</span><span class="n">temp</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Check NVMe specific data</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;nvme&#39;</span><span class="p">):</span>
+                <span class="n">nvme_health</span> <span class="o">=</span> <span class="n">check_nvme_health</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;wear_level&#39;</span> <span class="ow">in</span> <span class="n">nvme_health</span><span class="p">:</span>
+                    <span class="n">wear</span> <span class="o">=</span> <span class="n">nvme_health</span><span class="p">[</span><span class="s1">&#39;wear_level&#39;</span><span class="p">]</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wear Level: </span><span class="si">{</span><span class="n">wear</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">wear</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">:</span>
+                        <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: Device </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> wear level high: </span><span class="si">{</span><span class="n">wear</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Display alerts</span>
+    <span class="k">if</span> <span class="n">alerts</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ALERTS:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">alert</span> <span class="ow">in</span> <span class="n">alerts</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">alert</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">All devices appear healthy.&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-benchmarking">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Performance Benchmarking</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Storage Performance Benchmark Script</span>
+
+<span class="nv">DEVICE</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="p">/dev/sda</span><span class="si">}</span>
+<span class="nv">TEST_FILE</span><span class="o">=</span><span class="s2">&quot;/tmp/storage_test&quot;</span>
+<span class="nv">BLOCK_SIZES</span><span class="o">=(</span><span class="s2">&quot;4k&quot;</span><span class="w"> </span><span class="s2">&quot;64k&quot;</span><span class="w"> </span><span class="s2">&quot;1M&quot;</span><span class="w"> </span><span class="s2">&quot;16M&quot;</span><span class="o">)</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Storage Performance Benchmark for </span><span class="nv">$DEVICE</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;==========================================&quot;</span>
+
+<span class="c1"># Check if device exists</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DEVICE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error: Device </span><span class="nv">$DEVICE</span><span class="s2"> not found&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># Install fio if not present</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>fio<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Installing fio benchmark tool...&quot;</span>
+<span class="w">    </span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>fio
+<span class="k">fi</span>
+
+<span class="c1"># Sequential read test</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n--- Sequential Read Test ---&quot;</span>
+sudo<span class="w"> </span>fio<span class="w"> </span>--name<span class="o">=</span>seq_read<span class="w"> </span>--filename<span class="o">=</span><span class="nv">$DEVICE</span><span class="w"> </span>--rw<span class="o">=</span><span class="nb">read</span><span class="w"> </span>--bs<span class="o">=</span>1M<span class="w"> </span>--size<span class="o">=</span>1G<span class="w"> </span>--numjobs<span class="o">=</span><span class="m">1</span><span class="w"> </span>--runtime<span class="o">=</span><span class="m">30</span><span class="w"> </span>--group_reporting
+
+<span class="c1"># Sequential write test</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n--- Sequential Write Test ---&quot;</span>
+sudo<span class="w"> </span>fio<span class="w"> </span>--name<span class="o">=</span>seq_write<span class="w"> </span>--filename<span class="o">=</span><span class="nv">$DEVICE</span><span class="w"> </span>--rw<span class="o">=</span>write<span class="w"> </span>--bs<span class="o">=</span>1M<span class="w"> </span>--size<span class="o">=</span>1G<span class="w"> </span>--numjobs<span class="o">=</span><span class="m">1</span><span class="w"> </span>--runtime<span class="o">=</span><span class="m">30</span><span class="w"> </span>--group_reporting
+
+<span class="c1"># Random read test</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n--- Random Read Test ---&quot;</span>
+sudo<span class="w"> </span>fio<span class="w"> </span>--name<span class="o">=</span>rand_read<span class="w"> </span>--filename<span class="o">=</span><span class="nv">$DEVICE</span><span class="w"> </span>--rw<span class="o">=</span>randread<span class="w"> </span>--bs<span class="o">=</span>4k<span class="w"> </span>--size<span class="o">=</span>1G<span class="w"> </span>--numjobs<span class="o">=</span><span class="m">4</span><span class="w"> </span>--runtime<span class="o">=</span><span class="m">30</span><span class="w"> </span>--group_reporting
+
+<span class="c1"># Random write test</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n--- Random Write Test ---&quot;</span>
+sudo<span class="w"> </span>fio<span class="w"> </span>--name<span class="o">=</span>rand_write<span class="w"> </span>--filename<span class="o">=</span><span class="nv">$DEVICE</span><span class="w"> </span>--rw<span class="o">=</span>randwrite<span class="w"> </span>--bs<span class="o">=</span>4k<span class="w"> </span>--size<span class="o">=</span>1G<span class="w"> </span>--numjobs<span class="o">=</span><span class="m">4</span><span class="w"> </span>--runtime<span class="o">=</span><span class="m">30</span><span class="w"> </span>--group_reporting
+
+<span class="c1"># Mixed workload test</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n--- Mixed Workload Test (70% read, 30% write) ---&quot;</span>
+sudo<span class="w"> </span>fio<span class="w"> </span>--name<span class="o">=</span>mixed<span class="w"> </span>--filename<span class="o">=</span><span class="nv">$DEVICE</span><span class="w"> </span>--rw<span class="o">=</span>randrw<span class="w"> </span>--rwmixread<span class="o">=</span><span class="m">70</span><span class="w"> </span>--bs<span class="o">=</span>4k<span class="w"> </span>--size<span class="o">=</span>1G<span class="w"> </span>--numjobs<span class="o">=</span><span class="m">4</span><span class="w"> </span>--runtime<span class="o">=</span><span class="m">30</span><span class="w"> </span>--group_reporting
+</pre></div>
+</div>
+</section>
+</section>
+<section id="device-selection-guidelines">
+<h2><a class="toc-backref" href="#id25" role="doc-backlink">Device Selection Guidelines</a></h2>
+<section id="performance-considerations">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Performance Considerations</a></h3>
+<p><strong>For Operating System:</strong>
+* NVMe SSD for best performance
+* SATA SSD as budget alternative
+* Minimum 256GB capacity</p>
+<p><strong>For Data Storage:</strong>
+* Large HDDs for bulk storage
+* SSDs for frequently accessed data
+* Consider hybrid approach</p>
+<p><strong>For Backup:</strong>
+* External HDDs for local backup
+* Tape drives for archival
+* Cloud storage for offsite backup</p>
+</section>
+<section id="capacity-planning">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Capacity Planning</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Storage Capacity Planning Calculator</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_storage_needs</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Storage Capacity Planning Calculator&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;====================================&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get current usage</span>
+    <span class="n">os_size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Operating system size (GB): &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;50&quot;</span><span class="p">)</span>
+    <span class="n">apps_size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Applications size (GB): &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;100&quot;</span><span class="p">)</span>
+    <span class="n">user_data</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Current user data (GB): &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;500&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Growth projections</span>
+    <span class="n">growth_rate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Annual growth rate (%): &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;20&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Planning period (years): &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;3&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate projected needs</span>
+    <span class="n">current_total</span> <span class="o">=</span> <span class="n">os_size</span> <span class="o">+</span> <span class="n">apps_size</span> <span class="o">+</span> <span class="n">user_data</span>
+    <span class="n">projected_data</span> <span class="o">=</span> <span class="n">user_data</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">growth_rate</span><span class="p">)</span> <span class="o">**</span> <span class="n">years</span><span class="p">)</span>
+    <span class="n">projected_total</span> <span class="o">=</span> <span class="n">os_size</span> <span class="o">+</span> <span class="n">apps_size</span> <span class="o">+</span> <span class="n">projected_data</span>
+
+    <span class="c1"># Add overhead for performance and backup</span>
+    <span class="n">overhead_factor</span> <span class="o">=</span> <span class="mf">1.3</span>  <span class="c1"># 30% overhead</span>
+    <span class="n">recommended_capacity</span> <span class="o">=</span> <span class="n">projected_total</span> <span class="o">*</span> <span class="n">overhead_factor</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Capacity Analysis:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current total usage: </span><span class="si">{</span><span class="n">current_total</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Projected data growth: </span><span class="si">{</span><span class="n">projected_data</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Projected total usage: </span><span class="si">{</span><span class="n">projected_total</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recommended capacity: </span><span class="si">{</span><span class="n">recommended_capacity</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Storage recommendations</span>
+    <span class="k">if</span> <span class="n">recommended_capacity</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommendation: 500GB SSD&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">recommended_capacity</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommendation: 1TB SSD or 1TB HDD + 256GB SSD&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">recommended_capacity</span> <span class="o">&lt;</span> <span class="mi">4000</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommendation: 4TB HDD + 512GB SSD (hybrid)&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommendation: Multiple drive configuration or NAS&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">calculate_storage_needs</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-issues-and-troubleshooting">
+<h2><a class="toc-backref" href="#id28" role="doc-backlink">Common Issues and Troubleshooting</a></h2>
+<p><strong>Q: My SSD performance has degraded over time. What can I do?</strong></p>
+<p>A: Check TRIM support, run secure erase, monitor wear leveling:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check TRIM support</span>
+sudo<span class="w"> </span>fstrim<span class="w"> </span>-v<span class="w"> </span>/
+
+<span class="c1"># Check SSD health</span>
+sudo<span class="w"> </span>smartctl<span class="w"> </span>-A<span class="w"> </span>/dev/sda<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Wear
+
+<span class="c1"># Consider secure erase if needed</span>
+sudo<span class="w"> </span>hdparm<span class="w"> </span>--user-master<span class="w"> </span>u<span class="w"> </span>--security-set-pass<span class="w"> </span>p<span class="w"> </span>/dev/sda
+sudo<span class="w"> </span>hdparm<span class="w"> </span>--user-master<span class="w"> </span>u<span class="w"> </span>--security-erase<span class="w"> </span>p<span class="w"> </span>/dev/sda
+</pre></div>
+</div>
+<p><strong>Q: How do I recover data from a failing HDD?</strong></p>
+<p>A: Use ddrescue for data recovery:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install ddrescue</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gddrescue
+
+<span class="c1"># Create image of failing drive</span>
+sudo<span class="w"> </span>ddrescue<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>/dev/sda<span class="w"> </span>/mnt/backup/drive_image.img<span class="w"> </span>/mnt/backup/recovery.log
+
+<span class="c1"># Mount image for data recovery</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>loop,ro<span class="w"> </span>/mnt/backup/drive_image.img<span class="w"> </span>/mnt/recovery
+</pre></div>
+</div>
+<p><strong>Q: My USB drive is not recognized. How to troubleshoot?</strong></p>
+<p>A: Check USB subsystem and device recognition:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check USB subsystem</span>
+lsusb
+dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20
+
+<span class="c1"># Check block devices</span>
+lsblk
+
+<span class="c1"># Try different USB port</span>
+<span class="c1"># Check filesystem</span>
+sudo<span class="w"> </span>fsck<span class="w"> </span>/dev/sdb1
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Best Practices</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Regular Monitoring</strong>
+- Monitor SMART health data
+- Check temperatures regularly
+- Track performance metrics</p></li>
+<li><p><strong>Preventive Maintenance</strong>
+- Enable TRIM for SSDs
+- Regular defragmentation for HDDs (if needed)
+- Clean physical connections</p></li>
+<li><p><strong>Data Protection</strong>
+- Implement RAID where appropriate
+- Regular backups
+- Test restore procedures</p></li>
+<li><p><strong>Performance Optimization</strong>
+- Use appropriate I/O schedulers
+- Optimize filesystem parameters
+- Consider caching strategies</p></li>
+<li><p><strong>Lifecycle Management</strong>
+- Plan for device replacement
+- Monitor wear indicators
+- Secure data wiping when disposing</p></li>
+</ol>
+</section>
+<section id="see-also">
+<h2><a class="toc-backref" href="#id30" role="doc-backlink">See Also</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="disk-management.xhtml"><span class="doc">Disk Management</span></a></p></li>
+<li><p><a class="reference internal" href="file-systems.xhtml"><span class="doc">File Systems</span></a></p></li>
+<li><p><a class="reference internal" href="raid-systems.xhtml"><span class="doc">RAID Systems</span></a></p></li>
+<li><p><a class="reference internal" href="volume-management.xhtml"><span class="doc">Volume Management</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

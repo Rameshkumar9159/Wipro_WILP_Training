@@ -1,0 +1,768 @@
+Storage Devices
+***************
+
+This comprehensive guide covers the various types of storage devices,
+their characteristics, selection criteria, and management on Ubuntu
+22.04 LTS.
+
+* Overview of Storage Devices
+
+  * Classification by Technology
+
+* Hard Disk Drives (HDDs)
+
+  * Technology Overview
+
+  * Types of HDDs
+
+  * HDD Management Commands
+
+* Solid State Drives (SSDs)
+
+  * Technology Overview
+
+  * Types of SSDs
+
+  * SSD Management and Optimization
+
+  * NVMe Management
+
+* Network Attached Storage (NAS)
+
+  * Types of NAS Devices
+
+* Storage Area Network (SAN)
+
+  * iSCSI Configuration
+
+* Optical Storage
+
+  * CD/DVD/Blu-ray Management
+
+* USB Storage Devices
+
+  * USB Drive Management
+
+  * USB Performance Optimization
+
+* Storage Device Monitoring
+
+  * Health Monitoring Script
+
+  * Performance Benchmarking
+
+* Device Selection Guidelines
+
+  * Performance Considerations
+
+  * Capacity Planning
+
+* Common Issues and Troubleshooting
+
+* Best Practices
+
+* See Also
+
+
+Overview of Storage Devices
+===========================
+
+Storage devices are the physical components that store data
+persistently. Understanding different types helps in making informed
+decisions for system design, performance optimization, and capacity
+planning.
+
+
+Classification by Technology
+----------------------------
+
+**Magnetic Storage**
+   Traditional hard disk drives (HDDs) using magnetic fields
+
+**Solid State Storage**
+   Flash-based storage devices (SSDs) with no moving parts
+
+**Optical Storage**
+   CD, DVD, Blu-ray discs using laser technology
+
+**Tape Storage**
+   Sequential access magnetic tape for long-term archival
+
+**Hybrid Storage**
+   Combination devices (SSHDs) with both magnetic and flash storage
+
+
+Hard Disk Drives (HDDs)
+=======================
+
+
+Technology Overview
+-------------------
+
+HDDs store data on rotating magnetic platters with read/write heads.
+They offer:
+
+* High capacity at low cost
+
+* Mechanical components subject to wear
+
+* Sequential access performance
+
+* Susceptible to physical shock
+
+
+Types of HDDs
+-------------
+
+**Desktop HDDs (3.5")**
+
+   # Check 3.5" HDD information
+   sudo hdparm -I /dev/sda | grep -E "(Model|Serial|Capacity)"
+
+   # Typical characteristics:
+   # - Capacity: 500GB to 20TB+
+   # - RPM: 5400, 7200 RPM
+   # - Interface: SATA 6Gb/s
+   # - Power: 5-10W
+
+**Laptop HDDs (2.5")**
+
+   # Check 2.5" HDD specifications
+   lsblk -d -o NAME,SIZE,MODEL,TRAN
+
+   # Typical characteristics:
+   # - Capacity: 500GB to 5TB
+   # - RPM: 5400 RPM (some 7200 RPM)
+   # - Interface: SATA 6Gb/s
+   # - Power: 1-3W
+
+**Enterprise HDDs**
+
+   # Check enterprise HDD features
+   sudo smartctl -a /dev/sda | grep -E "(Model|Rotation|Power_Cycle)"
+
+   # Characteristics:
+   # - High reliability (MTBF 2M+ hours)
+   # - 7200-15000 RPM
+   # - Advanced error correction
+   # - Vibration resistance
+
+
+HDD Management Commands
+-----------------------
+
+   # Get detailed HDD information
+   sudo hdparm -I /dev/sda
+
+   # Check HDD health with SMART
+   sudo smartctl -H /dev/sda
+   sudo smartctl -a /dev/sda
+
+   # Test HDD performance
+   sudo hdparm -t /dev/sda    # Buffered reads
+   sudo hdparm -T /dev/sda    # Cached reads
+
+   # Set HDD parameters
+   sudo hdparm -S 60 /dev/sda    # Set standby timeout
+   sudo hdparm -B 254 /dev/sda   # Disable power management
+
+
+Solid State Drives (SSDs)
+=========================
+
+
+Technology Overview
+-------------------
+
+SSDs use NAND flash memory with no moving parts, providing:
+
+* Fast random access
+
+* Low latency
+
+* High IOPS capability
+
+* Limited write endurance
+
+* Higher cost per GB
+
+
+Types of SSDs
+-------------
+
+**SATA SSDs**
+
+   # Identify SATA SSD
+   lsblk -d -o NAME,SIZE,MODEL,TRAN | grep sata
+
+   # Characteristics:
+   # - Interface: SATA 6Gb/s (600MB/s max)
+   # - Form factor: 2.5" or mSATA
+   # - Compatible with HDD infrastructure
+
+**NVMe SSDs**
+
+   # List NVMe devices
+   sudo nvme list
+
+   # Get NVMe device information
+   sudo nvme id-ctrl /dev/nvme0n1
+
+   # Characteristics:
+   # - Interface: PCIe (up to 7GB/s)
+   # - Form factors: M.2, PCIe card, U.2
+   # - Lower latency than SATA
+
+**M.2 SSDs**
+
+   # Check M.2 SSD details
+   sudo lshw -class disk | grep -A 10 "product.*M.2"
+
+   # Types:
+   # - M.2 SATA: Uses SATA protocol
+   # - M.2 NVMe: Uses NVMe protocol
+   # - Form factors: 2242, 2260, 2280, 22110
+
+
+SSD Management and Optimization
+-------------------------------
+
+**Enable TRIM Support**
+
+   # Check TRIM support
+   sudo hdparm -I /dev/sda | grep TRIM
+
+   # Enable TRIM (automatic)
+   sudo systemctl enable fstrim.timer
+   sudo systemctl start fstrim.timer
+
+   # Manual TRIM
+   sudo fstrim -v /
+
+   # Add to fstab for continuous TRIM
+   # /dev/sda1 / ext4 defaults,discard 0 1
+
+**SSD Health Monitoring**
+
+   # Check SSD health with smartctl
+   sudo smartctl -A /dev/sda | grep -E "(Wear|Program|Erase|Health)"
+
+   # For NVMe SSDs
+   sudo nvme smart-log /dev/nvme0n1
+
+   # Monitor wear leveling
+   sudo smartctl -A /dev/sda | grep Wear_Leveling_Count
+
+**SSD Performance Tuning**
+
+   # Check current I/O scheduler
+   cat /sys/block/sda/queue/scheduler
+
+   # Set optimal scheduler for SSD
+   echo mq-deadline | sudo tee /sys/block/sda/queue/scheduler
+
+   # Disable barriers for better performance (if using UPS)
+   # mount -o nobarrier /dev/sda1 /mnt
+
+
+NVMe Management
+---------------
+
+   # Install NVMe tools
+   sudo apt install nvme-cli
+
+   # List NVMe devices
+   sudo nvme list
+
+   # Get device information
+   sudo nvme id-ctrl /dev/nvme0n1
+   sudo nvme id-ns /dev/nvme0n1
+
+   # Check NVMe health
+   sudo nvme smart-log /dev/nvme0n1
+
+   # Format NVMe (careful!)
+   sudo nvme format /dev/nvme0n1 --lbaf=0
+
+   # Secure erase
+   sudo nvme format /dev/nvme0n1 --ses=1
+
+
+Network Attached Storage (NAS)
+==============================
+
+
+Types of NAS Devices
+--------------------
+
+**Consumer NAS**
+
+   # Typical consumer NAS specs:
+   # - 1-8 drive bays
+   # - ARM or low-power x86 CPU
+   # - 512MB to 8GB RAM
+   # - Gigabit Ethernet
+
+   # Connect to NAS via SMB
+   sudo mount -t cifs //nas.local/share /mnt/nas \
+     -o username=user,password=pass
+
+**Enterprise NAS**
+
+   # Enterprise NAS features:
+   # - 8+ drive bays
+   # - Redundant components
+   # - 10GbE networking
+   # - Advanced management
+
+**Building DIY NAS with Ubuntu**
+
+   # Install Samba for SMB/CIFS sharing
+   sudo apt install samba
+
+   # Configure Samba share
+   sudo tee -a /etc/samba/smb.conf << 'EOF'
+   [storage]
+   path = /srv/storage
+   browseable = yes
+   read only = no
+   guest ok = no
+   valid users = @storage
+   EOF
+
+   # Restart Samba
+   sudo systemctl restart smbd
+
+
+Storage Area Network (SAN)
+==========================
+
+
+iSCSI Configuration
+-------------------
+
+**iSCSI Target (Server)**
+
+   # Install iSCSI target
+   sudo apt install tgt
+
+   # Create target configuration
+   sudo tee /etc/tgt/conf.d/storage.conf << 'EOF'
+   <target iqn.2025-01.com.example:storage>
+       backing-store /dev/sdb
+       incominguser iscsi-user password123
+       outgoinguser iscsi-target secretpass
+   </target>
+   EOF
+
+   # Restart target service
+   sudo systemctl restart tgt
+
+   # Check target status
+   sudo tgtadm --mode target --op show
+
+**iSCSI Initiator (Client)**
+
+   # Install iSCSI initiator
+   sudo apt install open-iscsi
+
+   # Configure authentication
+   sudo tee -a /etc/iscsi/iscsid.conf << 'EOF'
+   node.session.auth.authmethod = CHAP
+   node.session.auth.username = iscsi-user
+   node.session.auth.password = password123
+   EOF
+
+   # Discover targets
+   sudo iscsiadm -m discovery -t st -p 192.168.1.100
+
+   # Login to target
+   sudo iscsiadm -m node --login
+
+   # Check connected sessions
+   sudo iscsiadm -m session
+
+
+Optical Storage
+===============
+
+
+CD/DVD/Blu-ray Management
+-------------------------
+
+   # Install optical drive tools
+   sudo apt install wodim genisoimage dvd+rw-tools
+
+   # Check optical drive capabilities
+   wodim --devices
+   sudo hdparm -I /dev/sr0
+
+   # Create ISO image
+   genisoimage -o backup.iso -J -R /home/user/documents
+
+   # Burn ISO to disc
+   wodim -v speed=8 backup.iso
+
+   # Mount optical disc
+   sudo mount /dev/sr0 /mnt/cdrom
+
+   # Eject disc
+   eject /dev/sr0
+
+
+USB Storage Devices
+===================
+
+
+USB Drive Management
+--------------------
+
+   # List USB storage devices
+   lsusb | grep -i storage
+   lsblk | grep -E "(sd[b-z]|sr[0-9])"
+
+   # Get USB device information
+   sudo fdisk -l /dev/sdb
+   sudo hdparm -I /dev/sdb
+
+   # Format USB drive (careful!)
+   sudo mkfs.ext4 /dev/sdb1
+   sudo mkfs.vfat -F 32 /dev/sdb1  # For Windows compatibility
+
+   # Mount USB drive
+   sudo mkdir /mnt/usb
+   sudo mount /dev/sdb1 /mnt/usb
+
+   # Safe removal
+   sudo umount /mnt/usb
+   sudo eject /dev/sdb
+
+
+USB Performance Optimization
+----------------------------
+
+   # Check USB version and speed
+   lsusb -t
+   dmesg | grep -i "usb.*high\|usb.*super"
+
+   # Optimize mount options for USB
+   sudo mount -o async,noatime,nodiratime /dev/sdb1 /mnt/usb
+
+   # Disable USB autosuspend for external drives
+   echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="1234", ATTR{idProduct}=="5678", ATTR{power/autosuspend}="-1"' | sudo tee /etc/udev/rules.d/50-usb-power.rules
+
+
+Storage Device Monitoring
+=========================
+
+
+Health Monitoring Script
+------------------------
+
+   #!/usr/bin/env python3
+   """
+   Storage Device Health Monitoring Script
+   """
+
+   import subprocess
+   import re
+   import json
+   import sys
+   from datetime import datetime
+
+   def run_command(cmd):
+       """Execute command and return output"""
+       try:
+           result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+           return result.stdout.strip(), result.returncode
+       except Exception as e:
+           return str(e), 1
+
+   def get_block_devices():
+       """Get list of block devices"""
+       cmd = "lsblk -J -o NAME,TYPE,SIZE,MODEL,SERIAL"
+       output, code = run_command(cmd)
+       if code == 0:
+           return json.loads(output)['blockdevices']
+       return []
+
+   def check_smart_health(device):
+       """Check SMART health for device"""
+       cmd = f"sudo smartctl -H /dev/{device}"
+       output, code = run_command(cmd)
+       if "PASSED" in output:
+           return "HEALTHY"
+       elif "FAILED" in output:
+           return "FAILED"
+       else:
+           return "UNKNOWN"
+
+   def get_temperature(device):
+       """Get device temperature"""
+       cmd = f"sudo smartctl -A /dev/{device} | grep -i temperature"
+       output, code = run_command(cmd)
+       if code == 0 and output:
+           temp_match = re.search(r'(\d+)\s*\(.*Celsius', output)
+           if temp_match:
+               return int(temp_match.group(1))
+       return None
+
+   def check_nvme_health(device):
+       """Check NVMe specific health"""
+       cmd = f"sudo nvme smart-log /dev/{device}"
+       output, code = run_command(cmd)
+       if code == 0:
+           health_info = {}
+           for line in output.split('\n'):
+               if 'temperature' in line.lower():
+                   temp_match = re.search(r'(\d+)', line)
+                   if temp_match:
+                       health_info['temperature'] = int(temp_match.group(1))
+               elif 'percentage_used' in line.lower():
+                   percent_match = re.search(r'(\d+)%', line)
+                   if percent_match:
+                       health_info['wear_level'] = int(percent_match.group(1))
+           return health_info
+       return {}
+
+   def main():
+       print(f"Storage Device Health Report - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+       print("=" * 70)
+
+       devices = get_block_devices()
+       alerts = []
+
+       for device in devices:
+           if device['type'] == 'disk':
+               name = device['name']
+               size = device['size']
+               model = device.get('model', 'Unknown')
+
+               print(f"\nDevice: /dev/{name}")
+               print(f"Model: {model}")
+               print(f"Size: {size}")
+
+               # Check SMART health
+               health = check_smart_health(name)
+               print(f"Health: {health}")
+
+               if health == "FAILED":
+                   alerts.append(f"CRITICAL: Device {name} SMART health failed!")
+
+               # Check temperature
+               temp = get_temperature(name)
+               if temp:
+                   print(f"Temperature: {temp}°C")
+                   if temp > 60:
+                       alerts.append(f"WARNING: Device {name} temperature high: {temp}°C")
+
+               # Check NVMe specific data
+               if name.startswith('nvme'):
+                   nvme_health = check_nvme_health(name)
+                   if 'wear_level' in nvme_health:
+                       wear = nvme_health['wear_level']
+                       print(f"Wear Level: {wear}%")
+                       if wear > 80:
+                           alerts.append(f"WARNING: Device {name} wear level high: {wear}%")
+
+       # Display alerts
+       if alerts:
+           print("\n" + "=" * 70)
+           print("ALERTS:")
+           for alert in alerts:
+               print(f"  {alert}")
+       else:
+           print("\nAll devices appear healthy.")
+
+   if __name__ == "__main__":
+       main()
+
+
+Performance Benchmarking
+------------------------
+
+   #!/bin/bash
+   # Storage Performance Benchmark Script
+
+   DEVICE=${1:-/dev/sda}
+   TEST_FILE="/tmp/storage_test"
+   BLOCK_SIZES=("4k" "64k" "1M" "16M")
+
+   echo "Storage Performance Benchmark for $DEVICE"
+   echo "=========================================="
+
+   # Check if device exists
+   if [ ! -b "$DEVICE" ]; then
+       echo "Error: Device $DEVICE not found"
+       exit 1
+   fi
+
+   # Install fio if not present
+   if ! command -v fio &> /dev/null; then
+       echo "Installing fio benchmark tool..."
+       sudo apt update && sudo apt install -y fio
+   fi
+
+   # Sequential read test
+   echo -e "\n--- Sequential Read Test ---"
+   sudo fio --name=seq_read --filename=$DEVICE --rw=read --bs=1M --size=1G --numjobs=1 --runtime=30 --group_reporting
+
+   # Sequential write test
+   echo -e "\n--- Sequential Write Test ---"
+   sudo fio --name=seq_write --filename=$DEVICE --rw=write --bs=1M --size=1G --numjobs=1 --runtime=30 --group_reporting
+
+   # Random read test
+   echo -e "\n--- Random Read Test ---"
+   sudo fio --name=rand_read --filename=$DEVICE --rw=randread --bs=4k --size=1G --numjobs=4 --runtime=30 --group_reporting
+
+   # Random write test
+   echo -e "\n--- Random Write Test ---"
+   sudo fio --name=rand_write --filename=$DEVICE --rw=randwrite --bs=4k --size=1G --numjobs=4 --runtime=30 --group_reporting
+
+   # Mixed workload test
+   echo -e "\n--- Mixed Workload Test (70% read, 30% write) ---"
+   sudo fio --name=mixed --filename=$DEVICE --rw=randrw --rwmixread=70 --bs=4k --size=1G --numjobs=4 --runtime=30 --group_reporting
+
+
+Device Selection Guidelines
+===========================
+
+
+Performance Considerations
+--------------------------
+
+**For Operating System:** * NVMe SSD for best performance * SATA SSD
+as budget alternative * Minimum 256GB capacity
+
+**For Data Storage:** * Large HDDs for bulk storage * SSDs for
+frequently accessed data * Consider hybrid approach
+
+**For Backup:** * External HDDs for local backup * Tape drives for
+archival * Cloud storage for offsite backup
+
+
+Capacity Planning
+-----------------
+
+   #!/usr/bin/env python3
+   """
+   Storage Capacity Planning Calculator
+   """
+
+   def calculate_storage_needs():
+       print("Storage Capacity Planning Calculator")
+       print("====================================")
+
+       # Get current usage
+       os_size = float(input("Operating system size (GB): ") or "50")
+       apps_size = float(input("Applications size (GB): ") or "100")
+       user_data = float(input("Current user data (GB): ") or "500")
+
+       # Growth projections
+       growth_rate = float(input("Annual growth rate (%): ") or "20") / 100
+       years = int(input("Planning period (years): ") or "3")
+
+       # Calculate projected needs
+       current_total = os_size + apps_size + user_data
+       projected_data = user_data * ((1 + growth_rate) ** years)
+       projected_total = os_size + apps_size + projected_data
+
+       # Add overhead for performance and backup
+       overhead_factor = 1.3  # 30% overhead
+       recommended_capacity = projected_total * overhead_factor
+
+       print(f"\nCapacity Analysis:")
+       print(f"Current total usage: {current_total:.1f} GB")
+       print(f"Projected data growth: {projected_data:.1f} GB")
+       print(f"Projected total usage: {projected_total:.1f} GB")
+       print(f"Recommended capacity: {recommended_capacity:.1f} GB")
+
+       # Storage recommendations
+       if recommended_capacity < 500:
+           print("\nRecommendation: 500GB SSD")
+       elif recommended_capacity < 1000:
+           print("\nRecommendation: 1TB SSD or 1TB HDD + 256GB SSD")
+       elif recommended_capacity < 4000:
+           print("\nRecommendation: 4TB HDD + 512GB SSD (hybrid)")
+       else:
+           print("\nRecommendation: Multiple drive configuration or NAS")
+
+   if __name__ == "__main__":
+       calculate_storage_needs()
+
+
+Common Issues and Troubleshooting
+=================================
+
+**Q: My SSD performance has degraded over time. What can I do?**
+
+A: Check TRIM support, run secure erase, monitor wear leveling:
+
+   # Check TRIM support
+   sudo fstrim -v /
+
+   # Check SSD health
+   sudo smartctl -A /dev/sda | grep Wear
+
+   # Consider secure erase if needed
+   sudo hdparm --user-master u --security-set-pass p /dev/sda
+   sudo hdparm --user-master u --security-erase p /dev/sda
+
+**Q: How do I recover data from a failing HDD?**
+
+A: Use ddrescue for data recovery:
+
+   # Install ddrescue
+   sudo apt install gddrescue
+
+   # Create image of failing drive
+   sudo ddrescue -f -n /dev/sda /mnt/backup/drive_image.img /mnt/backup/recovery.log
+
+   # Mount image for data recovery
+   sudo mount -o loop,ro /mnt/backup/drive_image.img /mnt/recovery
+
+**Q: My USB drive is not recognized. How to troubleshoot?**
+
+A: Check USB subsystem and device recognition:
+
+   # Check USB subsystem
+   lsusb
+   dmesg | tail -20
+
+   # Check block devices
+   lsblk
+
+   # Try different USB port
+   # Check filesystem
+   sudo fsck /dev/sdb1
+
+
+Best Practices
+==============
+
+1. **Regular Monitoring** - Monitor SMART health data - Check
+   temperatures regularly - Track performance metrics
+
+2. **Preventive Maintenance** - Enable TRIM for SSDs - Regular
+   defragmentation for HDDs (if needed) - Clean physical connections
+
+3. **Data Protection** - Implement RAID where appropriate - Regular
+   backups - Test restore procedures
+
+4. **Performance Optimization** - Use appropriate I/O schedulers -
+   Optimize filesystem parameters - Consider caching strategies
+
+5. **Lifecycle Management** - Plan for device replacement - Monitor
+   wear indicators - Secure data wiping when disposing
+
+
+See Also
+========
+
+* Disk Management
+
+* File Systems
+
+* RAID Systems
+
+* Volume Management

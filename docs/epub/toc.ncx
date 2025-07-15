@@ -1,0 +1,2036 @@
+<?xml version="1.0"?>
+<ncx version="2005-1" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+  <head>
+    <meta name="dtb:uid" content="ubuntu-storage-guide"/>
+    <meta name="dtb:depth" content="3"/>
+    <meta name="dtb:totalPageCount" content="0"/>
+    <meta name="dtb:maxPageNumber" content="0"/>
+  </head>
+  <docTitle>
+    <text>Storage Systems and Data Management Guide</text>
+  </docTitle>
+  <navMap>    
+    <navPoint id="navPoint1" playOrder="1">
+      <navLabel>
+        <text>Storage Systems and Data Management Guide</text>
+      </navLabel>
+      <content src="index.xhtml" />  
+    </navPoint>
+    <navPoint id="navPoint2" playOrder="2">
+      <navLabel>
+        <text>Storage Overview</text>
+      </navLabel>
+      <content src="storage-overview.xhtml" />  
+      <navPoint id="navPoint3" playOrder="2">
+        <navLabel>
+          <text>Storage Overview</text>
+        </navLabel>
+        <content src="storage-overview.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint4" playOrder="3">
+        <navLabel>
+          <text>Introduction to Storage Systems</text>
+        </navLabel>
+        <content src="storage-overview.xhtml#introduction-to-storage-systems" />  
+        <navPoint id="navPoint5" playOrder="3">
+          <navLabel>
+            <text>Introduction to Storage Systems</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#introduction-to-storage-systems" />  
+        </navPoint>
+        <navPoint id="navPoint6" playOrder="4">
+          <navLabel>
+            <text>What is Storage?</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#what-is-storage" />  
+        </navPoint>
+        <navPoint id="navPoint7" playOrder="5">
+          <navLabel>
+            <text>Types of Storage</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#types-of-storage" />  
+        </navPoint>
+        <navPoint id="navPoint8" playOrder="6">
+          <navLabel>
+            <text>Storage Hierarchy</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#storage-hierarchy" />  
+        </navPoint>
+        <navPoint id="navPoint9" playOrder="7">
+          <navLabel>
+            <text>Ubuntu 22.04 Storage Commands</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#ubuntu-22-04-storage-commands" />  
+        </navPoint>
+        <navPoint id="navPoint10" playOrder="8">
+          <navLabel>
+            <text>Frequently Asked Questions</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#frequently-asked-questions" />  
+        </navPoint>
+        <navPoint id="navPoint11" playOrder="9">
+          <navLabel>
+            <text>Coding Examples</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#coding-examples" />  
+        </navPoint>
+        <navPoint id="navPoint12" playOrder="10">
+          <navLabel>
+            <text>Best Practices</text>
+          </navLabel>
+          <content src="storage-overview.xhtml#best-practices" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint13" playOrder="11">
+      <navLabel>
+        <text>Disk Management</text>
+      </navLabel>
+      <content src="disk-management.xhtml" />  
+      <navPoint id="navPoint14" playOrder="11">
+        <navLabel>
+          <text>Disk Management</text>
+        </navLabel>
+        <content src="disk-management.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint15" playOrder="12">
+        <navLabel>
+          <text>Understanding Disk Management</text>
+        </navLabel>
+        <content src="disk-management.xhtml#understanding-disk-management" />  
+        <navPoint id="navPoint16" playOrder="12">
+          <navLabel>
+            <text>Understanding Disk Management</text>
+          </navLabel>
+          <content src="disk-management.xhtml#understanding-disk-management" />  
+        </navPoint>
+        <navPoint id="navPoint17" playOrder="13">
+          <navLabel>
+            <text>Disk Management Fundamentals</text>
+          </navLabel>
+          <content src="disk-management.xhtml#disk-management-fundamentals" />  
+        </navPoint>
+        <navPoint id="navPoint18" playOrder="14">
+          <navLabel>
+            <text>Disk Types and Interfaces</text>
+          </navLabel>
+          <content src="disk-management.xhtml#disk-types-and-interfaces" />  
+        </navPoint>
+        <navPoint id="navPoint19" playOrder="15">
+          <navLabel>
+            <text>Ubuntu 22.04 Disk Management Commands</text>
+          </navLabel>
+          <content src="disk-management.xhtml#ubuntu-22-04-disk-management-commands" />  
+        </navPoint>
+        <navPoint id="navPoint20" playOrder="16">
+          <navLabel>
+            <text>Partitioning with fdisk</text>
+          </navLabel>
+          <content src="disk-management.xhtml#partitioning-with-fdisk" />  
+        </navPoint>
+        <navPoint id="navPoint21" playOrder="17">
+          <navLabel>
+            <text>Filesystem Creation and Management</text>
+          </navLabel>
+          <content src="disk-management.xhtml#filesystem-creation-and-management" />  
+        </navPoint>
+        <navPoint id="navPoint22" playOrder="18">
+          <navLabel>
+            <text>Mounting and Unmounting</text>
+          </navLabel>
+          <content src="disk-management.xhtml#mounting-and-unmounting" />  
+        </navPoint>
+        <navPoint id="navPoint23" playOrder="19">
+          <navLabel>
+            <text>Frequently Asked Questions</text>
+          </navLabel>
+          <content src="disk-management.xhtml#frequently-asked-questions" />  
+        </navPoint>
+        <navPoint id="navPoint24" playOrder="20">
+          <navLabel>
+            <text>Coding Examples</text>
+          </navLabel>
+          <content src="disk-management.xhtml#coding-examples" />  
+        </navPoint>
+        <navPoint id="navPoint25" playOrder="21">
+          <navLabel>
+            <text>Best Practices for Disk Management</text>
+          </navLabel>
+          <content src="disk-management.xhtml#best-practices-for-disk-management" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint26" playOrder="22">
+      <navLabel>
+        <text>File Systems</text>
+      </navLabel>
+      <content src="file-systems.xhtml" />  
+      <navPoint id="navPoint27" playOrder="22">
+        <navLabel>
+          <text>File Systems</text>
+        </navLabel>
+        <content src="file-systems.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint28" playOrder="23">
+        <navLabel>
+          <text>Understanding File Systems</text>
+        </navLabel>
+        <content src="file-systems.xhtml#understanding-file-systems" />  
+        <navPoint id="navPoint29" playOrder="23">
+          <navLabel>
+            <text>Understanding File Systems</text>
+          </navLabel>
+          <content src="file-systems.xhtml#understanding-file-systems" />  
+        </navPoint>
+        <navPoint id="navPoint30" playOrder="24">
+          <navLabel>
+            <text>What is a File System?</text>
+          </navLabel>
+          <content src="file-systems.xhtml#what-is-a-file-system" />  
+        </navPoint>
+        <navPoint id="navPoint31" playOrder="25">
+          <navLabel>
+            <text>File System Components</text>
+          </navLabel>
+          <content src="file-systems.xhtml#file-system-components" />  
+        </navPoint>
+        <navPoint id="navPoint32" playOrder="26">
+          <navLabel>
+            <text>Common File Systems in Ubuntu 22.04</text>
+          </navLabel>
+          <content src="file-systems.xhtml#common-file-systems-in-ubuntu-22-04" />  
+        </navPoint>
+        <navPoint id="navPoint33" playOrder="27">
+          <navLabel>
+            <text>File System Operations in Ubuntu 22.04</text>
+          </navLabel>
+          <content src="file-systems.xhtml#file-system-operations-in-ubuntu-22-04" />  
+        </navPoint>
+        <navPoint id="navPoint34" playOrder="28">
+          <navLabel>
+            <text>File System Monitoring</text>
+          </navLabel>
+          <content src="file-systems.xhtml#file-system-monitoring" />  
+        </navPoint>
+        <navPoint id="navPoint35" playOrder="29">
+          <navLabel>
+            <text>Frequently Asked Questions</text>
+          </navLabel>
+          <content src="file-systems.xhtml#frequently-asked-questions" />  
+        </navPoint>
+        <navPoint id="navPoint36" playOrder="30">
+          <navLabel>
+            <text>Coding Examples</text>
+          </navLabel>
+          <content src="file-systems.xhtml#coding-examples" />  
+        </navPoint>
+        <navPoint id="navPoint37" playOrder="31">
+          <navLabel>
+            <text>Best Practices for File Systems</text>
+          </navLabel>
+          <content src="file-systems.xhtml#best-practices-for-file-systems" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint38" playOrder="32">
+      <navLabel>
+        <text>Data Organization</text>
+      </navLabel>
+      <content src="data-organization.xhtml" />  
+      <navPoint id="navPoint39" playOrder="32">
+        <navLabel>
+          <text>Data Organization</text>
+        </navLabel>
+        <content src="data-organization.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint40" playOrder="33">
+        <navLabel>
+          <text>Understanding Data Organization</text>
+        </navLabel>
+        <content src="data-organization.xhtml#understanding-data-organization" />  
+        <navPoint id="navPoint41" playOrder="33">
+          <navLabel>
+            <text>Understanding Data Organization</text>
+          </navLabel>
+          <content src="data-organization.xhtml#understanding-data-organization" />  
+        </navPoint>
+        <navPoint id="navPoint42" playOrder="34">
+          <navLabel>
+            <text>Data Organization Fundamentals</text>
+          </navLabel>
+          <content src="data-organization.xhtml#data-organization-fundamentals" />  
+        </navPoint>
+        <navPoint id="navPoint43" playOrder="35">
+          <navLabel>
+            <text>Data Classification Types</text>
+          </navLabel>
+          <content src="data-organization.xhtml#data-classification-types" />  
+        </navPoint>
+        <navPoint id="navPoint44" playOrder="36">
+          <navLabel>
+            <text>Ubuntu 22.04 Data Organization Tools</text>
+          </navLabel>
+          <content src="data-organization.xhtml#ubuntu-22-04-data-organization-tools" />  
+        </navPoint>
+        <navPoint id="navPoint45" playOrder="37">
+          <navLabel>
+            <text>Data Backup and Archival</text>
+          </navLabel>
+          <content src="data-organization.xhtml#data-backup-and-archival" />  
+        </navPoint>
+        <navPoint id="navPoint46" playOrder="38">
+          <navLabel>
+            <text>Data Compression and Deduplication</text>
+          </navLabel>
+          <content src="data-organization.xhtml#data-compression-and-deduplication" />  
+        </navPoint>
+        <navPoint id="navPoint47" playOrder="39">
+          <navLabel>
+            <text>Data Monitoring and Analysis</text>
+          </navLabel>
+          <content src="data-organization.xhtml#data-monitoring-and-analysis" />  
+        </navPoint>
+        <navPoint id="navPoint48" playOrder="40">
+          <navLabel>
+            <text>Frequently Asked Questions</text>
+          </navLabel>
+          <content src="data-organization.xhtml#frequently-asked-questions" />  
+        </navPoint>
+        <navPoint id="navPoint49" playOrder="41">
+          <navLabel>
+            <text>Coding Examples</text>
+          </navLabel>
+          <content src="data-organization.xhtml#coding-examples" />  
+        </navPoint>
+        <navPoint id="navPoint50" playOrder="42">
+          <navLabel>
+            <text>Best Practices for Data Organization</text>
+          </navLabel>
+          <content src="data-organization.xhtml#best-practices-for-data-organization" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint51" playOrder="43">
+      <navLabel>
+        <text>RAID Systems</text>
+      </navLabel>
+      <content src="raid-systems.xhtml" />  
+      <navPoint id="navPoint52" playOrder="43">
+        <navLabel>
+          <text>RAID Systems</text>
+        </navLabel>
+        <content src="raid-systems.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint53" playOrder="44">
+        <navLabel>
+          <text>Understanding RAID</text>
+        </navLabel>
+        <content src="raid-systems.xhtml#understanding-raid" />  
+        <navPoint id="navPoint54" playOrder="44">
+          <navLabel>
+            <text>Understanding RAID</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#understanding-raid" />  
+        </navPoint>
+        <navPoint id="navPoint55" playOrder="45">
+          <navLabel>
+            <text>What is RAID?</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#what-is-raid" />  
+        </navPoint>
+        <navPoint id="navPoint56" playOrder="46">
+          <navLabel>
+            <text>RAID Levels Overview</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#raid-levels-overview" />  
+        </navPoint>
+        <navPoint id="navPoint57" playOrder="47">
+          <navLabel>
+            <text>Setting Up RAID on Ubuntu 22.04</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#setting-up-raid-on-ubuntu-22-04" />  
+        </navPoint>
+        <navPoint id="navPoint58" playOrder="48">
+          <navLabel>
+            <text>RAID Management and Monitoring</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#raid-management-and-monitoring" />  
+        </navPoint>
+        <navPoint id="navPoint59" playOrder="49">
+          <navLabel>
+            <text>RAID Performance Optimization</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#raid-performance-optimization" />  
+        </navPoint>
+        <navPoint id="navPoint60" playOrder="50">
+          <navLabel>
+            <text>Frequently Asked Questions</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#frequently-asked-questions" />  
+        </navPoint>
+        <navPoint id="navPoint61" playOrder="51">
+          <navLabel>
+            <text>Coding Examples</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#coding-examples" />  
+        </navPoint>
+        <navPoint id="navPoint62" playOrder="52">
+          <navLabel>
+            <text>Best Practices for RAID Implementation</text>
+          </navLabel>
+          <content src="raid-systems.xhtml#best-practices-for-raid-implementation" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint63" playOrder="53">
+      <navLabel>
+        <text>Network Storage</text>
+      </navLabel>
+      <content src="network-storage.xhtml" />  
+      <navPoint id="navPoint64" playOrder="53">
+        <navLabel>
+          <text>Network Storage</text>
+        </navLabel>
+        <content src="network-storage.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint65" playOrder="54">
+        <navLabel>
+          <text>Understanding Network Storage</text>
+        </navLabel>
+        <content src="network-storage.xhtml#understanding-network-storage" />  
+        <navPoint id="navPoint66" playOrder="54">
+          <navLabel>
+            <text>Understanding Network Storage</text>
+          </navLabel>
+          <content src="network-storage.xhtml#understanding-network-storage" />  
+        </navPoint>
+        <navPoint id="navPoint67" playOrder="55">
+          <navLabel>
+            <text>Types of Network Storage</text>
+          </navLabel>
+          <content src="network-storage.xhtml#types-of-network-storage" />  
+        </navPoint>
+        <navPoint id="navPoint68" playOrder="56">
+          <navLabel>
+            <text>Setting Up NFS on Ubuntu 22.04</text>
+          </navLabel>
+          <content src="network-storage.xhtml#setting-up-nfs-on-ubuntu-22-04" />  
+        </navPoint>
+        <navPoint id="navPoint69" playOrder="57">
+          <navLabel>
+            <text>Setting Up Samba (SMB/CIFS) on Ubuntu 22.04</text>
+          </navLabel>
+          <content src="network-storage.xhtml#setting-up-samba-smb-cifs-on-ubuntu-22-04" />  
+        </navPoint>
+        <navPoint id="navPoint70" playOrder="58">
+          <navLabel>
+            <text>Setting Up iSCSI on Ubuntu 22.04</text>
+          </navLabel>
+          <content src="network-storage.xhtml#setting-up-iscsi-on-ubuntu-22-04" />  
+        </navPoint>
+        <navPoint id="navPoint71" playOrder="59">
+          <navLabel>
+            <text>Cloud Storage Integration</text>
+          </navLabel>
+          <content src="network-storage.xhtml#cloud-storage-integration" />  
+        </navPoint>
+        <navPoint id="navPoint72" playOrder="60">
+          <navLabel>
+            <text>Network Storage Performance Optimization</text>
+          </navLabel>
+          <content src="network-storage.xhtml#network-storage-performance-optimization" />  
+        </navPoint>
+        <navPoint id="navPoint73" playOrder="61">
+          <navLabel>
+            <text>Frequently Asked Questions</text>
+          </navLabel>
+          <content src="network-storage.xhtml#frequently-asked-questions" />  
+        </navPoint>
+        <navPoint id="navPoint74" playOrder="62">
+          <navLabel>
+            <text>Coding Examples</text>
+          </navLabel>
+          <content src="network-storage.xhtml#coding-examples" />  
+        </navPoint>
+        <navPoint id="navPoint75" playOrder="63">
+          <navLabel>
+            <text>Best Practices for Network Storage</text>
+          </navLabel>
+          <content src="network-storage.xhtml#best-practices-for-network-storage" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint76" playOrder="64">
+      <navLabel>
+        <text>Volume Management</text>
+      </navLabel>
+      <content src="volume-management.xhtml" />  
+      <navPoint id="navPoint77" playOrder="64">
+        <navLabel>
+          <text>Volume Management</text>
+        </navLabel>
+        <content src="volume-management.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint78" playOrder="65">
+        <navLabel>
+          <text>Introduction to Volume Management</text>
+        </navLabel>
+        <content src="volume-management.xhtml#introduction-to-volume-management" />  
+        <navPoint id="navPoint79" playOrder="65">
+          <navLabel>
+            <text>Introduction to Volume Management</text>
+          </navLabel>
+          <content src="volume-management.xhtml#introduction-to-volume-management" />  
+        </navPoint>
+        <navPoint id="navPoint80" playOrder="66">
+          <navLabel>
+            <text>Key Concepts</text>
+          </navLabel>
+          <content src="volume-management.xhtml#key-concepts" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint81" playOrder="67">
+        <navLabel>
+          <text>LVM (Logical Volume Manager)</text>
+        </navLabel>
+        <content src="volume-management.xhtml#lvm-logical-volume-manager" />  
+        <navPoint id="navPoint82" playOrder="67">
+          <navLabel>
+            <text>LVM (Logical Volume Manager)</text>
+          </navLabel>
+          <content src="volume-management.xhtml#lvm-logical-volume-manager" />  
+        </navPoint>
+        <navPoint id="navPoint83" playOrder="68">
+          <navLabel>
+            <text>Installation and Setup</text>
+          </navLabel>
+          <content src="volume-management.xhtml#installation-and-setup" />  
+        </navPoint>
+        <navPoint id="navPoint84" playOrder="69">
+          <navLabel>
+            <text>Creating Physical Volumes</text>
+          </navLabel>
+          <content src="volume-management.xhtml#creating-physical-volumes" />  
+        </navPoint>
+        <navPoint id="navPoint85" playOrder="70">
+          <navLabel>
+            <text>Creating Volume Groups</text>
+          </navLabel>
+          <content src="volume-management.xhtml#creating-volume-groups" />  
+        </navPoint>
+        <navPoint id="navPoint86" playOrder="71">
+          <navLabel>
+            <text>Creating Logical Volumes</text>
+          </navLabel>
+          <content src="volume-management.xhtml#creating-logical-volumes" />  
+        </navPoint>
+        <navPoint id="navPoint87" playOrder="72">
+          <navLabel>
+            <text>Formatting and Mounting LVM Volumes</text>
+          </navLabel>
+          <content src="volume-management.xhtml#formatting-and-mounting-lvm-volumes" />  
+        </navPoint>
+        <navPoint id="navPoint88" playOrder="73">
+          <navLabel>
+            <text>Resizing LVM Volumes</text>
+          </navLabel>
+          <content src="volume-management.xhtml#resizing-lvm-volumes" />  
+        </navPoint>
+        <navPoint id="navPoint89" playOrder="74">
+          <navLabel>
+            <text>LVM Snapshots</text>
+          </navLabel>
+          <content src="volume-management.xhtml#lvm-snapshots" />  
+        </navPoint>
+        <navPoint id="navPoint90" playOrder="75">
+          <navLabel>
+            <text>Advanced LVM Features</text>
+          </navLabel>
+          <content src="volume-management.xhtml#advanced-lvm-features" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint91" playOrder="76">
+        <navLabel>
+          <text>ZFS Volume Management</text>
+        </navLabel>
+        <content src="volume-management.xhtml#zfs-volume-management" />  
+        <navPoint id="navPoint92" playOrder="76">
+          <navLabel>
+            <text>ZFS Volume Management</text>
+          </navLabel>
+          <content src="volume-management.xhtml#zfs-volume-management" />  
+        </navPoint>
+        <navPoint id="navPoint93" playOrder="77">
+          <navLabel>
+            <text>Installation on Ubuntu 22.04</text>
+          </navLabel>
+          <content src="volume-management.xhtml#installation-on-ubuntu-22-04" />  
+        </navPoint>
+        <navPoint id="navPoint94" playOrder="78">
+          <navLabel>
+            <text>Creating ZFS Pools</text>
+          </navLabel>
+          <content src="volume-management.xhtml#creating-zfs-pools" />  
+        </navPoint>
+        <navPoint id="navPoint95" playOrder="79">
+          <navLabel>
+            <text>Creating ZFS Datasets</text>
+          </navLabel>
+          <content src="volume-management.xhtml#creating-zfs-datasets" />  
+        </navPoint>
+        <navPoint id="navPoint96" playOrder="80">
+          <navLabel>
+            <text>ZFS Snapshots and Clones</text>
+          </navLabel>
+          <content src="volume-management.xhtml#zfs-snapshots-and-clones" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint97" playOrder="81">
+        <navLabel>
+          <text>Btrfs Volume Management</text>
+        </navLabel>
+        <content src="volume-management.xhtml#btrfs-volume-management" />  
+        <navPoint id="navPoint98" playOrder="81">
+          <navLabel>
+            <text>Btrfs Volume Management</text>
+          </navLabel>
+          <content src="volume-management.xhtml#btrfs-volume-management" />  
+        </navPoint>
+        <navPoint id="navPoint99" playOrder="82">
+          <navLabel>
+            <text>Creating Btrfs Volumes</text>
+          </navLabel>
+          <content src="volume-management.xhtml#creating-btrfs-volumes" />  
+        </navPoint>
+        <navPoint id="navPoint100" playOrder="83">
+          <navLabel>
+            <text>Btrfs Subvolumes</text>
+          </navLabel>
+          <content src="volume-management.xhtml#btrfs-subvolumes" />  
+        </navPoint>
+        <navPoint id="navPoint101" playOrder="84">
+          <navLabel>
+            <text>Btrfs Snapshots</text>
+          </navLabel>
+          <content src="volume-management.xhtml#btrfs-snapshots" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint102" playOrder="85">
+        <navLabel>
+          <text>Volume Management Scripts</text>
+        </navLabel>
+        <content src="volume-management.xhtml#volume-management-scripts" />  
+        <navPoint id="navPoint103" playOrder="85">
+          <navLabel>
+            <text>Volume Management Scripts</text>
+          </navLabel>
+          <content src="volume-management.xhtml#volume-management-scripts" />  
+        </navPoint>
+        <navPoint id="navPoint104" playOrder="86">
+          <navLabel>
+            <text>LVM Monitoring Script</text>
+          </navLabel>
+          <content src="volume-management.xhtml#lvm-monitoring-script" />  
+        </navPoint>
+        <navPoint id="navPoint105" playOrder="87">
+          <navLabel>
+            <text>Automated Backup Script</text>
+          </navLabel>
+          <content src="volume-management.xhtml#automated-backup-script" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint106" playOrder="88">
+        <navLabel>
+          <text>Common Tasks and Q&amp;A</text>
+        </navLabel>
+        <content src="volume-management.xhtml#common-tasks-and-q-a" />  
+      </navPoint>
+      <navPoint id="navPoint107" playOrder="89">
+        <navLabel>
+          <text>Best Practices</text>
+        </navLabel>
+        <content src="volume-management.xhtml#best-practices" />  
+      </navPoint>
+      <navPoint id="navPoint108" playOrder="90">
+        <navLabel>
+          <text>See Also</text>
+        </navLabel>
+        <content src="volume-management.xhtml#see-also" />  
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint109" playOrder="91">
+      <navLabel>
+        <text>Storage Devices</text>
+      </navLabel>
+      <content src="storage-devices.xhtml" />  
+      <navPoint id="navPoint110" playOrder="91">
+        <navLabel>
+          <text>Storage Devices</text>
+        </navLabel>
+        <content src="storage-devices.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint111" playOrder="92">
+        <navLabel>
+          <text>Overview of Storage Devices</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#overview-of-storage-devices" />  
+        <navPoint id="navPoint112" playOrder="92">
+          <navLabel>
+            <text>Overview of Storage Devices</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#overview-of-storage-devices" />  
+        </navPoint>
+        <navPoint id="navPoint113" playOrder="93">
+          <navLabel>
+            <text>Classification by Technology</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#classification-by-technology" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint114" playOrder="94">
+        <navLabel>
+          <text>Hard Disk Drives (HDDs)</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#hard-disk-drives-hdds" />  
+        <navPoint id="navPoint115" playOrder="94">
+          <navLabel>
+            <text>Hard Disk Drives (HDDs)</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#hard-disk-drives-hdds" />  
+        </navPoint>
+        <navPoint id="navPoint116" playOrder="95">
+          <navLabel>
+            <text>Technology Overview</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#technology-overview" />  
+        </navPoint>
+        <navPoint id="navPoint117" playOrder="96">
+          <navLabel>
+            <text>Types of HDDs</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#types-of-hdds" />  
+        </navPoint>
+        <navPoint id="navPoint118" playOrder="97">
+          <navLabel>
+            <text>HDD Management Commands</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#hdd-management-commands" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint119" playOrder="98">
+        <navLabel>
+          <text>Solid State Drives (SSDs)</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#solid-state-drives-ssds" />  
+        <navPoint id="navPoint120" playOrder="98">
+          <navLabel>
+            <text>Solid State Drives (SSDs)</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#solid-state-drives-ssds" />  
+        </navPoint>
+        <navPoint id="navPoint121" playOrder="99">
+          <navLabel>
+            <text>Technology Overview</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#id1" />  
+        </navPoint>
+        <navPoint id="navPoint122" playOrder="100">
+          <navLabel>
+            <text>Types of SSDs</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#types-of-ssds" />  
+        </navPoint>
+        <navPoint id="navPoint123" playOrder="101">
+          <navLabel>
+            <text>SSD Management and Optimization</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#ssd-management-and-optimization" />  
+        </navPoint>
+        <navPoint id="navPoint124" playOrder="102">
+          <navLabel>
+            <text>NVMe Management</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#nvme-management" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint125" playOrder="103">
+        <navLabel>
+          <text>Network Attached Storage (NAS)</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#network-attached-storage-nas" />  
+        <navPoint id="navPoint126" playOrder="103">
+          <navLabel>
+            <text>Network Attached Storage (NAS)</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#network-attached-storage-nas" />  
+        </navPoint>
+        <navPoint id="navPoint127" playOrder="104">
+          <navLabel>
+            <text>Types of NAS Devices</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#types-of-nas-devices" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint128" playOrder="105">
+        <navLabel>
+          <text>Storage Area Network (SAN)</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#storage-area-network-san" />  
+        <navPoint id="navPoint129" playOrder="105">
+          <navLabel>
+            <text>Storage Area Network (SAN)</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#storage-area-network-san" />  
+        </navPoint>
+        <navPoint id="navPoint130" playOrder="106">
+          <navLabel>
+            <text>iSCSI Configuration</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#iscsi-configuration" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint131" playOrder="107">
+        <navLabel>
+          <text>Optical Storage</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#optical-storage" />  
+        <navPoint id="navPoint132" playOrder="107">
+          <navLabel>
+            <text>Optical Storage</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#optical-storage" />  
+        </navPoint>
+        <navPoint id="navPoint133" playOrder="108">
+          <navLabel>
+            <text>CD/DVD/Blu-ray Management</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#cd-dvd-blu-ray-management" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint134" playOrder="109">
+        <navLabel>
+          <text>USB Storage Devices</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#usb-storage-devices" />  
+        <navPoint id="navPoint135" playOrder="109">
+          <navLabel>
+            <text>USB Storage Devices</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#usb-storage-devices" />  
+        </navPoint>
+        <navPoint id="navPoint136" playOrder="110">
+          <navLabel>
+            <text>USB Drive Management</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#usb-drive-management" />  
+        </navPoint>
+        <navPoint id="navPoint137" playOrder="111">
+          <navLabel>
+            <text>USB Performance Optimization</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#usb-performance-optimization" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint138" playOrder="112">
+        <navLabel>
+          <text>Storage Device Monitoring</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#storage-device-monitoring" />  
+        <navPoint id="navPoint139" playOrder="112">
+          <navLabel>
+            <text>Storage Device Monitoring</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#storage-device-monitoring" />  
+        </navPoint>
+        <navPoint id="navPoint140" playOrder="113">
+          <navLabel>
+            <text>Health Monitoring Script</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#health-monitoring-script" />  
+        </navPoint>
+        <navPoint id="navPoint141" playOrder="114">
+          <navLabel>
+            <text>Performance Benchmarking</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#performance-benchmarking" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint142" playOrder="115">
+        <navLabel>
+          <text>Device Selection Guidelines</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#device-selection-guidelines" />  
+        <navPoint id="navPoint143" playOrder="115">
+          <navLabel>
+            <text>Device Selection Guidelines</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#device-selection-guidelines" />  
+        </navPoint>
+        <navPoint id="navPoint144" playOrder="116">
+          <navLabel>
+            <text>Performance Considerations</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#performance-considerations" />  
+        </navPoint>
+        <navPoint id="navPoint145" playOrder="117">
+          <navLabel>
+            <text>Capacity Planning</text>
+          </navLabel>
+          <content src="storage-devices.xhtml#capacity-planning" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint146" playOrder="118">
+        <navLabel>
+          <text>Common Issues and Troubleshooting</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#common-issues-and-troubleshooting" />  
+      </navPoint>
+      <navPoint id="navPoint147" playOrder="119">
+        <navLabel>
+          <text>Best Practices</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#best-practices" />  
+      </navPoint>
+      <navPoint id="navPoint148" playOrder="120">
+        <navLabel>
+          <text>See Also</text>
+        </navLabel>
+        <content src="storage-devices.xhtml#see-also" />  
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint149" playOrder="121">
+      <navLabel>
+        <text>Ubuntu 22.04 Setup and Configuration</text>
+      </navLabel>
+      <content src="ubuntu-setup.xhtml" />  
+      <navPoint id="navPoint150" playOrder="121">
+        <navLabel>
+          <text>Ubuntu 22.04 Setup and Configuration</text>
+        </navLabel>
+        <content src="ubuntu-setup.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint151" playOrder="122">
+        <navLabel>
+          <text>Ubuntu 22.04 LTS Storage Setup</text>
+        </navLabel>
+        <content src="ubuntu-setup.xhtml#ubuntu-22-04-lts-storage-setup" />  
+        <navPoint id="navPoint152" playOrder="122">
+          <navLabel>
+            <text>Ubuntu 22.04 LTS Storage Setup</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#ubuntu-22-04-lts-storage-setup" />  
+        </navPoint>
+        <navPoint id="navPoint153" playOrder="123">
+          <navLabel>
+            <text>System Requirements and Preparation</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#system-requirements-and-preparation" />  
+        </navPoint>
+        <navPoint id="navPoint154" playOrder="124">
+          <navLabel>
+            <text>Storage-Focused Installation</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#storage-focused-installation" />  
+        </navPoint>
+        <navPoint id="navPoint155" playOrder="125">
+          <navLabel>
+            <text>Post-Installation Storage Configuration</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#post-installation-storage-configuration" />  
+        </navPoint>
+        <navPoint id="navPoint156" playOrder="126">
+          <navLabel>
+            <text>Storage Security Configuration</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#storage-security-configuration" />  
+        </navPoint>
+        <navPoint id="navPoint157" playOrder="127">
+          <navLabel>
+            <text>Backup and Recovery Setup</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#backup-and-recovery-setup" />  
+        </navPoint>
+        <navPoint id="navPoint158" playOrder="128">
+          <navLabel>
+            <text>Storage Monitoring and Alerts</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#storage-monitoring-and-alerts" />  
+        </navPoint>
+        <navPoint id="navPoint159" playOrder="129">
+          <navLabel>
+            <text>Performance Optimization</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#performance-optimization" />  
+        </navPoint>
+        <navPoint id="navPoint160" playOrder="130">
+          <navLabel>
+            <text>Frequently Asked Questions</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#frequently-asked-questions" />  
+        </navPoint>
+        <navPoint id="navPoint161" playOrder="131">
+          <navLabel>
+            <text>Troubleshooting Common Issues</text>
+          </navLabel>
+          <content src="ubuntu-setup.xhtml#troubleshooting-common-issues" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint162" playOrder="132">
+      <navLabel>
+        <text>Coding Examples and Scripts</text>
+      </navLabel>
+      <content src="coding-examples.xhtml" />  
+      <navPoint id="navPoint163" playOrder="132">
+        <navLabel>
+          <text>Coding Examples and Scripts</text>
+        </navLabel>
+        <content src="coding-examples.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint164" playOrder="133">
+        <navLabel>
+          <text>Storage Monitoring Scripts</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#storage-monitoring-scripts" />  
+        <navPoint id="navPoint165" playOrder="133">
+          <navLabel>
+            <text>Storage Monitoring Scripts</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#storage-monitoring-scripts" />  
+        </navPoint>
+        <navPoint id="navPoint166" playOrder="134">
+          <navLabel>
+            <text>System Storage Health Monitor</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#system-storage-health-monitor" />  
+        </navPoint>
+        <navPoint id="navPoint167" playOrder="135">
+          <navLabel>
+            <text>Automated Backup Script</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#automated-backup-script" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint168" playOrder="136">
+        <navLabel>
+          <text>RAID Management Tools</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#raid-management-tools" />  
+        <navPoint id="navPoint169" playOrder="136">
+          <navLabel>
+            <text>RAID Management Tools</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#raid-management-tools" />  
+        </navPoint>
+        <navPoint id="navPoint170" playOrder="137">
+          <navLabel>
+            <text>RAID Status Checker</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#raid-status-checker" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint171" playOrder="138">
+        <navLabel>
+          <text>LVM Automation Scripts</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#lvm-automation-scripts" />  
+        <navPoint id="navPoint172" playOrder="138">
+          <navLabel>
+            <text>LVM Automation Scripts</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#lvm-automation-scripts" />  
+        </navPoint>
+        <navPoint id="navPoint173" playOrder="139">
+          <navLabel>
+            <text>Dynamic LV Resize Script</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#dynamic-lv-resize-script" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint174" playOrder="140">
+        <navLabel>
+          <text>Network Storage Utilities</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#network-storage-utilities" />  
+        <navPoint id="navPoint175" playOrder="140">
+          <navLabel>
+            <text>Network Storage Utilities</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#network-storage-utilities" />  
+        </navPoint>
+        <navPoint id="navPoint176" playOrder="141">
+          <navLabel>
+            <text>NFS Mount Manager</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#nfs-mount-manager" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint177" playOrder="142">
+        <navLabel>
+          <text>File System Utilities</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#file-system-utilities" />  
+        <navPoint id="navPoint178" playOrder="142">
+          <navLabel>
+            <text>File System Utilities</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#file-system-utilities" />  
+        </navPoint>
+        <navPoint id="navPoint179" playOrder="143">
+          <navLabel>
+            <text>Filesystem Health Checker</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#filesystem-health-checker" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint180" playOrder="144">
+        <navLabel>
+          <text>Performance Testing Scripts</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#performance-testing-scripts" />  
+        <navPoint id="navPoint181" playOrder="144">
+          <navLabel>
+            <text>Performance Testing Scripts</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#performance-testing-scripts" />  
+        </navPoint>
+        <navPoint id="navPoint182" playOrder="145">
+          <navLabel>
+            <text>Storage Benchmark Suite</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#storage-benchmark-suite" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint183" playOrder="146">
+        <navLabel>
+          <text>Installation and Usage Instructions</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#installation-and-usage-instructions" />  
+        <navPoint id="navPoint184" playOrder="146">
+          <navLabel>
+            <text>Installation and Usage Instructions</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#installation-and-usage-instructions" />  
+        </navPoint>
+        <navPoint id="navPoint185" playOrder="147">
+          <navLabel>
+            <text>Setting Up the Environment</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#setting-up-the-environment" />  
+        </navPoint>
+        <navPoint id="navPoint186" playOrder="148">
+          <navLabel>
+            <text>Script Configuration</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#script-configuration" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint187" playOrder="149">
+        <navLabel>
+          <text>Integration Examples</text>
+        </navLabel>
+        <content src="coding-examples.xhtml#integration-examples" />  
+        <navPoint id="navPoint188" playOrder="149">
+          <navLabel>
+            <text>Integration Examples</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#integration-examples" />  
+        </navPoint>
+        <navPoint id="navPoint189" playOrder="150">
+          <navLabel>
+            <text>Systemd Service Integration</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#systemd-service-integration" />  
+        </navPoint>
+        <navPoint id="navPoint190" playOrder="151">
+          <navLabel>
+            <text>Custom Alerts Integration</text>
+          </navLabel>
+          <content src="coding-examples.xhtml#custom-alerts-integration" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint191" playOrder="152">
+      <navLabel>
+        <text>Troubleshooting Guide</text>
+      </navLabel>
+      <content src="troubleshooting.xhtml" />  
+      <navPoint id="navPoint192" playOrder="152">
+        <navLabel>
+          <text>Troubleshooting Guide</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint193" playOrder="153">
+        <navLabel>
+          <text>Disk and Partition Issues</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#disk-and-partition-issues" />  
+        <navPoint id="navPoint194" playOrder="153">
+          <navLabel>
+            <text>Disk and Partition Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#disk-and-partition-issues" />  
+        </navPoint>
+        <navPoint id="navPoint195" playOrder="154">
+          <navLabel>
+            <text>Disk Not Detected</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#disk-not-detected" />  
+        </navPoint>
+        <navPoint id="navPoint196" playOrder="155">
+          <navLabel>
+            <text>Partition Table Corruption</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#partition-table-corruption" />  
+        </navPoint>
+        <navPoint id="navPoint197" playOrder="156">
+          <navLabel>
+            <text>Boot Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#boot-issues" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint198" playOrder="157">
+        <navLabel>
+          <text>Filesystem Issues</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#filesystem-issues" />  
+        <navPoint id="navPoint199" playOrder="157">
+          <navLabel>
+            <text>Filesystem Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#filesystem-issues" />  
+        </navPoint>
+        <navPoint id="navPoint200" playOrder="158">
+          <navLabel>
+            <text>Filesystem Corruption</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#filesystem-corruption" />  
+        </navPoint>
+        <navPoint id="navPoint201" playOrder="159">
+          <navLabel>
+            <text>Journal Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#journal-issues" />  
+        </navPoint>
+        <navPoint id="navPoint202" playOrder="160">
+          <navLabel>
+            <text>Full Disk Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#full-disk-issues" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint203" playOrder="161">
+        <navLabel>
+          <text>LVM Issues</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#lvm-issues" />  
+        <navPoint id="navPoint204" playOrder="161">
+          <navLabel>
+            <text>LVM Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#lvm-issues" />  
+        </navPoint>
+        <navPoint id="navPoint205" playOrder="162">
+          <navLabel>
+            <text>Physical Volume Problems</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#physical-volume-problems" />  
+        </navPoint>
+        <navPoint id="navPoint206" playOrder="163">
+          <navLabel>
+            <text>Volume Group Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#volume-group-issues" />  
+        </navPoint>
+        <navPoint id="navPoint207" playOrder="164">
+          <navLabel>
+            <text>Logical Volume Problems</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#logical-volume-problems" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint208" playOrder="165">
+        <navLabel>
+          <text>RAID Issues</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#raid-issues" />  
+        <navPoint id="navPoint209" playOrder="165">
+          <navLabel>
+            <text>RAID Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#raid-issues" />  
+        </navPoint>
+        <navPoint id="navPoint210" playOrder="166">
+          <navLabel>
+            <text>Software RAID Problems</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#software-raid-problems" />  
+        </navPoint>
+        <navPoint id="navPoint211" playOrder="167">
+          <navLabel>
+            <text>Hardware RAID Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#hardware-raid-issues" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint212" playOrder="168">
+        <navLabel>
+          <text>Network Storage Issues</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#network-storage-issues" />  
+        <navPoint id="navPoint213" playOrder="168">
+          <navLabel>
+            <text>Network Storage Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#network-storage-issues" />  
+        </navPoint>
+        <navPoint id="navPoint214" playOrder="169">
+          <navLabel>
+            <text>NFS Mount Problems</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#nfs-mount-problems" />  
+        </navPoint>
+        <navPoint id="navPoint215" playOrder="170">
+          <navLabel>
+            <text>Samba/CIFS Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#samba-cifs-issues" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint216" playOrder="171">
+        <navLabel>
+          <text>Performance Issues</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#performance-issues" />  
+        <navPoint id="navPoint217" playOrder="171">
+          <navLabel>
+            <text>Performance Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#performance-issues" />  
+        </navPoint>
+        <navPoint id="navPoint218" playOrder="172">
+          <navLabel>
+            <text>Slow Disk Performance</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#slow-disk-performance" />  
+        </navPoint>
+        <navPoint id="navPoint219" playOrder="173">
+          <navLabel>
+            <text>High I/O Wait</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#high-i-o-wait" />  
+        </navPoint>
+        <navPoint id="navPoint220" playOrder="174">
+          <navLabel>
+            <text>Memory and Cache Issues</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#memory-and-cache-issues" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint221" playOrder="175">
+        <navLabel>
+          <text>Recovery Procedures</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#recovery-procedures" />  
+        <navPoint id="navPoint222" playOrder="175">
+          <navLabel>
+            <text>Recovery Procedures</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#recovery-procedures" />  
+        </navPoint>
+        <navPoint id="navPoint223" playOrder="176">
+          <navLabel>
+            <text>Data Recovery</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#data-recovery" />  
+        </navPoint>
+        <navPoint id="navPoint224" playOrder="177">
+          <navLabel>
+            <text>System Recovery</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#system-recovery" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint225" playOrder="178">
+        <navLabel>
+          <text>Emergency Procedures</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#emergency-procedures" />  
+        <navPoint id="navPoint226" playOrder="178">
+          <navLabel>
+            <text>Emergency Procedures</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#emergency-procedures" />  
+        </navPoint>
+        <navPoint id="navPoint227" playOrder="179">
+          <navLabel>
+            <text>Read-Only Filesystem Recovery</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#read-only-filesystem-recovery" />  
+        </navPoint>
+        <navPoint id="navPoint228" playOrder="180">
+          <navLabel>
+            <text>Disk Failure Emergency</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#disk-failure-emergency" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint229" playOrder="181">
+        <navLabel>
+          <text>Preventive Measures</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#preventive-measures" />  
+        <navPoint id="navPoint230" playOrder="181">
+          <navLabel>
+            <text>Preventive Measures</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#preventive-measures" />  
+        </navPoint>
+        <navPoint id="navPoint231" playOrder="182">
+          <navLabel>
+            <text>Regular Health Checks</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#regular-health-checks" />  
+        </navPoint>
+        <navPoint id="navPoint232" playOrder="183">
+          <navLabel>
+            <text>Backup Verification</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#backup-verification" />  
+        </navPoint>
+        <navPoint id="navPoint233" playOrder="184">
+          <navLabel>
+            <text>Log Monitoring</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#log-monitoring" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint234" playOrder="185">
+        <navLabel>
+          <text>Advanced Debugging</text>
+        </navLabel>
+        <content src="troubleshooting.xhtml#advanced-debugging" />  
+        <navPoint id="navPoint235" playOrder="185">
+          <navLabel>
+            <text>Advanced Debugging</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#advanced-debugging" />  
+        </navPoint>
+        <navPoint id="navPoint236" playOrder="186">
+          <navLabel>
+            <text>Kernel Debugging</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#kernel-debugging" />  
+        </navPoint>
+        <navPoint id="navPoint237" playOrder="187">
+          <navLabel>
+            <text>Hardware Diagnostics</text>
+          </navLabel>
+          <content src="troubleshooting.xhtml#hardware-diagnostics" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint238" playOrder="188">
+      <navLabel>
+        <text>Best Practices and Guidelines</text>
+      </navLabel>
+      <content src="best-practices.xhtml" />  
+      <navPoint id="navPoint239" playOrder="188">
+        <navLabel>
+          <text>Best Practices and Guidelines</text>
+        </navLabel>
+        <content src="best-practices.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint240" playOrder="189">
+        <navLabel>
+          <text>Storage Planning and Design</text>
+        </navLabel>
+        <content src="best-practices.xhtml#storage-planning-and-design" />  
+        <navPoint id="navPoint241" playOrder="189">
+          <navLabel>
+            <text>Storage Planning and Design</text>
+          </navLabel>
+          <content src="best-practices.xhtml#storage-planning-and-design" />  
+        </navPoint>
+        <navPoint id="navPoint242" playOrder="190">
+          <navLabel>
+            <text>Capacity Planning</text>
+          </navLabel>
+          <content src="best-practices.xhtml#capacity-planning" />  
+        </navPoint>
+        <navPoint id="navPoint243" playOrder="191">
+          <navLabel>
+            <text>Filesystem Selection Guidelines</text>
+          </navLabel>
+          <content src="best-practices.xhtml#filesystem-selection-guidelines" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint244" playOrder="192">
+        <navLabel>
+          <text>Partitioning Best Practices</text>
+        </navLabel>
+        <content src="best-practices.xhtml#partitioning-best-practices" />  
+        <navPoint id="navPoint245" playOrder="192">
+          <navLabel>
+            <text>Partitioning Best Practices</text>
+          </navLabel>
+          <content src="best-practices.xhtml#partitioning-best-practices" />  
+        </navPoint>
+        <navPoint id="navPoint246" playOrder="193">
+          <navLabel>
+            <text>Partition Layout Strategy</text>
+          </navLabel>
+          <content src="best-practices.xhtml#partition-layout-strategy" />  
+        </navPoint>
+        <navPoint id="navPoint247" playOrder="194">
+          <navLabel>
+            <text>Alignment and Performance</text>
+          </navLabel>
+          <content src="best-practices.xhtml#alignment-and-performance" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint248" playOrder="195">
+        <navLabel>
+          <text>Security Best Practices</text>
+        </navLabel>
+        <content src="best-practices.xhtml#security-best-practices" />  
+        <navPoint id="navPoint249" playOrder="195">
+          <navLabel>
+            <text>Security Best Practices</text>
+          </navLabel>
+          <content src="best-practices.xhtml#security-best-practices" />  
+        </navPoint>
+        <navPoint id="navPoint250" playOrder="196">
+          <navLabel>
+            <text>Encryption at Rest</text>
+          </navLabel>
+          <content src="best-practices.xhtml#encryption-at-rest" />  
+        </navPoint>
+        <navPoint id="navPoint251" playOrder="197">
+          <navLabel>
+            <text>Access Control and Permissions</text>
+          </navLabel>
+          <content src="best-practices.xhtml#access-control-and-permissions" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint252" playOrder="198">
+        <navLabel>
+          <text>Backup and Recovery Strategies</text>
+        </navLabel>
+        <content src="best-practices.xhtml#backup-and-recovery-strategies" />  
+        <navPoint id="navPoint253" playOrder="198">
+          <navLabel>
+            <text>Backup and Recovery Strategies</text>
+          </navLabel>
+          <content src="best-practices.xhtml#backup-and-recovery-strategies" />  
+        </navPoint>
+        <navPoint id="navPoint254" playOrder="199">
+          <navLabel>
+            <text>Backup Strategy Framework</text>
+          </navLabel>
+          <content src="best-practices.xhtml#backup-strategy-framework" />  
+        </navPoint>
+        <navPoint id="navPoint255" playOrder="200">
+          <navLabel>
+            <text>Recovery Planning</text>
+          </navLabel>
+          <content src="best-practices.xhtml#recovery-planning" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint256" playOrder="201">
+        <navLabel>
+          <text>Performance Optimization</text>
+        </navLabel>
+        <content src="best-practices.xhtml#performance-optimization" />  
+        <navPoint id="navPoint257" playOrder="201">
+          <navLabel>
+            <text>Performance Optimization</text>
+          </navLabel>
+          <content src="best-practices.xhtml#performance-optimization" />  
+        </navPoint>
+        <navPoint id="navPoint258" playOrder="202">
+          <navLabel>
+            <text>I/O Optimization</text>
+          </navLabel>
+          <content src="best-practices.xhtml#i-o-optimization" />  
+        </navPoint>
+        <navPoint id="navPoint259" playOrder="203">
+          <navLabel>
+            <text>Memory and Cache Optimization</text>
+          </navLabel>
+          <content src="best-practices.xhtml#memory-and-cache-optimization" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint260" playOrder="204">
+        <navLabel>
+          <text>Monitoring and Alerting</text>
+        </navLabel>
+        <content src="best-practices.xhtml#monitoring-and-alerting" />  
+        <navPoint id="navPoint261" playOrder="204">
+          <navLabel>
+            <text>Monitoring and Alerting</text>
+          </navLabel>
+          <content src="best-practices.xhtml#monitoring-and-alerting" />  
+        </navPoint>
+        <navPoint id="navPoint262" playOrder="205">
+          <navLabel>
+            <text>Proactive Monitoring</text>
+          </navLabel>
+          <content src="best-practices.xhtml#proactive-monitoring" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint263" playOrder="206">
+        <navLabel>
+          <text>Maintenance Procedures</text>
+        </navLabel>
+        <content src="best-practices.xhtml#maintenance-procedures" />  
+        <navPoint id="navPoint264" playOrder="206">
+          <navLabel>
+            <text>Maintenance Procedures</text>
+          </navLabel>
+          <content src="best-practices.xhtml#maintenance-procedures" />  
+        </navPoint>
+        <navPoint id="navPoint265" playOrder="207">
+          <navLabel>
+            <text>Regular Maintenance Tasks</text>
+          </navLabel>
+          <content src="best-practices.xhtml#regular-maintenance-tasks" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint266" playOrder="208">
+        <navLabel>
+          <text>Documentation and Change Management</text>
+        </navLabel>
+        <content src="best-practices.xhtml#documentation-and-change-management" />  
+        <navPoint id="navPoint267" playOrder="208">
+          <navLabel>
+            <text>Documentation and Change Management</text>
+          </navLabel>
+          <content src="best-practices.xhtml#documentation-and-change-management" />  
+        </navPoint>
+        <navPoint id="navPoint268" playOrder="209">
+          <navLabel>
+            <text>Documentation Standards</text>
+          </navLabel>
+          <content src="best-practices.xhtml#documentation-standards" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint269" playOrder="210">
+      <navLabel>
+        <text>Glossary</text>
+      </navLabel>
+      <content src="glossary.xhtml" />  
+    </navPoint>
+    <navPoint id="navPoint270" playOrder="211">
+      <navLabel>
+        <text>Common Command Abbreviations</text>
+      </navLabel>
+      <content src="glossary.xhtml#common-command-abbreviations" />  
+    </navPoint>
+    <navPoint id="navPoint271" playOrder="212">
+      <navLabel>
+        <text>Storage Unit Definitions</text>
+      </navLabel>
+      <content src="glossary.xhtml#storage-unit-definitions" />  
+    </navPoint>
+    <navPoint id="navPoint272" playOrder="213">
+      <navLabel>
+        <text>Performance Metrics</text>
+      </navLabel>
+      <content src="glossary.xhtml#performance-metrics" />  
+    </navPoint>
+    <navPoint id="navPoint273" playOrder="214">
+      <navLabel>
+        <text>RAID Levels Reference</text>
+      </navLabel>
+      <content src="glossary.xhtml#raid-levels-reference" />  
+    </navPoint>
+    <navPoint id="navPoint274" playOrder="215">
+      <navLabel>
+        <text>Network Storage Protocols</text>
+      </navLabel>
+      <content src="glossary.xhtml#network-storage-protocols" />  
+    </navPoint>
+    <navPoint id="navPoint275" playOrder="216">
+      <navLabel>
+        <text>File System Features</text>
+      </navLabel>
+      <content src="glossary.xhtml#file-system-features" />  
+    </navPoint>
+    <navPoint id="navPoint276" playOrder="217">
+      <navLabel>
+        <text>Frequently Asked Questions</text>
+      </navLabel>
+      <content src="faq.xhtml" />  
+      <navPoint id="navPoint277" playOrder="217">
+        <navLabel>
+          <text>Frequently Asked Questions</text>
+        </navLabel>
+        <content src="faq.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint278" playOrder="218">
+        <navLabel>
+          <text>Storage Fundamentals</text>
+        </navLabel>
+        <content src="faq.xhtml#storage-fundamentals" />  
+        <navPoint id="navPoint279" playOrder="218">
+          <navLabel>
+            <text>Storage Fundamentals</text>
+          </navLabel>
+          <content src="faq.xhtml#storage-fundamentals" />  
+        </navPoint>
+        <navPoint id="navPoint280" playOrder="219">
+          <navLabel>
+            <text>Q: What’s the difference between storage and memory?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-what-s-the-difference-between-storage-and-memory" />  
+        </navPoint>
+        <navPoint id="navPoint281" playOrder="220">
+          <navLabel>
+            <text>Q: How do I determine what type of storage device I have?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-determine-what-type-of-storage-device-i-have" />  
+        </navPoint>
+        <navPoint id="navPoint282" playOrder="221">
+          <navLabel>
+            <text>Q: What filesystem should I use for different purposes?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-what-filesystem-should-i-use-for-different-purposes" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint283" playOrder="222">
+        <navLabel>
+          <text>File System Management</text>
+        </navLabel>
+        <content src="faq.xhtml#file-system-management" />  
+        <navPoint id="navPoint284" playOrder="222">
+          <navLabel>
+            <text>File System Management</text>
+          </navLabel>
+          <content src="faq.xhtml#file-system-management" />  
+        </navPoint>
+        <navPoint id="navPoint285" playOrder="223">
+          <navLabel>
+            <text>Q: How do I safely resize a partition without losing data?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-safely-resize-a-partition-without-losing-data" />  
+        </navPoint>
+        <navPoint id="navPoint286" playOrder="224">
+          <navLabel>
+            <text>Q: How can I recover deleted files?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-can-i-recover-deleted-files" />  
+        </navPoint>
+        <navPoint id="navPoint287" playOrder="225">
+          <navLabel>
+            <text>Q: How do I check and repair filesystem errors?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-check-and-repair-filesystem-errors" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint288" playOrder="226">
+        <navLabel>
+          <text>Disk Management</text>
+        </navLabel>
+        <content src="faq.xhtml#disk-management" />  
+        <navPoint id="navPoint289" playOrder="226">
+          <navLabel>
+            <text>Disk Management</text>
+          </navLabel>
+          <content src="faq.xhtml#disk-management" />  
+        </navPoint>
+        <navPoint id="navPoint290" playOrder="227">
+          <navLabel>
+            <text>Q: How do I add a new hard drive to my Ubuntu system?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-add-a-new-hard-drive-to-my-ubuntu-system" />  
+        </navPoint>
+        <navPoint id="navPoint291" playOrder="228">
+          <navLabel>
+            <text>Q: How can I improve disk performance?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-can-i-improve-disk-performance" />  
+        </navPoint>
+        <navPoint id="navPoint292" playOrder="229">
+          <navLabel>
+            <text>Q: What should I do if my disk is failing?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-what-should-i-do-if-my-disk-is-failing" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint293" playOrder="230">
+        <navLabel>
+          <text>RAID Configuration</text>
+        </navLabel>
+        <content src="faq.xhtml#raid-configuration" />  
+        <navPoint id="navPoint294" playOrder="230">
+          <navLabel>
+            <text>RAID Configuration</text>
+          </navLabel>
+          <content src="faq.xhtml#raid-configuration" />  
+        </navPoint>
+        <navPoint id="navPoint295" playOrder="231">
+          <navLabel>
+            <text>Q: Which RAID level should I choose?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-which-raid-level-should-i-choose" />  
+        </navPoint>
+        <navPoint id="navPoint296" playOrder="232">
+          <navLabel>
+            <text>Q: How do I replace a failed disk in a RAID array?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-replace-a-failed-disk-in-a-raid-array" />  
+        </navPoint>
+        <navPoint id="navPoint297" playOrder="233">
+          <navLabel>
+            <text>Q: Can I convert between RAID levels?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-can-i-convert-between-raid-levels" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint298" playOrder="234">
+        <navLabel>
+          <text>Network Storage</text>
+        </navLabel>
+        <content src="faq.xhtml#network-storage" />  
+        <navPoint id="navPoint299" playOrder="234">
+          <navLabel>
+            <text>Network Storage</text>
+          </navLabel>
+          <content src="faq.xhtml#network-storage" />  
+        </navPoint>
+        <navPoint id="navPoint300" playOrder="235">
+          <navLabel>
+            <text>Q: Should I use NFS or SMB for file sharing?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-should-i-use-nfs-or-smb-for-file-sharing" />  
+        </navPoint>
+        <navPoint id="navPoint301" playOrder="236">
+          <navLabel>
+            <text>Q: How do I troubleshoot slow network storage?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-troubleshoot-slow-network-storage" />  
+        </navPoint>
+        <navPoint id="navPoint302" playOrder="237">
+          <navLabel>
+            <text>Q: How do I set up automatic mounting for network drives?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-set-up-automatic-mounting-for-network-drives" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint303" playOrder="238">
+        <navLabel>
+          <text>Backup and Recovery</text>
+        </navLabel>
+        <content src="faq.xhtml#backup-and-recovery" />  
+        <navPoint id="navPoint304" playOrder="238">
+          <navLabel>
+            <text>Backup and Recovery</text>
+          </navLabel>
+          <content src="faq.xhtml#backup-and-recovery" />  
+        </navPoint>
+        <navPoint id="navPoint305" playOrder="239">
+          <navLabel>
+            <text>Q: What’s the best backup strategy for Ubuntu?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-what-s-the-best-backup-strategy-for-ubuntu" />  
+        </navPoint>
+        <navPoint id="navPoint306" playOrder="240">
+          <navLabel>
+            <text>Q: How do I restore from a backup?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-restore-from-a-backup" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint307" playOrder="241">
+        <navLabel>
+          <text>Troubleshooting</text>
+        </navLabel>
+        <content src="faq.xhtml#troubleshooting" />  
+        <navPoint id="navPoint308" playOrder="241">
+          <navLabel>
+            <text>Troubleshooting</text>
+          </navLabel>
+          <content src="faq.xhtml#troubleshooting" />  
+        </navPoint>
+        <navPoint id="navPoint309" playOrder="242">
+          <navLabel>
+            <text>Q: My system won’t boot after storage changes. How do I fix it?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-my-system-won-t-boot-after-storage-changes-how-do-i-fix-it" />  
+        </navPoint>
+        <navPoint id="navPoint310" playOrder="243">
+          <navLabel>
+            <text>Q: How do I diagnose storage performance issues?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-diagnose-storage-performance-issues" />  
+        </navPoint>
+        <navPoint id="navPoint311" playOrder="244">
+          <navLabel>
+            <text>Q: What should I do if I’m running out of disk space?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-what-should-i-do-if-i-m-running-out-of-disk-space" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint312" playOrder="245">
+        <navLabel>
+          <text>Performance Optimization</text>
+        </navLabel>
+        <content src="faq.xhtml#performance-optimization" />  
+        <navPoint id="navPoint313" playOrder="245">
+          <navLabel>
+            <text>Performance Optimization</text>
+          </navLabel>
+          <content src="faq.xhtml#performance-optimization" />  
+        </navPoint>
+        <navPoint id="navPoint314" playOrder="246">
+          <navLabel>
+            <text>Q: How can I optimize Ubuntu for SSD storage?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-can-i-optimize-ubuntu-for-ssd-storage" />  
+        </navPoint>
+        <navPoint id="navPoint315" playOrder="247">
+          <navLabel>
+            <text>Q: How do I monitor storage health proactively?</text>
+          </navLabel>
+          <content src="faq.xhtml#q-how-do-i-monitor-storage-health-proactively" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint316" playOrder="248">
+      <navLabel>
+        <text>Downloads and Resources</text>
+      </navLabel>
+      <content src="downloads.xhtml" />  
+      <navPoint id="navPoint317" playOrder="248">
+        <navLabel>
+          <text>Downloads and Resources</text>
+        </navLabel>
+        <content src="downloads.xhtml" />  
+      </navPoint>
+      <navPoint id="navPoint318" playOrder="249">
+        <navLabel>
+          <text>Documentation Formats</text>
+        </navLabel>
+        <content src="downloads.xhtml#documentation-formats" />  
+        <navPoint id="navPoint319" playOrder="249">
+          <navLabel>
+            <text>Documentation Formats</text>
+          </navLabel>
+          <content src="downloads.xhtml#documentation-formats" />  
+        </navPoint>
+        <navPoint id="navPoint320" playOrder="250">
+          <navLabel>
+            <text>Building the Documentation</text>
+          </navLabel>
+          <content src="downloads.xhtml#building-the-documentation" />  
+        </navPoint>
+        <navPoint id="navPoint321" playOrder="251">
+          <navLabel>
+            <text>Download Instructions</text>
+          </navLabel>
+          <content src="downloads.xhtml#download-instructions" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint322" playOrder="252">
+        <navLabel>
+          <text>Automation Scripts</text>
+        </navLabel>
+        <content src="downloads.xhtml#automation-scripts" />  
+        <navPoint id="navPoint323" playOrder="252">
+          <navLabel>
+            <text>Automation Scripts</text>
+          </navLabel>
+          <content src="downloads.xhtml#automation-scripts" />  
+        </navPoint>
+        <navPoint id="navPoint324" playOrder="253">
+          <navLabel>
+            <text>Automated Build Script</text>
+          </navLabel>
+          <content src="downloads.xhtml#automated-build-script" />  
+        </navPoint>
+        <navPoint id="navPoint325" playOrder="254">
+          <navLabel>
+            <text>Continuous Integration Script</text>
+          </navLabel>
+          <content src="downloads.xhtml#continuous-integration-script" />  
+        </navPoint>
+        <navPoint id="navPoint326" playOrder="255">
+          <navLabel>
+            <text>Docker Build Environment</text>
+          </navLabel>
+          <content src="downloads.xhtml#docker-build-environment" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint327" playOrder="256">
+        <navLabel>
+          <text>Additional Resources</text>
+        </navLabel>
+        <content src="downloads.xhtml#additional-resources" />  
+        <navPoint id="navPoint328" playOrder="256">
+          <navLabel>
+            <text>Additional Resources</text>
+          </navLabel>
+          <content src="downloads.xhtml#additional-resources" />  
+        </navPoint>
+        <navPoint id="navPoint329" playOrder="257">
+          <navLabel>
+            <text>Official Documentation Links</text>
+          </navLabel>
+          <content src="downloads.xhtml#official-documentation-links" />  
+        </navPoint>
+        <navPoint id="navPoint330" playOrder="258">
+          <navLabel>
+            <text>Useful Tools and Utilities</text>
+          </navLabel>
+          <content src="downloads.xhtml#useful-tools-and-utilities" />  
+        </navPoint>
+        <navPoint id="navPoint331" playOrder="259">
+          <navLabel>
+            <text>Scripts and Templates</text>
+          </navLabel>
+          <content src="downloads.xhtml#scripts-and-templates" />  
+        </navPoint>
+        <navPoint id="navPoint332" playOrder="260">
+          <navLabel>
+            <text>Community Resources</text>
+          </navLabel>
+          <content src="downloads.xhtml#community-resources" />  
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint333" playOrder="261">
+        <navLabel>
+          <text>Getting Help and Support</text>
+        </navLabel>
+        <content src="downloads.xhtml#getting-help-and-support" />  
+        <navPoint id="navPoint334" playOrder="261">
+          <navLabel>
+            <text>Getting Help and Support</text>
+          </navLabel>
+          <content src="downloads.xhtml#getting-help-and-support" />  
+        </navPoint>
+        <navPoint id="navPoint335" playOrder="262">
+          <navLabel>
+            <text>Issue Reporting</text>
+          </navLabel>
+          <content src="downloads.xhtml#issue-reporting" />  
+        </navPoint>
+        <navPoint id="navPoint336" playOrder="263">
+          <navLabel>
+            <text>Contributing to Documentation</text>
+          </navLabel>
+          <content src="downloads.xhtml#contributing-to-documentation" />  
+        </navPoint>
+        <navPoint id="navPoint337" playOrder="264">
+          <navLabel>
+            <text>Contact Information</text>
+          </navLabel>
+          <content src="downloads.xhtml#contact-information" />  
+        </navPoint>
+      </navPoint>
+    </navPoint>
+  </navMap>
+</ncx>
