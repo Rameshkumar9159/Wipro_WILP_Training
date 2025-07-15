@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+
+<html class="writer-html5" data-content_root="./" lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Glossary — Storage Systems and Data Management Guide 1.0 documentation</title>
+<link href="_static/pygments.css?v=b86133f3" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
+<link href="_static/css/custom-header-footer.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/navigation-fix.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js?v=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script src="_static/documentation_options.js?v=f2a433a1"></script>
+<script src="_static/doctools.js?v=9bcbadda"></script>
+<script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/navigation-enhancement.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="faq.html" rel="next" title="Frequently Asked Questions"/>
+<link href="best-practices.html" rel="prev" title="Best Practices and Guidelines"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            Storage Systems and Data Management Guide
+          </a>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Storage Fundamentals:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-overview.html">Storage Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk-management.html">Disk Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file-systems.html">File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-organization.html">Data Organization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Storage Concepts:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="raid-systems.html">RAID Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-storage.html">Network Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="volume-management.html">Volume Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage-devices.html">Storage Devices</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Practical Implementation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu-setup.html">Ubuntu 22.04 Setup and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-examples.html">Coding Examples and Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Best Practices and Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#common-command-abbreviations">Common Command Abbreviations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#storage-unit-definitions">Storage Unit Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#raid-levels-reference">RAID Levels Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#network-storage-protocols">Network Storage Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#file-system-features">File System Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads and Resources</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">Storage Systems and Data Management Guide</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item active">Glossary</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/glossary.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div><section id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading"></a></h2>
+<p>This glossary provides definitions for storage-related terms and concepts used throughout this documentation.</p>
+<dl class="simple glossary">
+<dt id="term-AHCI">AHCI<a class="headerlink" href="#term-AHCI" title="Link to this term"></a></dt><dd><p>Advanced Host Controller Interface - A technical standard for SATA host controllers that allows software to communicate with storage devices.</p>
+</dd>
+<dt id="term-Block-Device">Block Device<a class="headerlink" href="#term-Block-Device" title="Link to this term"></a></dt><dd><p>A type of device that provides buffered access to hardware devices, allowing data to be read and written in fixed-size blocks (typically 512 bytes or 4096 bytes).</p>
+</dd>
+<dt id="term-Block-Size">Block Size<a class="headerlink" href="#term-Block-Size" title="Link to this term"></a></dt><dd><p>The minimum unit of data that a filesystem can allocate. Common block sizes are 4KB, 8KB, and 64KB. Larger block sizes are better for sequential access, while smaller block sizes are more efficient for random access.</p>
+</dd>
+<dt id="term-BTRFS">BTRFS<a class="headerlink" href="#term-BTRFS" title="Link to this term"></a></dt><dd><p>B-Tree File System - A modern filesystem for Linux that features snapshots, checksums, compression, and advanced volume management capabilities.</p>
+</dd>
+<dt id="term-Cache">Cache<a class="headerlink" href="#term-Cache" title="Link to this term"></a></dt><dd><p>High-speed storage used to temporarily store frequently accessed data to improve performance. Can be implemented in hardware (disk cache) or software (filesystem cache).</p>
+</dd>
+<dt id="term-CIFS">CIFS<a class="headerlink" href="#term-CIFS" title="Link to this term"></a></dt><dd><p>Common Internet File System - A network protocol used for sharing files, printers, and other resources between systems, primarily used with Windows networks.</p>
+</dd>
+<dt id="term-DAS">DAS<a class="headerlink" href="#term-DAS" title="Link to this term"></a></dt><dd><p>Direct-Attached Storage - Storage devices directly connected to a single computer without a network connection, such as internal hard drives or external USB drives.</p>
+</dd>
+<dt id="term-Defragmentation">Defragmentation<a class="headerlink" href="#term-Defragmentation" title="Link to this term"></a></dt><dd><p>The process of reorganizing data on a storage device to reduce fragmentation and improve performance. Less relevant for modern filesystems and SSDs.</p>
+</dd>
+<dt id="term-Device-Mapper">Device Mapper<a class="headerlink" href="#term-Device-Mapper" title="Link to this term"></a></dt><dd><p>A Linux kernel framework that provides a generic way to create virtual layers on top of block devices, used by LVM and device encryption.</p>
+</dd>
+<dt id="term-Dirty-Pages">Dirty Pages<a class="headerlink" href="#term-Dirty-Pages" title="Link to this term"></a></dt><dd><p>Memory pages that have been modified but not yet written to storage. The kernel manages when these pages are flushed to disk.</p>
+</dd>
+<dt id="term-DM-Crypt">DM-Crypt<a class="headerlink" href="#term-DM-Crypt" title="Link to this term"></a></dt><dd><p>Device-mapper crypt target - A Linux kernel module that provides transparent encryption of block devices using the device mapper infrastructure.</p>
+</dd>
+<dt id="term-ECC">ECC<a class="headerlink" href="#term-ECC" title="Link to this term"></a></dt><dd><p>Error-Correcting Code - Technology that detects and corrects data corruption errors in memory and storage systems.</p>
+</dd>
+<dt id="term-Ext4">Ext4<a class="headerlink" href="#term-Ext4" title="Link to this term"></a></dt><dd><p>Fourth Extended Filesystem - The default filesystem for many Linux distributions, offering journaling, large file support, and backward compatibility.</p>
+</dd>
+<dt id="term-Filesystem">Filesystem<a class="headerlink" href="#term-Filesystem" title="Link to this term"></a></dt><dd><p>A method of organizing and storing data on storage devices. Examples include ext4, XFS, NTFS, and APFS.</p>
+</dd>
+<dt id="term-FSTAB">FSTAB<a class="headerlink" href="#term-FSTAB" title="Link to this term"></a></dt><dd><p>File Systems Table - A configuration file (/etc/fstab) that defines how disk partitions and storage devices should be mounted at boot time.</p>
+</dd>
+<dt id="term-GPT">GPT<a class="headerlink" href="#term-GPT" title="Link to this term"></a></dt><dd><p>GUID Partition Table - A modern partitioning scheme that replaces MBR, supporting larger disks and more partitions.</p>
+</dd>
+<dt id="term-HDD">HDD<a class="headerlink" href="#term-HDD" title="Link to this term"></a></dt><dd><p>Hard Disk Drive - Traditional storage device using spinning magnetic disks and mechanical read/write heads.</p>
+</dd>
+<dt id="term-Hot-Spare">Hot Spare<a class="headerlink" href="#term-Hot-Spare" title="Link to this term"></a></dt><dd><p>A standby disk in a RAID array that automatically replaces a failed disk without manual intervention.</p>
+</dd>
+<dt id="term-I-O">I/O<a class="headerlink" href="#term-I-O" title="Link to this term"></a></dt><dd><p>Input/Output - Operations that transfer data between the computer and storage devices or other external systems.</p>
+</dd>
+<dt id="term-Inode">Inode<a class="headerlink" href="#term-Inode" title="Link to this term"></a></dt><dd><p>Index node - A data structure that stores metadata about files and directories in Unix-like filesystems, including permissions, timestamps, and pointers to data blocks.</p>
+</dd>
+<dt id="term-IOPS">IOPS<a class="headerlink" href="#term-IOPS" title="Link to this term"></a></dt><dd><p>Input/Output Operations Per Second - A performance measurement indicating how many read/write operations a storage device can perform per second.</p>
+</dd>
+<dt id="term-iSCSI">iSCSI<a class="headerlink" href="#term-iSCSI" title="Link to this term"></a></dt><dd><p>Internet Small Computer Systems Interface - A protocol that allows SCSI commands to be sent over IP networks, enabling network-attached storage.</p>
+</dd>
+<dt id="term-Journal">Journal<a class="headerlink" href="#term-Journal" title="Link to this term"></a></dt><dd><p>A log of filesystem changes used for crash recovery. Journaling filesystems can quickly recover from unexpected shutdowns by replaying the journal.</p>
+</dd>
+<dt id="term-JBOD">JBOD<a class="headerlink" href="#term-JBOD" title="Link to this term"></a></dt><dd><p>Just a Bunch of Disks - A storage configuration where multiple disks are used independently without RAID redundancy.</p>
+</dd>
+<dt id="term-LBA">LBA<a class="headerlink" href="#term-LBA" title="Link to this term"></a></dt><dd><p>Logical Block Addressing - A method of addressing data blocks on storage devices using a linear sequence of block numbers.</p>
+</dd>
+<dt id="term-Logical-Volume">Logical Volume<a class="headerlink" href="#term-Logical-Volume" title="Link to this term"></a></dt><dd><p>A virtual storage device created by LVM that can span multiple physical devices and be resized dynamically.</p>
+</dd>
+<dt id="term-LUKS">LUKS<a class="headerlink" href="#term-LUKS" title="Link to this term"></a></dt><dd><p>Linux Unified Key Setup - A disk encryption specification and reference implementation for Linux that provides a standard format for encrypted storage.</p>
+</dd>
+<dt id="term-LUN">LUN<a class="headerlink" href="#term-LUN" title="Link to this term"></a></dt><dd><p>Logical Unit Number - A number used to identify individual devices or logical units within a SCSI target.</p>
+</dd>
+<dt id="term-LVM">LVM<a class="headerlink" href="#term-LVM" title="Link to this term"></a></dt><dd><p>Logical Volume Manager - A system for managing disk space that provides volume management capabilities including resizing, snapshots, and spanning multiple devices.</p>
+</dd>
+<dt id="term-MBR">MBR<a class="headerlink" href="#term-MBR" title="Link to this term"></a></dt><dd><p>Master Boot Record - An older partitioning scheme limited to 2TB disks and 4 primary partitions.</p>
+</dd>
+<dt id="term-mdadm">mdadm<a class="headerlink" href="#term-mdadm" title="Link to this term"></a></dt><dd><p>Multiple Device Administration - A Linux utility for managing software RAID arrays.</p>
+</dd>
+<dt id="term-Mount-Point">Mount Point<a class="headerlink" href="#term-Mount-Point" title="Link to this term"></a></dt><dd><p>A directory in the filesystem hierarchy where a storage device or filesystem is attached and made accessible.</p>
+</dd>
+<dt id="term-NAS">NAS<a class="headerlink" href="#term-NAS" title="Link to this term"></a></dt><dd><p>Network-Attached Storage - File-level storage accessible over a network, typically using protocols like NFS or SMB/CIFS.</p>
+</dd>
+<dt id="term-NFS">NFS<a class="headerlink" href="#term-NFS" title="Link to this term"></a></dt><dd><p>Network File System - A protocol for sharing files over a network, allowing remote directories to be mounted as if they were local.</p>
+</dd>
+<dt id="term-NVME">NVME<a class="headerlink" href="#term-NVME" title="Link to this term"></a></dt><dd><p>Non-Volatile Memory Express - A high-performance interface for SSDs that connects directly to the CPU via PCIe lanes.</p>
+</dd>
+<dt id="term-Partition">Partition<a class="headerlink" href="#term-Partition" title="Link to this term"></a></dt><dd><p>A logical division of a storage device that appears to the operating system as a separate device.</p>
+</dd>
+<dt id="term-Physical-Extent">Physical Extent<a class="headerlink" href="#term-Physical-Extent" title="Link to this term"></a></dt><dd><p>The smallest unit of space allocation in LVM, typically 4MB in size.</p>
+</dd>
+<dt id="term-Physical-Volume">Physical Volume<a class="headerlink" href="#term-Physical-Volume" title="Link to this term"></a></dt><dd><p>A storage device or partition that has been initialized for use with LVM.</p>
+</dd>
+<dt id="term-RAID">RAID<a class="headerlink" href="#term-RAID" title="Link to this term"></a></dt><dd><p>Redundant Array of Independent Disks - A technology that combines multiple physical disks into logical units for redundancy, performance, or both.</p>
+</dd>
+<dt id="term-RAID-0">RAID 0<a class="headerlink" href="#term-RAID-0" title="Link to this term"></a></dt><dd><p>Disk striping without redundancy - improves performance but provides no fault tolerance.</p>
+</dd>
+<dt id="term-RAID-1">RAID 1<a class="headerlink" href="#term-RAID-1" title="Link to this term"></a></dt><dd><p>Disk mirroring - provides redundancy by maintaining identical copies of data on multiple disks.</p>
+</dd>
+<dt id="term-RAID-5">RAID 5<a class="headerlink" href="#term-RAID-5" title="Link to this term"></a></dt><dd><p>Distributed parity - requires minimum 3 disks, provides redundancy and improved read performance.</p>
+</dd>
+<dt id="term-RAID-6">RAID 6<a class="headerlink" href="#term-RAID-6" title="Link to this term"></a></dt><dd><p>Double distributed parity - requires minimum 4 disks, can tolerate failure of any two disks.</p>
+</dd>
+<dt id="term-RAID-10">RAID 10<a class="headerlink" href="#term-RAID-10" title="Link to this term"></a></dt><dd><p>Combination of RAID 1 and RAID 0 - provides both redundancy and performance improvements.</p>
+</dd>
+<dt id="term-RPO">RPO<a class="headerlink" href="#term-RPO" title="Link to this term"></a></dt><dd><p>Recovery Point Objective - The maximum acceptable amount of data loss measured in time (e.g., 1 hour RPO means losing at most 1 hour of data).</p>
+</dd>
+<dt id="term-RTO">RTO<a class="headerlink" href="#term-RTO" title="Link to this term"></a></dt><dd><p>Recovery Time Objective - The maximum acceptable time to restore service after a failure (e.g., 4 hour RTO means service must be restored within 4 hours).</p>
+</dd>
+<dt id="term-SAN">SAN<a class="headerlink" href="#term-SAN" title="Link to this term"></a></dt><dd><p>Storage Area Network - A dedicated high-speed network that provides block-level access to storage devices.</p>
+</dd>
+<dt id="term-SATA">SATA<a class="headerlink" href="#term-SATA" title="Link to this term"></a></dt><dd><p>Serial Advanced Technology Attachment - A computer bus interface for connecting storage devices like hard drives and SSDs.</p>
+</dd>
+<dt id="term-SCSI">SCSI<a class="headerlink" href="#term-SCSI" title="Link to this term"></a></dt><dd><p>Small Computer System Interface - A set of standards for connecting and transferring data between computers and storage devices.</p>
+</dd>
+<dt id="term-Sector">Sector<a class="headerlink" href="#term-Sector" title="Link to this term"></a></dt><dd><p>The smallest addressable unit on a storage device, traditionally 512 bytes but increasingly 4096 bytes (4K sectors).</p>
+</dd>
+<dt id="term-SMART">SMART<a class="headerlink" href="#term-SMART" title="Link to this term"></a></dt><dd><p>Self-Monitoring, Analysis and Reporting Technology - A monitoring system for storage devices that detects and reports various reliability indicators.</p>
+</dd>
+<dt id="term-Snapshot">Snapshot<a class="headerlink" href="#term-Snapshot" title="Link to this term"></a></dt><dd><p>A point-in-time copy of a filesystem or volume that captures the state of data at a specific moment, useful for backups and recovery.</p>
+</dd>
+<dt id="term-SSD">SSD<a class="headerlink" href="#term-SSD" title="Link to this term"></a></dt><dd><p>Solid State Drive - Storage device using NAND flash memory with no moving parts, offering better performance and reliability than HDDs.</p>
+</dd>
+<dt id="term-Swap">Swap<a class="headerlink" href="#term-Swap" title="Link to this term"></a></dt><dd><p>Virtual memory space on storage devices used when physical RAM is insufficient. Also called a page file.</p>
+</dd>
+<dt id="term-Throughput">Throughput<a class="headerlink" href="#term-Throughput" title="Link to this term"></a></dt><dd><p>The amount of data transferred per unit of time, typically measured in MB/s or GB/s.</p>
+</dd>
+<dt id="term-TRIM">TRIM<a class="headerlink" href="#term-TRIM" title="Link to this term"></a></dt><dd><p>A command that informs SSDs which data blocks are no longer needed, allowing the drive to optimize performance and wear leveling.</p>
+</dd>
+<dt id="term-UUID">UUID<a class="headerlink" href="#term-UUID" title="Link to this term"></a></dt><dd><p>Universally Unique Identifier - A 128-bit identifier used to uniquely identify storage devices and filesystems.</p>
+</dd>
+<dt id="term-Volume-Group">Volume Group<a class="headerlink" href="#term-Volume-Group" title="Link to this term"></a></dt><dd><p>A collection of physical volumes in LVM that provides a pool of storage space for creating logical volumes.</p>
+</dd>
+<dt id="term-Wear-Leveling">Wear Leveling<a class="headerlink" href="#term-Wear-Leveling" title="Link to this term"></a></dt><dd><p>A technique used in SSDs to distribute write operations evenly across memory cells to maximize device lifespan.</p>
+</dd>
+<dt id="term-XFS">XFS<a class="headerlink" href="#term-XFS" title="Link to this term"></a></dt><dd><p>A high-performance journaling filesystem originally developed for IRIX, known for excellent scalability and large file support.</p>
+</dd>
+<dt id="term-ZFS">ZFS<a class="headerlink" href="#term-ZFS" title="Link to this term"></a></dt><dd><p>Zettabyte File System - An advanced filesystem and volume manager that provides features like checksums, compression, snapshots, and data deduplication.</p>
+</dd>
+</dl>
+</section>
+</div></div></section></div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            Storage Systems and Data Management Guide
+          </a>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Storage Fundamentals:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-overview.html">Storage Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk-management.html">Disk Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file-systems.html">File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-organization.html">Data Organization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Storage Concepts:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="raid-systems.html">RAID Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-storage.html">Network Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="volume-management.html">Volume Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage-devices.html">Storage Devices</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Practical Implementation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu-setup.html">Ubuntu 22.04 Setup and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-examples.html">Coding Examples and Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Best Practices and Guidelines</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#common-command-abbreviations">Common Command Abbreviations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#storage-unit-definitions">Storage Unit Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#raid-levels-reference">RAID Levels Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#network-storage-protocols">Network Storage Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#file-system-features">File System Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads and Resources</a></li>
+</ul>
+</div>
+</div>
+</nav>
+</div></body></html>
+<div class="author-info">Name: T S Rameshkumar &lt;rameshsv06@gmail.com&gt;</div>
+<div class="batch-info">Batch: WiproNGA_Datacentre_B9_25VID2182</div>
+
+<section id="common-command-abbreviations">
+<h1>Common Command Abbreviations<a class="headerlink" href="#common-command-abbreviations" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+<dt id="term-blkid">blkid<a class="headerlink" href="#term-blkid" title="Link to this term"></a></dt><dd><p>Block device identifier - Command to display information about block devices and their attributes.</p>
+</dd>
+<dt id="term-dd">dd<a class="headerlink" href="#term-dd" title="Link to this term"></a></dt><dd><p>Data duplicator (historically “disk dump”) - Command for copying and converting raw data between devices.</p>
+</dd>
+<dt id="term-df">df<a class="headerlink" href="#term-df" title="Link to this term"></a></dt><dd><p>Disk free - Command to display filesystem disk space usage.</p>
+</dd>
+<dt id="term-du">du<a class="headerlink" href="#term-du" title="Link to this term"></a></dt><dd><p>Disk usage - Command to display directory space usage.</p>
+</dd>
+<dt id="term-fdisk">fdisk<a class="headerlink" href="#term-fdisk" title="Link to this term"></a></dt><dd><p>Fixed disk - Partition table manipulator for MBR partitions.</p>
+</dd>
+<dt id="term-fsck">fsck<a class="headerlink" href="#term-fsck" title="Link to this term"></a></dt><dd><p>File system check - Command to check and repair filesystem errors.</p>
+</dd>
+<dt id="term-gdisk">gdisk<a class="headerlink" href="#term-gdisk" title="Link to this term"></a></dt><dd><p>GPT fdisk - Partition table manipulator for GPT partitions.</p>
+</dd>
+<dt id="term-lsblk">lsblk<a class="headerlink" href="#term-lsblk" title="Link to this term"></a></dt><dd><p>List block devices - Command to display block device information in tree format.</p>
+</dd>
+<dt id="term-mount">mount<a class="headerlink" href="#term-mount" title="Link to this term"></a></dt><dd><p>Mount filesystem - Command to attach filesystems to the directory tree.</p>
+</dd>
+<dt id="term-parted">parted<a class="headerlink" href="#term-parted" title="Link to this term"></a></dt><dd><p>Partition editor - Command-line tool for creating and manipulating partition tables.</p>
+</dd>
+<dt id="term-rsync">rsync<a class="headerlink" href="#term-rsync" title="Link to this term"></a></dt><dd><p>Remote sync - Command for efficiently synchronizing files and directories.</p>
+</dd>
+<dt id="term-umount">umount<a class="headerlink" href="#term-umount" title="Link to this term"></a></dt><dd><p>Unmount filesystem - Command to detach filesystems from the directory tree.</p>
+</dd>
+</dl>
+</section>
+<section id="storage-unit-definitions">
+<h1>Storage Unit Definitions<a class="headerlink" href="#storage-unit-definitions" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+<dt id="term-Byte">Byte<a class="headerlink" href="#term-Byte" title="Link to this term"></a></dt><dd><p>The basic unit of digital information, consisting of 8 bits.</p>
+</dd>
+<dt id="term-KB-Kilobyte">KB (Kilobyte)<a class="headerlink" href="#term-KB-Kilobyte" title="Link to this term"></a></dt><dd><p>1,000 bytes (decimal) or 1,024 bytes (binary, more precisely called KiB).</p>
+</dd>
+<dt id="term-MB-Megabyte">MB (Megabyte)<a class="headerlink" href="#term-MB-Megabyte" title="Link to this term"></a></dt><dd><p>1,000,000 bytes (decimal) or 1,048,576 bytes (binary, more precisely called MiB).</p>
+</dd>
+<dt id="term-GB-Gigabyte">GB (Gigabyte)<a class="headerlink" href="#term-GB-Gigabyte" title="Link to this term"></a></dt><dd><p>1,000,000,000 bytes (decimal) or 1,073,741,824 bytes (binary, more precisely called GiB).</p>
+</dd>
+<dt id="term-TB-Terabyte">TB (Terabyte)<a class="headerlink" href="#term-TB-Terabyte" title="Link to this term"></a></dt><dd><p>1,000,000,000,000 bytes (decimal) or 1,099,511,627,776 bytes (binary, more precisely called TiB).</p>
+</dd>
+<dt id="term-PB-Petabyte">PB (Petabyte)<a class="headerlink" href="#term-PB-Petabyte" title="Link to this term"></a></dt><dd><p>1,000,000,000,000,000 bytes (decimal) or 1,125,899,906,842,624 bytes (binary, more precisely called PiB).</p>
+</dd>
+</dl>
+</section>
+<section id="performance-metrics">
+<h1>Performance Metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+<dt id="term-Bandwidth">Bandwidth<a class="headerlink" href="#term-Bandwidth" title="Link to this term"></a></dt><dd><p>The maximum data transfer rate of a storage system, typically measured in MB/s or GB/s.</p>
+</dd>
+<dt id="term-Latency">Latency<a class="headerlink" href="#term-Latency" title="Link to this term"></a></dt><dd><p>The time delay between when a storage operation is requested and when it begins, typically measured in milliseconds.</p>
+</dd>
+<dt id="term-Queue-Depth">Queue Depth<a class="headerlink" href="#term-Queue-Depth" title="Link to this term"></a></dt><dd><p>The number of pending I/O operations that can be queued for processing by a storage device.</p>
+</dd>
+<dt id="term-Random-I-O">Random I/O<a class="headerlink" href="#term-Random-I-O" title="Link to this term"></a></dt><dd><p>Storage operations that access data at non-sequential locations, typically slower than sequential I/O.</p>
+</dd>
+<dt id="term-Sequential-I-O">Sequential I/O<a class="headerlink" href="#term-Sequential-I-O" title="Link to this term"></a></dt><dd><p>Storage operations that access data in a continuous, ordered manner, typically faster than random I/O.</p>
+</dd>
+<dt id="term-Sustained-Transfer-Rate">Sustained Transfer Rate<a class="headerlink" href="#term-Sustained-Transfer-Rate" title="Link to this term"></a></dt><dd><p>The average data transfer rate over an extended period, excluding burst performance.</p>
+</dd>
+</dl>
+</section>
+<section id="raid-levels-reference">
+<h1>RAID Levels Reference<a class="headerlink" href="#raid-levels-reference" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+<dt id="term-0">RAID 0<a class="headerlink" href="#term-0" title="Link to this term"></a></dt><dd><p>Striping - Data is split across multiple drives for improved performance. No redundancy. Minimum 2 drives.</p>
+</dd>
+<dt id="term-1">RAID 1<a class="headerlink" href="#term-1" title="Link to this term"></a></dt><dd><p>Mirroring - Data is duplicated across drives for redundancy. 50% storage efficiency. Minimum 2 drives.</p>
+</dd>
+<dt id="term-2">RAID 5<a class="headerlink" href="#term-2" title="Link to this term"></a></dt><dd><p>Distributed parity - Data and parity information spread across all drives. Can lose 1 drive. Minimum 3 drives.</p>
+</dd>
+<dt id="term-3">RAID 6<a class="headerlink" href="#term-3" title="Link to this term"></a></dt><dd><p>Double parity - Two parity blocks per stripe. Can lose 2 drives. Minimum 4 drives.</p>
+</dd>
+<dt id="term-4">RAID 10<a class="headerlink" href="#term-4" title="Link to this term"></a></dt><dd><p>Mirror of stripes - Combines RAID 1 and RAID 0. High performance and redundancy. Minimum 4 drives.</p>
+</dd>
+<dt id="term-RAID-50">RAID 50<a class="headerlink" href="#term-RAID-50" title="Link to this term"></a></dt><dd><p>Striped RAID 5 - Multiple RAID 5 arrays striped together. Minimum 6 drives.</p>
+</dd>
+<dt id="term-RAID-60">RAID 60<a class="headerlink" href="#term-RAID-60" title="Link to this term"></a></dt><dd><p>Striped RAID 6 - Multiple RAID 6 arrays striped together. Minimum 8 drives.</p>
+</dd>
+</dl>
+</section>
+<section id="network-storage-protocols">
+<h1>Network Storage Protocols<a class="headerlink" href="#network-storage-protocols" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+<dt id="term-AFP">AFP<a class="headerlink" href="#term-AFP" title="Link to this term"></a></dt><dd><p>Apple Filing Protocol - Network protocol for file sharing used primarily by Apple devices.</p>
+</dd>
+<dt id="term-FTP">FTP<a class="headerlink" href="#term-FTP" title="Link to this term"></a></dt><dd><p>File Transfer Protocol - Standard protocol for transferring files over networks.</p>
+</dd>
+<dt id="term-HTTP-HTTPS">HTTP/HTTPS<a class="headerlink" href="#term-HTTP-HTTPS" title="Link to this term"></a></dt><dd><p>Hypertext Transfer Protocol - Web protocol that can also be used for file access via WebDAV.</p>
+</dd>
+<dt id="term-NFS-v3">NFS v3<a class="headerlink" href="#term-NFS-v3" title="Link to this term"></a></dt><dd><p>Network File System version 3 - Stateless file sharing protocol, widely supported.</p>
+</dd>
+<dt id="term-NFS-v4">NFS v4<a class="headerlink" href="#term-NFS-v4" title="Link to this term"></a></dt><dd><p>Network File System version 4 - Stateful protocol with improved security and features.</p>
+</dd>
+<dt id="term-SFTP">SFTP<a class="headerlink" href="#term-SFTP" title="Link to this term"></a></dt><dd><p>SSH File Transfer Protocol - Secure file transfer protocol that operates over SSH.</p>
+</dd>
+<dt id="term-SMB-CIFS">SMB/CIFS<a class="headerlink" href="#term-SMB-CIFS" title="Link to this term"></a></dt><dd><p>Server Message Block / Common Internet File System - File sharing protocol used primarily in Windows environments.</p>
+</dd>
+<dt id="term-WebDAV">WebDAV<a class="headerlink" href="#term-WebDAV" title="Link to this term"></a></dt><dd><p>Web Distributed Authoring and Versioning - Extension to HTTP for collaborative file management.</p>
+</dd>
+</dl>
+</section>
+<section id="file-system-features">
+<h1>File System Features<a class="headerlink" href="#file-system-features" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+<dt id="term-Compression">Compression<a class="headerlink" href="#term-Compression" title="Link to this term"></a></dt><dd><p>Feature that reduces file size by encoding data more efficiently, saving storage space at the cost of CPU overhead.</p>
+</dd>
+<dt id="term-Copy-on-Write">Copy-on-Write<a class="headerlink" href="#term-Copy-on-Write" title="Link to this term"></a></dt><dd><p>Technique where data is not physically copied until it is modified, used in snapshots and some filesystems.</p>
+</dd>
+<dt id="term-Deduplication">Deduplication<a class="headerlink" href="#term-Deduplication" title="Link to this term"></a></dt><dd><p>Process of eliminating duplicate data to reduce storage requirements.</p>
+</dd>
+<dt id="term-Encryption">Encryption<a class="headerlink" href="#term-Encryption" title="Link to this term"></a></dt><dd><p>Process of encoding data to prevent unauthorized access, can be implemented at filesystem or block device level.</p>
+</dd>
+<dt id="term-Journaling">Journaling<a class="headerlink" href="#term-Journaling" title="Link to this term"></a></dt><dd><p>Technique that logs filesystem changes before committing them, enabling fast recovery after crashes.</p>
+</dd>
+<dt id="term-Quotas">Quotas<a class="headerlink" href="#term-Quotas" title="Link to this term"></a></dt><dd><p>Limits placed on storage usage by users or groups to prevent overconsumption of disk space.</p>
+</dd>
+<dt id="term-Snapshots">Snapshots<a class="headerlink" href="#term-Snapshots" title="Link to this term"></a></dt><dd><p>Point-in-time copies of filesystem state that can be used for backups or recovery.</p>
+</dd>
+<dt id="term-Sparse-Files">Sparse Files<a class="headerlink" href="#term-Sparse-Files" title="Link to this term"></a></dt><dd><p>Files that contain large blocks of zero bytes that are not actually stored on disk, saving space.</p>
+</dd>
+</dl>
+<p>This glossary provides essential terminology for understanding storage concepts in Ubuntu 22.04 and serves as a quick reference for technical terms used throughout the documentation.</p>
+</section>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="best-practices.html" rel="prev" title="Best Practices and Guidelines"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="faq.html" rel="next" title="Frequently Asked Questions">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2025, T S Rameshkumar &lt;rameshsv06@gmail.com&gt; | Batch: WiproNGA_Datacentre_B9_25VID2182.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+<div class="author-info">Name: T S Rameshkumar &lt;rameshsv06@gmail.com&gt;</div>
+<div class="batch-info">Batch: WiproNGA_Datacentre_B9_25VID2182</div>
+
+
+
+
+
+
+
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="best-practices.html" rel="prev" title="Best Practices and Guidelines"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="faq.html" rel="next" title="Frequently Asked Questions">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2025, T S Rameshkumar &lt;rameshsv06@gmail.com&gt; | Batch: WiproNGA_Datacentre_B9_25VID2182.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+<div class="author-info">Name: T S Rameshkumar &lt;rameshsv06@gmail.com&gt;</div>
+<div class="batch-info">Batch: WiproNGA_Datacentre_B9_25VID2182</div>
+
+
+
+
+
+
+
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="best-practices.html" rel="prev" title="Best Practices and Guidelines"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="faq.html" rel="next" title="Frequently Asked Questions">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2025, T S Rameshkumar &lt;rameshsv06@gmail.com&gt; | Batch: WiproNGA_Datacentre_B9_25VID2182.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
