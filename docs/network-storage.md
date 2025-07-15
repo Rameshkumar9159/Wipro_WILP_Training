@@ -1,0 +1,779 @@
+# Name: T S Rameshkumar 
+# Batch: WiproNGA_Datacentre_B9_25VID2182
+
+# Network Storage
+
+Understanding Network Storage
+----------------------------
+
+Network storage allows multiple systems to access shared storage resources over a network. This technology is essential for modern IT environments, enabling centralized data management, improved collaboration, and efficient resource utilization.
+
+Types of Network Storage
+~~~~~~~~~~~~~~~~~~~~~~~
+
+#### Network Attached Storage (NAS)
+
+**Characteristics:**
+* File-level storage access
+* Uses standard network protocols (NFS, SMB/CIFS, FTP)
+* Easy to deploy and manage
+* Suitable for file sharing and collaboration
+
+**Common Protocols:**
+* **NFS (Network File System)**: Unix/Linux native protocol
+* **SMB/CIFS**: Windows native, also supported by Linux
+* **FTP/SFTP**: File transfer protocols
+* **HTTP/WebDAV**: Web-based file access
+
+#### Storage Area Network (SAN)
+
+**Characteristics:**
+* Block-level storage access
+* High-performance dedicated network
+* Uses specialized protocols (iSCSI, Fibre Channel)
+* Enterprise-level performance and reliability
+
+**Common Protocols:**
+* **iSCSI**: SCSI over IP networks
+* **Fibre Channel**: High-speed dedicated network
+* **FCoE**: Fibre Channel over Ethernet
+* **InfiniBand**: High-performance computing networks
+
+Cloud Storage
+^^^^^^^^^^^^
+
+**Characteristics:**
+* Storage as a Service (STaaS)
+* Scalable and elastic
+* Geographic distribution
+* Pay-per-use model
+
+**Common Services:**
+* **Object Storage**: Amazon S3, Google Cloud Storage, Azure Blob
+* **File Storage**: Amazon EFS, Google Filestore, Azure Files
+* **Block Storage**: Amazon EBS, Google Persistent Disk, Azure Disk
+
+### Setting Up NFS on Ubuntu 22.04
+
+NFS Server Configuration
+^^^^^^^^^^^^^^^^^^^^^^^
+
+```bash
+
+    # Install NFS server
+    sudo apt update
+    sudo apt install nfs-kernel-server
+
+    # Create shared directories
+    sudo mkdir -p /srv/nfs/shared
+    sudo mkdir -p /srv/nfs/public
+    sudo mkdir -p /srv/nfs/private
+
+    # Set permissions
+    sudo chown nobody:nogroup /srv/nfs/shared
+    sudo chown nobody:nogroup /srv/nfs/public
+    sudo chmod 755 /srv/nfs/shared
+    sudo chmod 755 /srv/nfs/public
+
+    # Configure exports
+    sudo nano /etc/exports
+
+    # Add export configurations
+    cat >> /etc/exports << 'EOF'
+    # NFS exports configuration
+    /srv/nfs/shared    192.168.1.0/24(rw,sync,no_subtree_check)
+    /srv/nfs/public    *(ro,sync,no_subtree_check)
+    /srv/nfs/private   192.168.1.100(rw,sync,no_subtree_check,no_root_squash)
+    EOF
+
+    # Export the shares
+    sudo exportfs -a
+
+    # Restart NFS service
+    sudo systemctl restart nfs-kernel-server
+    sudo systemctl enable nfs-kernel-server
+
+    # Check NFS status
+    sudo systemctl status nfs-kernel-server
+    sudo exportfs -v
+
+NFS Client Configuration
+^^^^^^^^^^^^^^^^^^^^^^^
+
+```bash
+
+    # Install NFS client
+    sudo apt update
+    sudo apt install nfs-common
+
+    # Create mount points
+    sudo mkdir -p /mnt/nfs/shared
+    sudo mkdir -p /mnt/nfs/public
+
+    # Test NFS connectivity
+    showmount -e 192.168.1.10
+
+    # Mount NFS shares
+    sudo mount -t nfs 192.168.1.10:/srv/nfs/shared /mnt/nfs/shared
+    sudo mount -t nfs 192.168.1.10:/srv/nfs/public /mnt/nfs/public
+
+    # Verify mounts
+    df -h | grep nfs
+
+    # Add to fstab for persistent mounting
+    cat >> /etc/fstab << 'EOF'
+    # NFS mounts
+    192.168.1.10:/srv/nfs/shared  /mnt/nfs/shared  nfs  defaults,_netdev  0  0
+    192.168.1.10:/srv/nfs/public  /mnt/nfs/public  nfs  ro,defaults,_netdev  0  0
+    EOF
+
+    # Test fstab entries
+    sudo umount /mnt/nfs/shared
+    sudo mount -a
+
+### Setting Up Samba (SMB/CIFS) on Ubuntu 22.04
+
+Samba Server Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+```bash
+
+    # Install Samba
+    sudo apt update
+    sudo apt install samba samba-common-bin
+
+    # Create shared directories
+    sudo mkdir -p /srv/samba/shared
+    sudo mkdir -p /srv/samba/public
+    sudo mkdir -p /srv/samba/users
+
+    # Set permissions
+    sudo chown root:sambashare /srv/samba/shared
+    sudo chown root:sambashare /srv/samba/public
+    sudo chown root:sambashare /srv/samba/users
+    sudo chmod 2775 /srv/samba/shared
+    sudo chmod 2775 /srv/samba/public
+    sudo chmod 2775 /srv/samba/users
+
+    # Backup original configuration
+    sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.backup
+
+    # Configure Samba
+    cat >> /etc/samba/smb.conf << 'EOF'
+
+    [shared]
+        comment = Shared Files
+        path = /srv/samba/shared
+        browseable = yes
+        writable = yes
+        guest ok = no
+        valid users = @sambashare
+        create mask = 0664
+        directory mask = 2775
+
+    [public]
+        comment = Public Files
+        path = /srv/samba/public
+        browseable = yes
+        writable = yes
+        guest ok = yes
+        read only = no
+        create mask = 0755
+
+    [users]
+        comment = User Directories
+        path = /srv/samba/users/%S
+        browseable = no
+        writable = yes
+        valid users = %S
+        create mask = 0644
+        directory mask = 0755
+    EOF
+
+    # Create Samba user
+    sudo useradd -M -s /usr/sbin/nologin sambauser
+    sudo usermod -aG sambashare sambauser
+    sudo smbpasswd -a sambauser
+
+    # Restart Samba services
+    sudo systemctl restart smbd nmbd
+    sudo systemctl enable smbd nmbd
+
+    # Check Samba status
+    sudo systemctl status smbd
+    testparm
+
+Samba Client Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+```bash
+
+    # Install CIFS utilities
+    sudo apt install cifs-utils
+
+    # Create mount points
+    sudo mkdir -p /mnt/samba/shared
+    sudo mkdir -p /mnt/samba/public
+
+    # Mount Samba shares
+    sudo mount -t cifs //192.168.1.10/shared /mnt/samba/shared -o username=sambauser
+
+    # Create credentials file for automatic mounting
+    cat > ~/.smbcredentials << 'EOF'
+    username=sambauser
+    password=your_password
+    domain=workgroup
+    EOF
+
+    chmod 600 ~/.smbcredentials
+
+    # Add to fstab
+    cat >> /etc/fstab << 'EOF'
+    # Samba mounts
+    //192.168.1.10/shared  /mnt/samba/shared  cifs  credentials=/home/username/.smbcredentials,uid=1000,gid=1000,_netdev  0  0
+    //192.168.1.10/public  /mnt/samba/public  cifs  guest,uid=1000,gid=1000,_netdev  0  0
+    EOF
+
+### Setting Up iSCSI on Ubuntu 22.04
+
+#### iSCSI Target Server Configuration
+
+```bash
+
+    # Install iSCSI target
+    sudo apt update
+    sudo apt install tgt
+
+    # Create storage backing file
+    sudo mkdir -p /srv/iscsi
+    sudo dd if=/dev/zero of=/srv/iscsi/disk1.img bs=1M count=10240
+
+    # Configure iSCSI target
+    cat > /etc/tgt/conf.d/iscsi-target.conf << 'EOF'
+    # iSCSI Target Configuration
+    <target iqn.2024-01.com.example:storage.disk1>
+        backing-store /srv/iscsi/disk1.img
+        # Allow access from specific initiators
+        initiator-address 192.168.1.0/24
+        # Authentication (optional)
+        incominguser username password
+    </target>
+    EOF
+
+    # Restart target service
+    sudo systemctl restart tgt
+    sudo systemctl enable tgt
+
+    # Check target status
+    sudo tgtadm --mode target --op show
+
+iSCSI Initiator Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+```bash
+
+    # Install iSCSI initiator
+    sudo apt update
+    sudo apt install open-iscsi
+
+    # Configure initiator name
+    sudo nano /etc/iscsi/initiatorname.iscsi
+    # Set: InitiatorName=iqn.2024-01.com.example:client1
+
+    # Configure CHAP authentication (if required)
+    sudo nano /etc/iscsi/iscsid.conf
+    # Uncomment and set:
+    # node.session.auth.authmethod = CHAP
+    # node.session.auth.username = username
+    # node.session.auth.password = password
+
+    # Discover targets
+    sudo iscsiadm -m discovery -t sendtargets -p 192.168.1.10
+
+    # Login to target
+    sudo iscsiadm -m node --login
+
+    # Check connected sessions
+    sudo iscsiadm -m session
+
+    # Format and mount iSCSI disk
+    sudo fdisk /dev/sdb  # Create partition
+    sudo mkfs.ext4 /dev/sdb1
+    sudo mkdir /mnt/iscsi
+    sudo mount /dev/sdb1 /mnt/iscsi
+
+Cloud Storage Integration
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Rclone Configuration
+^^^^^^^^^^^^^^^^^^^
+
+```bash
+
+    # Install rclone
+    sudo apt update
+    sudo apt install rclone
+
+    # Configure cloud storage
+    rclone config
+
+    # Example: Mount Google Drive
+    mkdir ~/GoogleDrive
+    rclone mount gdrive: ~/GoogleDrive --daemon
+
+    # Example: Sync to cloud storage
+    rclone sync /home/user/Documents gdrive:Documents
+
+    # Create systemd service for persistent mounting
+    cat > ~/.config/systemd/user/rclone-gdrive.service << 'EOF'
+    [Unit]
+    Description=Google Drive mount
+    After=network.target
+
+    [Service]
+    Type=notify
+    ExecStart=/usr/bin/rclone mount gdrive: %h/GoogleDrive --vfs-cache-mode writes
+    ExecStop=/bin/fusermount -u %h/GoogleDrive
+    Restart=always
+    RestartSec=10
+
+    [Install]
+    WantedBy=default.target
+    EOF
+
+    systemctl --user enable rclone-gdrive.service
+    systemctl --user start rclone-gdrive.service
+
+S3-Compatible Storage
+^^^^^^^^^^^^^^^^^^^^
+
+```bash
+
+    # Install s3fs
+    sudo apt install s3fs
+
+    # Create credentials file
+    echo "access_key:secret_key" > ~/.passwd-s3fs
+    chmod 600 ~/.passwd-s3fs
+
+    # Mount S3 bucket
+    mkdir ~/s3bucket
+    s3fs mybucket ~/s3bucket -o passwd_file=~/.passwd-s3fs -o url=https://s3.amazonaws.com
+
+    # Add to fstab for persistent mounting
+    echo "s3fs#mybucket /home/user/s3bucket fuse _netdev,passwd_file=/home/user/.passwd-s3fs,url=https://s3.amazonaws.com 0 0" >> /etc/fstab
+
+### Network Storage Performance Optimization
+
+#### NFS Performance Tuning
+
+```bash
+
+    # Optimize NFS mount options
+    sudo mount -t nfs -o rsize=32768,wsize=32768,hard,intr,tcp 192.168.1.10:/srv/nfs/shared /mnt/nfs/shared
+
+    # Configure NFS daemon threads
+    sudo nano /etc/default/nfs-kernel-server
+    # Set: RPCNFSDCOUNT=16
+
+    # Optimize network buffer sizes
+    echo "net.core.rmem_max = 16777216" >> /etc/sysctl.conf
+    echo "net.core.wmem_max = 16777216" >> /etc/sysctl.conf
+    sudo sysctl -p
+
+#### Samba Performance Tuning
+
+```bash
+
+    # Add performance options to smb.conf
+    cat >> /etc/samba/smb.conf << 'EOF'
+    [global]
+        # Performance tuning
+        socket options = TCP_NODELAY IPTOS_LOWDELAY SO_RCVBUF=65536 SO_SNDBUF=65536
+        read raw = yes
+        write raw = yes
+        max xmit = 65535
+        dead time = 15
+        getwd cache = yes
+    EOF
+
+    sudo systemctl restart smbd
+
+#### iSCSI Performance Tuning
+
+```bash
+
+    # Optimize iSCSI parameters
+    echo "node.session.iscsi.InitialR2T = No" >> /etc/iscsi/iscsid.conf
+    echo "node.session.iscsi.ImmediateData = Yes" >> /etc/iscsi/iscsid.conf
+    echo "node.session.iscsi.FirstBurstLength = 262144" >> /etc/iscsi/iscsid.conf
+    echo "node.session.iscsi.MaxBurstLength = 16776192" >> /etc/iscsi/iscsid.conf
+    echo "node.conn[0].iscsi.MaxRecvDataSegmentLength = 262144" >> /etc/iscsi/iscsid.conf
+
+    sudo systemctl restart iscsid
+
+Frequently Asked Questions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#### Q: Which network storage protocol should I choose?
+
+**A:** Choose based on your requirements:
+
+```text
+
+    Use Case                    | Recommended Protocol | Reason
+    ----------------------------|---------------------|------------------
+    Linux-only environment     | NFS                 | Native performance
+    Mixed OS environment       | SMB/CIFS            | Universal compatibility
+    High-performance storage    | iSCSI               | Block-level access
+    Simple file sharing         | FTP/SFTP            | Easy setup
+    Cloud storage              | Object storage APIs  | Scalability
+    Database storage           | iSCSI or FC         | Low latency
+
+#### Q: How do I troubleshoot NFS connection issues?
+
+**A:** Follow these troubleshooting steps:
+
+```bash
+
+    # Check NFS service status
+    sudo systemctl status nfs-kernel-server
+
+    # Check exports
+    sudo exportfs -v
+
+    # Test connectivity
+    telnet nfs-server-ip 2049
+
+    # Check firewall
+    sudo ufw status
+    # Open NFS ports if needed
+    sudo ufw allow from 192.168.1.0/24 to any port 2049
+
+    # Check mount on client
+    showmount -e nfs-server-ip
+
+    # Debug mount issues
+    sudo mount -t nfs -v nfs-server-ip:/path /mnt/point
+
+#### Q: How can I secure network storage?
+
+**A:** Implement these security measures:
+
+```bash
+
+    # 1. Use VPN for remote access
+    sudo apt install openvpn
+
+    # 2. Enable firewall
+    sudo ufw enable
+    sudo ufw allow from 192.168.1.0/24 to any port 2049  # NFS
+    sudo ufw allow from 192.168.1.0/24 to any port 445   # SMB
+
+    # 3. Use authentication
+    # For NFS: Configure Kerberos
+    # For SMB: Use strong passwords and encryption
+
+    # 4. Enable encryption
+    # For SMB, add to smb.conf:
+    echo "smb encrypt = required" >> /etc/samba/smb.conf
+
+    # 5. Regular security updates
+    sudo apt update && sudo apt upgrade
+
+#### Q: How do I monitor network storage performance?
+
+**A:** Use these monitoring tools:
+
+```bash
+
+    # Monitor network I/O
+    iftop -i eth0
+
+    # Monitor NFS statistics
+    nfsstat -c  # Client stats
+    nfsstat -s  # Server stats
+
+    # Monitor iSCSI performance
+    iostat -x 1
+
+    # Monitor Samba connections
+    sudo smbstatus
+
+    # Create monitoring script
+    cat > monitor_network_storage.sh << 'EOF'
+    #!/bin/bash
+    
+    echo "=== Network Storage Performance Monitor ==="
+    echo "Date: $(date)"
+    echo ""
+    
+    echo "NFS Statistics:"
+    nfsstat -c 2>/dev/null || echo "NFS client not active"
+    echo ""
+    
+    echo "Network Interface Statistics:"
+    cat /proc/net/dev | grep -E "(eth0|ens|enp)"
+    echo ""
+    
+    echo "Active Network Connections:"
+    ss -tuln | grep -E "(2049|445|3260)"  # NFS, SMB, iSCSI
+    EOF
+
+    chmod +x monitor_network_storage.sh
+
+### Coding Examples
+
+#### Python Network Storage Monitor
+
+```python
+
+    #!/usr/bin/env python3
+    """
+    Network storage monitoring script for Ubuntu 22.04
+    """
+    import subprocess
+    import psutil
+    import time
+    import json
+    from datetime import datetime
+
+    class NetworkStorageMonitor:
+        def __init__(self):
+            self.start_time = time.time()
+            self.interfaces = self.get_network_interfaces()
+
+        def get_network_interfaces(self):
+            """Get list of network interfaces"""
+            return list(psutil.net_if_addrs().keys())
+
+        def check_nfs_mounts(self):
+            """Check NFS mount status"""
+            try:
+                result = subprocess.run(['mount', '-t', 'nfs'], 
+                                      capture_output=True, text=True)
+                
+                mounts = []
+                for line in result.stdout.strip().split('\\n'):
+                    if line:
+                        parts = line.split()
+                        if len(parts) >= 6:
+                            mounts.append({
+                                'server': parts[0],
+                                'mountpoint': parts[2],
+                                'options': parts[5]
+                            })
+                
+                return {'status': 'success', 'mounts': mounts}
+            except Exception as e:
+                return {'status': 'error', 'message': str(e)}
+
+        def check_smb_mounts(self):
+            """Check SMB/CIFS mount status"""
+            try:
+                result = subprocess.run(['mount', '-t', 'cifs'], 
+                                      capture_output=True, text=True)
+                
+                mounts = []
+                for line in result.stdout.strip().split('\\n'):
+                    if line:
+                        parts = line.split()
+                        if len(parts) >= 6:
+                            mounts.append({
+                                'server': parts[0],
+                                'mountpoint': parts[2],
+                                'options': parts[5]
+                            })
+                
+                return {'status': 'success', 'mounts': mounts}
+            except Exception as e:
+                return {'status': 'error', 'message': str(e)}
+
+        def check_iscsi_sessions(self):
+            """Check iSCSI session status"""
+            try:
+                result = subprocess.run(['iscsiadm', '-m', 'session'], 
+                                      capture_output=True, text=True)
+                
+                sessions = []
+                for line in result.stdout.strip().split('\\n'):
+                    if line and 'tcp:' in line:
+                        sessions.append(line.strip())
+                
+                return {'status': 'success', 'sessions': sessions}
+            except Exception as e:
+                return {'status': 'error', 'message': str(e)}
+
+        def get_network_stats(self):
+            """Get network interface statistics"""
+            stats = {}
+            net_io = psutil.net_io_counters(pernic=True)
+            
+            for interface, counters in net_io.items():
+                stats[interface] = {
+                    'bytes_sent': counters.bytes_sent,
+                    'bytes_recv': counters.bytes_recv,
+                    'packets_sent': counters.packets_sent,
+                    'packets_recv': counters.packets_recv,
+                    'errors_in': counters.errin,
+                    'errors_out': counters.errout,
+                    'drops_in': counters.dropin,
+                    'drops_out': counters.dropout
+                }
+            
+            return stats
+
+        def check_service_status(self, service_name):
+            """Check systemd service status"""
+            try:
+                result = subprocess.run(['systemctl', 'is-active', service_name], 
+                                      capture_output=True, text=True)
+                return result.stdout.strip()
+            except Exception:
+                return 'unknown'
+
+        def test_connectivity(self, host, port):
+            """Test network connectivity to host:port"""
+            try:
+                import socket
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(5)
+                result = sock.connect_ex((host, port))
+                sock.close()
+                return result == 0
+            except Exception:
+                return False
+
+        def generate_report(self):
+            """Generate comprehensive network storage report"""
+            report = {
+                'timestamp': datetime.now().isoformat(),
+                'uptime': time.time() - self.start_time,
+                'services': {
+                    'nfs-server': self.check_service_status('nfs-kernel-server'),
+                    'smbd': self.check_service_status('smbd'),
+                    'nmbd': self.check_service_status('nmbd'),
+                    'iscsid': self.check_service_status('iscsid'),
+                    'tgt': self.check_service_status('tgt')
+                },
+                'mounts': {
+                    'nfs': self.check_nfs_mounts(),
+                    'smb': self.check_smb_mounts()
+                },
+                'iscsi': self.check_iscsi_sessions(),
+                'network': self.get_network_stats()
+            }
+            
+            return report
+
+        def monitor_performance(self, duration=60, interval=5):
+            """Monitor network storage performance over time"""
+            print(f"Monitoring network storage for {duration} seconds...")
+            
+            start_stats = self.get_network_stats()
+            time.sleep(duration)
+            end_stats = self.get_network_stats()
+            
+            performance = {}
+            for interface in start_stats:
+                if interface in end_stats:
+                    sent_diff = end_stats[interface]['bytes_sent'] - start_stats[interface]['bytes_sent']
+                    recv_diff = end_stats[interface]['bytes_recv'] - start_stats[interface]['bytes_recv']
+                    
+                    performance[interface] = {
+                        'avg_send_rate_mbps': (sent_diff * 8) / (duration * 1024 * 1024),
+                        'avg_recv_rate_mbps': (recv_diff * 8) / (duration * 1024 * 1024),
+                        'total_sent_mb': sent_diff / (1024 * 1024),
+                        'total_recv_mb': recv_diff / (1024 * 1024)
+                    }
+            
+            return performance
+
+    # Example usage
+    if __name__ == "__main__":
+        import argparse
+        
+        parser = argparse.ArgumentParser(description='Network Storage Monitor')
+        parser.add_argument('--report', action='store_true', help='Generate status report')
+        parser.add_argument('--monitor', type=int, help='Monitor performance for N seconds')
+        parser.add_argument('--json', action='store_true', help='Output in JSON format')
+        
+        args = parser.parse_args()
+        
+        monitor = NetworkStorageMonitor()
+        
+        if args.report:
+            report = monitor.generate_report()
+            if args.json:
+                print(json.dumps(report, indent=2))
+            else:
+                print("Network Storage Status Report")
+                print("=" * 40)
+                print(f"Timestamp: {report['timestamp']}")
+                print(f"\\nServices:")
+                for service, status in report['services'].items():
+                    print(f"  {service}: {status}")
+                
+                print(f"\\nNFS Mounts: {len(report['mounts']['nfs']['mounts'])}")
+                print(f"SMB Mounts: {len(report['mounts']['smb']['mounts'])}")
+                print(f"iSCSI Sessions: {len(report['iscsi'].get('sessions', []))}")
+        
+        elif args.monitor:
+            performance = monitor.monitor_performance(args.monitor)
+            print(f"\\nNetwork Performance Summary ({args.monitor}s):")
+            for interface, stats in performance.items():
+                print(f"  {interface}:")
+                print(f"    Average Send Rate: {stats['avg_send_rate_mbps']:.2f} Mbps")
+                print(f"    Average Recv Rate: {stats['avg_recv_rate_mbps']:.2f} Mbps")
+        
+        else:
+            parser.print_help()
+
+Best Practices for Network Storage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#### Security Best Practices
+
+1. **Network Segmentation**:
+   
+   * Use dedicated VLANs for storage traffic
+   * Implement firewall rules
+   * Regular security audits
+
+2. **Authentication and Authorization**:
+   
+   * Strong passwords and multi-factor authentication
+   * Regular credential rotation
+   * Principle of least privilege
+
+3. **Encryption**:
+   
+   * Encrypt data in transit
+   * Encrypt data at rest
+   * Use VPN for remote access
+
+#### Performance Best Practices
+
+1. **Network Optimization**:
+   
+   * Use dedicated high-speed networks
+   * Optimize TCP window sizes
+   * Enable jumbo frames where supported
+
+2. **Protocol Selection**:
+   
+   * Choose appropriate protocols for workload
+   * Optimize protocol-specific parameters
+   * Consider multi-path configurations
+
+3. **Monitoring and Maintenance**:
+   
+   * Regular performance monitoring
+   * Proactive capacity planning
+   * Scheduled maintenance windows
+
+
+---
+Name: T S Rameshkumar <rameshsv06@gmail.com>  
+Batch: WiproNGA_Datacentre_B9_25VID2182
+---
