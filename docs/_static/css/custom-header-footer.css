@@ -1,0 +1,102 @@
+/* Custom header and footer styles for T S Rameshkumar - WiproNGA_Datacentre_B9_25VID2182 */
+
+/* Header styling for first page */
+.document-header {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: white;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    page-break-inside: avoid;
+}
+
+.document-header h1 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.document-header .author-info {
+    font-size: 16px;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.document-header .batch-info {
+    font-size: 14px;
+    margin: 5px 0;
+    opacity: 0.9;
+    font-style: italic;
+}
+
+/* Footer styling */
+.document-footer {
+    background: #34495e;
+    color: white;
+    padding: 15px 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    page-break-inside: avoid;
+}
+
+.document-footer .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.document-footer .author-details {
+    text-align: left;
+}
+
+.document-footer .batch-details {
+    text-align: right;
+}
+
+.document-footer .copyright {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    font-size: 11px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .document-footer .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .document-footer .author-details,
+    .document-footer .batch-details {
+        text-align: center;
+    }
+}
+
+/* Print-specific styles */
+@media print {
+    .document-header {
+        background: #2980b9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .document-footer {
+        background: #34495e !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
